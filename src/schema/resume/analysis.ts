@@ -48,6 +48,9 @@ export const storedResumeAnalysisSchema = resumeAnalysisSchema.extend({
     provider: z.string().min(1),
     model: z.string().min(1),
   }),
+  sourceJobUrl: z.string().optional().describe("Job posting URL from the tailoring source"),
+  sourceJobTitle: z.string().optional().describe("Job title from the tailoring source"),
+  sourceJobEmployer: z.string().optional().describe("Employer name from the tailoring source"),
 });
 
 export type ResumeAnalysis = z.infer<typeof resumeAnalysisSchema>;

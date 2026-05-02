@@ -1,6 +1,7 @@
 import type { JobSearchProvider } from "./provider";
 
 import { JSearchProvider } from "./providers/jsearch";
+import { JobServeRssProvider } from "./providers/jobserve-rss";
 
 /**
  * Creates a job search provider instance
@@ -30,8 +31,13 @@ import { JSearchProvider } from "./providers/jsearch";
  * @param apiKey - API key for the job search provider
  * @returns Job search provider instance (currently JSearch)
  */
-export function createJobSearchProvider(apiKey: string): JobSearchProvider {
-  // Currently only JSearch is supported
-  // Future: Add provider type parameter to support multiple providers
+
+export function createJobSearchProvider(
+  apiKey: string,
+  rssUrls?: { jobServeRssUrl?: string; linkedInRssUrl?: string },
+): JobSearchProvider {
+  if (rssUrls?.jobServeRssUrl || rssUrls?.linkedInRssUrl) {
+    return new JobServeRssProvider(rssUrls.jobServeRssUrl || "", rssUrls.linkedInRssUrl || "");
+  }
   return new JSearchProvider(apiKey);
 }

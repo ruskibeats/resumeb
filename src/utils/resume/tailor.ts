@@ -44,6 +44,15 @@ export function tailorOutputToPatches(
 ): { operations: JsonPatchOperation[]; newSkills: NewSkillInfo[] } {
   const operations: JsonPatchOperation[] = [];
 
+  // 0. Headline
+  if (output.headline) {
+    operations.push({
+      op: "replace",
+      path: "/basics/headline",
+      value: sanitizeText(output.headline),
+    });
+  }
+
   // 1. Summary
   if (output.summary?.content) {
     operations.push({
@@ -64,6 +73,14 @@ export function tailorOutputToPatches(
         op: "replace",
         path: `${basePath}/description`,
         value: sanitizeText(exp.description),
+      });
+    }
+
+    if (exp.position) {
+      operations.push({
+        op: "replace",
+        path: `${basePath}/position`,
+        value: sanitizeText(exp.position),
       });
     }
 

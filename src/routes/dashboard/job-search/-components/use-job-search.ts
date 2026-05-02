@@ -20,8 +20,8 @@ import {
 type ActiveFilterChip = { key: keyof FilterState; label: string; value?: string };
 
 export function useJobSearch() {
-  const rapidApiKey = useJobsStore((state) => state.rapidApiKey);
-  const testStatus = useJobsStore((state) => state.testStatus);
+  const jobServeRssUrl = useJobsStore((state) => state.jobServeRssUrl);
+  const linkedInRssUrl = useJobsStore((state) => state.linkedInRssUrl);
   const setJobsStore = useJobsStore((state) => state.set);
 
   const [query, setQuery] = useState("");
@@ -39,11 +39,11 @@ export function useJobSearch() {
   const requestIdRef = useRef(0);
   const { mutate: searchJobs, isPending } = useMutation(orpc.jobs.search.mutationOptions());
 
-  const isConfigured = Boolean(rapidApiKey && testStatus === "success");
+  const isConfigured = Boolean(jobServeRssUrl || linkedInRssUrl);
 
   const executeSearch = useCallback(
     (page: number) => {
-      if (!rapidApiKey) return;
+      if (!jobServeRssUrl && !linkedInRssUrl) return;
 
       const requestId = ++requestIdRef.current;
       const effectiveQuery = query.trim() || "jobs";
@@ -52,7 +52,7 @@ export function useJobSearch() {
       setError(null);
 
       searchJobs(
-        { apiKey: rapidApiKey, params, filters: postFilters },
+        { rssUrl: jobServeRssUrl.trim() || undefined, linkedInRssUrl: linkedInRssUrl.trim() || undefined, params, filters: postFilters },
         {
           onSuccess: (data) => {
             if (requestId !== requestIdRef.current) return;
@@ -75,8 +75,8 @@ export function useJobSearch() {
             const message = getOrpcErrorMessage(error, {
               byCode: {
                 BAD_GATEWAY: t({
-                  comment: "Error shown when job search API is unavailable while searching jobs",
-                  message: "Could not fetch jobs from JSearch API. Please try again.",
+                  comment: "Error shown when RSS job search is unavailable",
+                  message: "Could not fetch jobs from RSS feeds. Please try again.",
                 }),
               },
               fallback: t({
@@ -91,7 +91,7 @@ export function useJobSearch() {
         },
       );
     },
-    [filters, query, rapidApiKey, searchJobs, setJobsStore],
+    [filters, query, jobServeRssUrl, linkedInRssUrl, searchJobs, setJobsStore],
   );
 
   const handleSearch = (event: React.FormEvent) => {

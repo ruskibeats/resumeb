@@ -354,7 +354,6 @@ msgid "API Keys"
 msgstr "API kulcsok"
 
 #: src/routes/dashboard/settings/api-keys.tsx
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
 msgid "API Reference"
 msgstr "API referencia"
 
@@ -370,6 +369,7 @@ msgstr "Alkalmazás"
 msgid "Application Statistics"
 msgstr "Alkalmazásstatisztikák"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 #: src/routes/dashboard/job-search/-components/job-detail.tsx
 msgid "Apply"
 msgstr "Alkalmazás"
@@ -386,6 +386,10 @@ msgstr "Link alkalmazása"
 #: src/routes/dashboard/job-search/-components/job-detail.tsx
 msgid "Apply Via"
 msgstr "Jelentkezzen a"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Applying..."
+msgstr ""
 
 #: src/utils/locale.ts
 msgid "Arabic"
@@ -518,6 +522,10 @@ msgstr "Szegély lekerekítése"
 msgid "Border Width"
 msgstr "Szegély vastagsága"
 
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "Both Feeds"
+msgstr ""
+
 #. Screen-reader dialog title for the command palette in the resume builder
 #: src/components/command-palette/index.tsx
 msgid "Builder Command Palette"
@@ -574,6 +582,7 @@ msgstr "Exportálhatom az önéletrajzomat PDF‑be?"
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 #: src/routes/dashboard/job-search/-components/tailor-dialog.tsx
 #: src/routes/dashboard/settings/api-keys.tsx
 #: src/routes/dashboard/settings/danger-zone.tsx
@@ -618,6 +627,10 @@ msgstr "Meggondoltad magad? Nevezd át az önéletrajzodat valami beszédesebbre
 msgid "Changelog"
 msgstr "Változásnapló"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Changes saved per job. Default prompt restored if cleared."
+msgstr ""
+
 #: src/routes/auth/forgot-password.tsx
 msgid "Check your email for a link to reset your password."
 msgstr "Ellenőrizd az e‑mailedet a jelszó visszaállításához szükséges linkért."
@@ -658,6 +671,7 @@ msgstr "Kattints ide az importálandó fájl kiválasztásához"
 
 #: src/components/ui/dialog.tsx
 #: src/components/ui/sheet.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 msgid "Close"
 msgstr "Bezárás"
 
@@ -776,16 +790,20 @@ msgstr "Nem tudtam megismételni az önéletrajzát."
 msgid "Could not fetch jobs"
 msgstr "Nem tudta lekérni a munkákat"
 
-#. Error shown when job search API is unavailable while searching jobs
+#. Error shown when RSS job search is unavailable
 #: src/routes/dashboard/job-search/-components/use-job-search.ts
-msgid "Could not fetch jobs from JSearch API. Please try again."
-msgstr "Nem sikerült lekérni a JSearch API-ból a munkákat. Kérjük, próbálja újra."
+msgid "Could not fetch jobs from RSS feeds. Please try again."
+msgstr ""
 
-#. Error shown when JSearch API connection test fails in job search settings
 #: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Could not reach JSearch API. Check your API key and try again."
-msgstr "Nem sikerült elérni a JSearch API-t. Ellenőrizze az API-kulcsát, és próbálja újra."
+msgid "Could not reach JobServe RSS feed. Check the URL and try again."
+msgstr ""
 
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "Could not reach LinkedIn RSS feed. Check the URL and try again."
+msgstr ""
+
+#. Error description when AI provider cannot be reached
 #. Error description when AI provider cannot be reached during resume analysis
 #. Error description when AI provider is unreachable during resume tailoring
 #. Error shown when AI provider is unreachable during PDF/DOCX resume import
@@ -1210,6 +1228,10 @@ msgstr "pl.: gpt-4, claude-3-opus, gemini-pro"
 msgid "Edit {chip}"
 msgstr "Szerkesztés {chip}"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit Career Data"
+msgstr ""
+
 #. Screen reader description for the fullscreen rich-text editor dialog
 #: src/components/input/rich-input.tsx
 msgid "Edit content in fullscreen mode"
@@ -1218,6 +1240,14 @@ msgstr "Tartalom szerkesztése teljes képernyős módban"
 #: src/components/input/chip-input.tsx
 msgid "Edit keyword"
 msgstr "Kulcsszó szerkesztése"
+
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit Tailor Prompt"
+msgstr ""
+
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit the career data used for evidence matching against this job. Changes saved per role."
+msgstr ""
 
 #: src/components/input/chip-input.tsx
 msgid "Editing keyword..."
@@ -1311,10 +1341,6 @@ msgstr "Add meg a jelszavadat a kétlépcsős hitelesítés beállításának me
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Add meg a jelszavadat a kétlépcsős hitelesítés kikapcsolásához. A fiókod kevésbé lesz biztonságos 2FA nélkül."
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Enter your RapidAPI key"
-msgstr "Adja meg a RapidAPI kulcsát"
-
 #: src/routes/_home/-sections/donate.tsx
 msgid "Every contribution, big or small, makes a huge difference to the project.<0/>Thank you for your support!"
 msgstr "Minden hozzájárulás – legyen kicsi vagy nagy – hatalmas különbséget jelent a projekt számára.<0/>Köszönjük a támogatásodat!"
@@ -1373,6 +1399,10 @@ msgstr "Exportálás"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 msgid "Failed to analyze resume."
 msgstr "Nem sikerült elemezni az önéletrajzot."
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Failed to apply suggestion."
+msgstr ""
 
 #. Fallback toast when creating an API key fails
 #: src/dialogs/api-key/create.tsx
@@ -1479,11 +1509,6 @@ msgstr "Nem sikerült szinkronizálni a készségeket"
 #: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 msgid "Failed to test AI provider connection. Please try again."
 msgstr "Nem sikerült tesztelni az AI szolgáltatói kapcsolatot. Kérjük, próbálja újra."
-
-#. Fallback toast when testing RapidAPI job search connection fails
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Failed to test RapidAPI connection. Please try again."
-msgstr "A RapidAPI kapcsolat tesztelése sikertelen. Kérjük, próbálja újra."
 
 #. Fallback toast when unlinking a social authentication provider fails
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
@@ -1638,10 +1663,6 @@ msgstr "Kap egy mélyreható, mesterséges intelligencia által vezérelt áttek
 #: src/routes/_home/-sections/hero.tsx
 msgid "Get Started"
 msgstr "Kezdjük"
-
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Get your API key from RapidAPI by subscribing to the JSearch API."
-msgstr "A JSearch API-ra való feliratkozással szerezze meg API-kulcsát a RapidAPI-tól."
 
 #. Authentication provider display name in account settings
 #. Brand name label for GitHub social sign-in button
@@ -1923,6 +1944,14 @@ msgstr "Álláskereső API"
 msgid "Job search query"
 msgstr "Álláskeresési lekérdezés"
 
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "JobServe"
+msgstr ""
+
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "JobServe RSS URL"
+msgstr ""
+
 #. Example full name placeholder on profile settings form
 #. Example full name placeholder on registration form
 #: src/routes/auth/register.tsx
@@ -1947,10 +1976,6 @@ msgstr "John.Doe"
 #: src/routes/dashboard/settings/profile.tsx
 msgid "john.doe@example.com"
 msgstr "john.doe@example.com"
-
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "JSearch aggregates job listings from multiple job boards. You can filter by country, date posted, job type, remote options, and experience level."
-msgstr "A JSearch több állásbörzéről összesíti az álláshirdetéseket. Szűrhet ország, meghirdetés dátuma, állás típusa, távoli lehetőségek és tapasztalati szint szerint."
 
 #. Import source option for standard JSON Resume format
 #: src/dialogs/resume/import.tsx
@@ -2091,9 +2116,14 @@ msgstr "Sorköz"
 #. Authentication provider display name in account settings
 #. Brand name label for LinkedIn social sign-in button
 #: src/routes/auth/-components/social-auth.tsx
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
 msgid "LinkedIn"
 msgstr "LinkedIn"
+
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "LinkedIn RSS URL"
+msgstr ""
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
 msgid "Linking your {providerName} account..."
@@ -2619,10 +2649,6 @@ msgstr "Kiadó"
 msgid "Quota: {0} remaining"
 msgstr "Kvóta: {0} fennmaradó"
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "RapidAPI Key"
-msgstr "RapidAPI kulcs"
-
 #: src/routes/_home/-sections/header.tsx
 msgid "Reactive Resume - Go to homepage"
 msgstr "Reactive Resume – Ugrás a kezdőlapra"
@@ -2762,6 +2788,10 @@ msgstr "Visszaállítás"
 msgid "Reset Password"
 msgstr "Jelszó visszaállítása"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Reset to Default"
+msgstr ""
+
 #: src/routes/auth/reset-password.tsx
 msgid "Reset your password"
 msgstr "Jelszó visszaállítása"
@@ -2849,6 +2879,7 @@ msgstr "Mentés {0} Skills"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 #: src/routes/dashboard/settings/profile.tsx
 msgid "Save Changes"
 msgstr "Változtatások mentése"
@@ -3107,6 +3138,11 @@ msgstr "Keresőbarát azonosító"
 msgid "Something went wrong while analyzing your resume."
 msgstr "Valami rosszul sült el az önéletrajzának elemzése során."
 
+#. Fallback error description
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Something went wrong while applying the suggestion."
+msgstr ""
+
 #. Fallback error description when syncing newly detected skills fails
 #: src/routes/dashboard/job-search/-components/tailor-dialog.tsx
 msgid "Something went wrong while syncing skills."
@@ -3124,6 +3160,10 @@ msgstr "Valami hiba történt. Kérjük, próbáld újra."
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Sort by"
 msgstr "Rendezés alapja"
+
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "Source"
+msgstr ""
 
 #: src/routes/_home/-sections/footer.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
@@ -3193,6 +3233,10 @@ msgstr "Áthúzás"
 #: src/routes/_home/-sections/footer.tsx
 msgid "Subreddit"
 msgstr "Subreddit"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Suggestion applied. Re-analyse to see your new score."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 msgid "Suggestions"
@@ -3271,8 +3315,11 @@ msgstr "Sablon galéria"
 msgid "Templates"
 msgstr "Sablonok"
 
-#: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 #: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "Test"
+msgstr ""
+
+#: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 msgid "Test Connection"
 msgstr "Kapcsolat tesztelése"
 
@@ -3807,10 +3854,6 @@ msgstr "Weboldal"
 msgid "What do you want to rename this section to?"
 msgstr "Mire szeretnéd átnevezni ezt a szekciót?"
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "What is JSearch API?"
-msgstr "Mi az a JSearch API?"
-
 #: src/routes/_home/-sections/faq.tsx
 msgid "What makes Reactive Resume different from other resume builders?"
 msgstr "Miben különbözik a Reactive Resume a többi önéletrajz‑készítőtől?"
@@ -3906,10 +3949,6 @@ msgstr "A jelszavadat sikeresen frissítettük."
 msgid "Your profile has been updated successfully."
 msgstr "A profilodat sikeresen frissítettük."
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Your RapidAPI key is stored locally on your browser. It is only sent to the server when making a request to search for jobs, and is never stored or logged on our servers."
-msgstr "A RapidAPI-kulcsot a böngészője helyileg tárolja. Csak akkor kerül elküldésre a szerverre, amikor álláskeresési kérelmet nyújt be, és soha nem kerül tárolásra vagy naplózásra a szervereinken."
-
 #: src/dialogs/resume/index.tsx
 msgid "Your resume has been created successfully."
 msgstr "Az önéletrajzod sikeresen létrejött."
@@ -3951,4 +3990,3 @@ msgstr "Kicsinyítés"
 #: src/utils/locale.ts
 msgid "Zulu"
 msgstr "Zulu"
-

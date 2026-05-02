@@ -354,7 +354,6 @@ msgid "API Keys"
 msgstr "Claus API"
 
 #: src/routes/dashboard/settings/api-keys.tsx
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
 msgid "API Reference"
 msgstr "Referència de l’API"
 
@@ -370,6 +369,7 @@ msgstr "Aplicació"
 msgid "Application Statistics"
 msgstr "Estadístiques de l’aplicació"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 #: src/routes/dashboard/job-search/-components/job-detail.tsx
 msgid "Apply"
 msgstr "Sol·licitar"
@@ -386,6 +386,10 @@ msgstr "Aplica l'enllaç"
 #: src/routes/dashboard/job-search/-components/job-detail.tsx
 msgid "Apply Via"
 msgstr "Sol·licitar a través de"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Applying..."
+msgstr ""
 
 #: src/utils/locale.ts
 msgid "Arabic"
@@ -518,6 +522,10 @@ msgstr "Radi de la vora"
 msgid "Border Width"
 msgstr "Gruix de la vora"
 
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "Both Feeds"
+msgstr ""
+
 #. Screen-reader dialog title for the command palette in the resume builder
 #: src/components/command-palette/index.tsx
 msgid "Builder Command Palette"
@@ -574,6 +582,7 @@ msgstr "Puc exportar el meu currículum a PDF?"
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 #: src/routes/dashboard/job-search/-components/tailor-dialog.tsx
 #: src/routes/dashboard/settings/api-keys.tsx
 #: src/routes/dashboard/settings/danger-zone.tsx
@@ -618,6 +627,10 @@ msgstr "Has canviat d’idea? Canvia el nom del currículum per fer-lo més desc
 msgid "Changelog"
 msgstr "Canvi de registre"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Changes saved per job. Default prompt restored if cleared."
+msgstr ""
+
 #: src/routes/auth/forgot-password.tsx
 msgid "Check your email for a link to reset your password."
 msgstr "Comprova el correu electrònic per trobar un enllaç per restablir la contrasenya."
@@ -658,6 +671,7 @@ msgstr "Fes clic aquí per seleccionar un fitxer per importar"
 
 #: src/components/ui/dialog.tsx
 #: src/components/ui/sheet.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 msgid "Close"
 msgstr "Tanca"
 
@@ -776,16 +790,20 @@ msgstr "No s'ha pogut duplicar el vostre currículum."
 msgid "Could not fetch jobs"
 msgstr "No s'han pogut recollir les feines"
 
-#. Error shown when job search API is unavailable while searching jobs
+#. Error shown when RSS job search is unavailable
 #: src/routes/dashboard/job-search/-components/use-job-search.ts
-msgid "Could not fetch jobs from JSearch API. Please try again."
-msgstr "No s'han pogut recollir les feines de l'API JSearch. Si us plau, torneu-ho a provar."
+msgid "Could not fetch jobs from RSS feeds. Please try again."
+msgstr ""
 
-#. Error shown when JSearch API connection test fails in job search settings
 #: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Could not reach JSearch API. Check your API key and try again."
-msgstr "No s'ha pogut connectar a l'API de JSearch. Verifiqueu la vostra clau d'API i torneu-ho a provar."
+msgid "Could not reach JobServe RSS feed. Check the URL and try again."
+msgstr ""
 
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "Could not reach LinkedIn RSS feed. Check the URL and try again."
+msgstr ""
+
+#. Error description when AI provider cannot be reached
 #. Error description when AI provider cannot be reached during resume analysis
 #. Error description when AI provider is unreachable during resume tailoring
 #. Error shown when AI provider is unreachable during PDF/DOCX resume import
@@ -1210,6 +1228,10 @@ msgstr "p. ex., gpt-4, claude-3-opus, gemini-pro"
 msgid "Edit {chip}"
 msgstr "Edita {chip}"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit Career Data"
+msgstr ""
+
 #. Screen reader description for the fullscreen rich-text editor dialog
 #: src/components/input/rich-input.tsx
 msgid "Edit content in fullscreen mode"
@@ -1218,6 +1240,14 @@ msgstr "Edita el contingut en mode de pantalla completa"
 #: src/components/input/chip-input.tsx
 msgid "Edit keyword"
 msgstr "Edita paraula clau"
+
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit Tailor Prompt"
+msgstr ""
+
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit the career data used for evidence matching against this job. Changes saved per role."
+msgstr ""
 
 #: src/components/input/chip-input.tsx
 msgid "Editing keyword..."
@@ -1311,10 +1341,6 @@ msgstr "Introdueix la contrasenya per confirmar la configuració de l’autentic
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Introdueix la contrasenya per desactivar l’autenticació en dos passos. El compte serà menys segur sense l’A2F activada."
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Enter your RapidAPI key"
-msgstr "Introdueix la teva clau de RapidAPI"
-
 #: src/routes/_home/-sections/donate.tsx
 msgid "Every contribution, big or small, makes a huge difference to the project.<0/>Thank you for your support!"
 msgstr "Cada contribució, gran o petita, marca una gran diferència per al projecte.<0/>Gràcies pel teu suport!"
@@ -1373,6 +1399,10 @@ msgstr "Exporta"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 msgid "Failed to analyze resume."
 msgstr "S'ha fallat l'anàlisi del currículum."
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Failed to apply suggestion."
+msgstr ""
 
 #. Fallback toast when creating an API key fails
 #: src/dialogs/api-key/create.tsx
@@ -1479,11 +1509,6 @@ msgstr "Sincronització d'habilitats fallida"
 #: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 msgid "Failed to test AI provider connection. Please try again."
 msgstr "S'ha fallat la prova de connexió del proveïdor d'IA. Torni-ho a provar."
-
-#. Fallback toast when testing RapidAPI job search connection fails
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Failed to test RapidAPI connection. Please try again."
-msgstr "S'ha fallat la prova de la connexió a RapidAPI. Torni-ho a provar."
 
 #. Fallback toast when unlinking a social authentication provider fails
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
@@ -1638,10 +1663,6 @@ msgstr "Obtén una revisió en profunditat del teu currículum impulsada per IA 
 #: src/routes/_home/-sections/hero.tsx
 msgid "Get Started"
 msgstr "Comença"
-
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Get your API key from RapidAPI by subscribing to the JSearch API."
-msgstr "Obtén la teva clau d'API de RapidAPI subscriure't a l'API JSearch."
 
 #. Authentication provider display name in account settings
 #. Brand name label for GitHub social sign-in button
@@ -1923,6 +1944,14 @@ msgstr "API de cerca de feina"
 msgid "Job search query"
 msgstr "Cerca de feina"
 
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "JobServe"
+msgstr ""
+
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "JobServe RSS URL"
+msgstr ""
+
 #. Example full name placeholder on profile settings form
 #. Example full name placeholder on registration form
 #: src/routes/auth/register.tsx
@@ -1947,10 +1976,6 @@ msgstr "johndoe"
 #: src/routes/dashboard/settings/profile.tsx
 msgid "john.doe@example.com"
 msgstr "john.doe@example.com"
-
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "JSearch aggregates job listings from multiple job boards. You can filter by country, date posted, job type, remote options, and experience level."
-msgstr "JSearch aglutina ofertes de feina de diversos portals d'ocupació. Pots filtrar per país, data de publicació, tipus de feina, opcions de teletreball i nivell d'experiència."
 
 #. Import source option for standard JSON Resume format
 #: src/dialogs/resume/import.tsx
@@ -2091,9 +2116,14 @@ msgstr "Interlineat"
 #. Authentication provider display name in account settings
 #. Brand name label for LinkedIn social sign-in button
 #: src/routes/auth/-components/social-auth.tsx
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
 msgid "LinkedIn"
 msgstr "LinkedIn"
+
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "LinkedIn RSS URL"
+msgstr ""
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
 msgid "Linking your {providerName} account..."
@@ -2619,10 +2649,6 @@ msgstr "Editor"
 msgid "Quota: {0} remaining"
 msgstr "Quota: {0} restants"
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "RapidAPI Key"
-msgstr "Clau de RapidAPI"
-
 #: src/routes/_home/-sections/header.tsx
 msgid "Reactive Resume - Go to homepage"
 msgstr "Reactive Resume - Ves a la pàgina inicial"
@@ -2762,6 +2788,10 @@ msgstr "Restableix"
 msgid "Reset Password"
 msgstr "Restableix la contrasenya"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Reset to Default"
+msgstr ""
+
 #: src/routes/auth/reset-password.tsx
 msgid "Reset your password"
 msgstr "Restableix la contrasenya"
@@ -2849,6 +2879,7 @@ msgstr "Desa {0} Habilitats"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 #: src/routes/dashboard/settings/profile.tsx
 msgid "Save Changes"
 msgstr "Desa els canvis"
@@ -3107,6 +3138,11 @@ msgstr "Identificador llegible (slug)"
 msgid "Something went wrong while analyzing your resume."
 msgstr "S'ha produït un error mentre s'analitzava el teu currículum."
 
+#. Fallback error description
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Something went wrong while applying the suggestion."
+msgstr ""
+
 #. Fallback error description when syncing newly detected skills fails
 #: src/routes/dashboard/job-search/-components/tailor-dialog.tsx
 msgid "Something went wrong while syncing skills."
@@ -3124,6 +3160,10 @@ msgstr "Alguna cosa ha anat malament. Torna-ho a provar."
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Sort by"
 msgstr "Ordena per"
+
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "Source"
+msgstr ""
 
 #: src/routes/_home/-sections/footer.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
@@ -3193,6 +3233,10 @@ msgstr "Barrat"
 #: src/routes/_home/-sections/footer.tsx
 msgid "Subreddit"
 msgstr "Subreddit"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Suggestion applied. Re-analyse to see your new score."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 msgid "Suggestions"
@@ -3271,8 +3315,11 @@ msgstr "Galeria de plantilles"
 msgid "Templates"
 msgstr "Plantilles"
 
-#: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 #: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "Test"
+msgstr ""
+
+#: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 msgid "Test Connection"
 msgstr "Prova la connexió"
 
@@ -3807,10 +3854,6 @@ msgstr "Lloc web"
 msgid "What do you want to rename this section to?"
 msgstr "Com vols canviar el nom d’aquesta secció?"
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "What is JSearch API?"
-msgstr "Què és l'API JSearch?"
-
 #: src/routes/_home/-sections/faq.tsx
 msgid "What makes Reactive Resume different from other resume builders?"
 msgstr "Què fa que Reactive Resume sigui diferent d’altres creadors de currículums?"
@@ -3906,10 +3949,6 @@ msgstr "La contrasenya s’ha actualitzada correctament."
 msgid "Your profile has been updated successfully."
 msgstr "El perfil s’ha actualitzat correctament."
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Your RapidAPI key is stored locally on your browser. It is only sent to the server when making a request to search for jobs, and is never stored or logged on our servers."
-msgstr "La teva clau de RapidAPI s'emmagatzema localment al teu navegador. Només s'envia al servidor quan fas una sol·licitud per cercar feines, i mai no s'emmagatzema ni es registra als nostres servidors."
-
 #: src/dialogs/resume/index.tsx
 msgid "Your resume has been created successfully."
 msgstr "El currículum s’ha creat correctament."
@@ -3951,4 +3990,3 @@ msgstr "Allunya"
 #: src/utils/locale.ts
 msgid "Zulu"
 msgstr "Zulú"
-

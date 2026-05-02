@@ -41,6 +41,12 @@ const employmentTypeOptions = [
   { value: "INTERN", label: msg`Intern` },
 ] as const;
 
+const jobSourceOptions = [
+  { value: "all", label: msg`Both Feeds` },
+  { value: "jobserve", label: msg`JobServe` },
+  { value: "linkedin", label: msg`LinkedIn` },
+] as const;
+
 const experienceOptions = [
   { value: "no_experience", label: msg`No experience` },
   { value: "under_3_years_experience", label: msg`Under 3 years` },
@@ -68,6 +74,13 @@ export function SearchFilters({ filters, onFiltersChange }: SearchFiltersProps) 
 
   const _datePostedOptions = useMemo(() => {
     return datePostedOptions.map((option) => ({
+      value: option.value,
+      label: i18n.t(option.label),
+    }));
+  }, [i18n.locale]);
+
+  const _jobSourceOptions = useMemo(() => {
+    return jobSourceOptions.map((option) => ({
       value: option.value,
       label: i18n.t(option.label),
     }));
@@ -158,6 +171,19 @@ export function SearchFilters({ filters, onFiltersChange }: SearchFiltersProps) 
             onValueChange={(v) => updateFilter("jobRequirements", v)}
             placeholder={t`Any level`}
             className="h-9 w-[160px] text-sm"
+          />
+        </div>
+
+        <div className="grid gap-1.5">
+          <Label className="text-xs text-muted-foreground">
+            <Trans>Source</Trans>
+          </Label>
+          <Combobox
+            options={_jobSourceOptions}
+            value={filters.jobSource}
+            onValueChange={(v) => updateFilter("jobSource", v ?? "all")}
+            placeholder={t`Both Feeds`}
+            className="h-9 w-[140px] text-sm"
           />
         </div>
 

@@ -21,6 +21,7 @@ export type FilterState = {
   excludeKeywords: string[];
   excludeCompanies: string[];
   directApplyOnly: boolean;
+  jobSource: string;
 };
 
 export const initialFilterState: FilterState = {
@@ -28,13 +29,14 @@ export const initialFilterState: FilterState = {
   remoteOnly: false,
   employmentType: null,
   jobRequirements: null,
-  countryCode: "US",
+  countryCode: "GB",
   minSalary: "",
   maxSalary: "",
   includeKeywords: [],
   excludeKeywords: [],
   excludeCompanies: [],
   directApplyOnly: false,
+  jobSource: "all",
 };
 
 // --- Helper functions ---

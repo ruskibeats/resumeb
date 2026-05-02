@@ -21,6 +21,12 @@ const tailoredSkillSchema = z.object({
 });
 
 export const tailorOutputSchema = z.object({
+  headline: z
+    .string()
+    .optional()
+    .describe(
+      "Optional adjusted professional headline for the candidate. Use 1 line, max 120 chars. Must be truthful and role-aligned. Only adjust when the original headline is visibly wrong for the target role.",
+    ),
   summary: z.object({
     content: z
       .string()
@@ -39,6 +45,12 @@ export const tailorOutputSchema = z.object({
           .string()
           .describe(
             "Tailored HTML description emphasizing achievements and responsibilities relevant to the target job. Use <p>, <ul>, <li> tags. No emdashes or endashes.",
+          ),
+        position: z
+          .string()
+          .optional()
+          .describe(
+            "Optional adjusted role title for this experience. Use only a plausible title supported by the original role and target job. Do not use an exact target job title unless it is truthful and credible.",
           ),
         roles: z
           .array(

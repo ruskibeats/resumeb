@@ -354,7 +354,6 @@ msgid "API Keys"
 msgstr "مفاتيح واجهة برمجة التطبيقات (API)"
 
 #: src/routes/dashboard/settings/api-keys.tsx
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
 msgid "API Reference"
 msgstr "مرجع واجهة برمجة التطبيقات"
 
@@ -370,6 +369,7 @@ msgstr "التطبيق"
 msgid "Application Statistics"
 msgstr "إحصاءات التطبيق"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 #: src/routes/dashboard/job-search/-components/job-detail.tsx
 msgid "Apply"
 msgstr "قدم طلبك"
@@ -386,6 +386,10 @@ msgstr "تطبيق الرابط"
 #: src/routes/dashboard/job-search/-components/job-detail.tsx
 msgid "Apply Via"
 msgstr "التقديم عبر"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Applying..."
+msgstr ""
 
 #: src/utils/locale.ts
 msgid "Arabic"
@@ -518,6 +522,10 @@ msgstr "نصف قطر الحافة"
 msgid "Border Width"
 msgstr "عرض الإطار"
 
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "Both Feeds"
+msgstr ""
+
 #. Screen-reader dialog title for the command palette in the resume builder
 #: src/components/command-palette/index.tsx
 msgid "Builder Command Palette"
@@ -574,6 +582,7 @@ msgstr "هل يمكنني تصدير سيرتي الذاتية إلى PDF؟"
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 #: src/routes/dashboard/job-search/-components/tailor-dialog.tsx
 #: src/routes/dashboard/settings/api-keys.tsx
 #: src/routes/dashboard/settings/danger-zone.tsx
@@ -618,6 +627,10 @@ msgstr "غيّرت رأيك؟ أعد تسمية سيرتك الذاتية إلى
 msgid "Changelog"
 msgstr "سجل التغييرات"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Changes saved per job. Default prompt restored if cleared."
+msgstr ""
+
 #: src/routes/auth/forgot-password.tsx
 msgid "Check your email for a link to reset your password."
 msgstr "تحقق من بريدك الإلكتروني للحصول على رابط لإعادة تعيين كلمة المرور."
@@ -658,6 +671,7 @@ msgstr "انقر هنا لتحديد ملف لاستيراده"
 
 #: src/components/ui/dialog.tsx
 #: src/components/ui/sheet.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 msgid "Close"
 msgstr "إغلاق"
 
@@ -776,16 +790,20 @@ msgstr "لا يمكن تكرار سيرتك الذاتية."
 msgid "Could not fetch jobs"
 msgstr "تعذر جلب الوظائف"
 
-#. Error shown when job search API is unavailable while searching jobs
+#. Error shown when RSS job search is unavailable
 #: src/routes/dashboard/job-search/-components/use-job-search.ts
-msgid "Could not fetch jobs from JSearch API. Please try again."
-msgstr "تعذر جلب المهام من JSearch API. يرجى المحاولة مرة أخرى."
+msgid "Could not fetch jobs from RSS feeds. Please try again."
+msgstr ""
 
-#. Error shown when JSearch API connection test fails in job search settings
 #: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Could not reach JSearch API. Check your API key and try again."
-msgstr "تعذر الوصول إلى JSearch API. تحقق من مفتاح API الخاص بك وحاول مرة أخرى."
+msgid "Could not reach JobServe RSS feed. Check the URL and try again."
+msgstr ""
 
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "Could not reach LinkedIn RSS feed. Check the URL and try again."
+msgstr ""
+
+#. Error description when AI provider cannot be reached
 #. Error description when AI provider cannot be reached during resume analysis
 #. Error description when AI provider is unreachable during resume tailoring
 #. Error shown when AI provider is unreachable during PDF/DOCX resume import
@@ -1210,6 +1228,10 @@ msgstr "على سبيل المثال، GPT-4، CLAUD-3-OPUS، GEMINY-PRO"
 msgid "Edit {chip}"
 msgstr "تحرير {chip}"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit Career Data"
+msgstr ""
+
 #. Screen reader description for the fullscreen rich-text editor dialog
 #: src/components/input/rich-input.tsx
 msgid "Edit content in fullscreen mode"
@@ -1218,6 +1240,14 @@ msgstr "تحرير المحتوى في وضع ملء الشاشة"
 #: src/components/input/chip-input.tsx
 msgid "Edit keyword"
 msgstr "تحرير الكلمة الرئيسية"
+
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit Tailor Prompt"
+msgstr ""
+
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Edit the career data used for evidence matching against this job. Changes saved per role."
+msgstr ""
 
 #: src/components/input/chip-input.tsx
 msgid "Editing keyword..."
@@ -1311,10 +1341,6 @@ msgstr "أدخِل كلمة المرور الخاصة بك لتأكيد إعدا
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "أدخِل كلمة المرور الخاصة بك لتعطيل المصادقة الثنائية. سيكون حسابك أقل أمانًا بدون تمكين المصادقة الثنائية (2FA)."
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Enter your RapidAPI key"
-msgstr "أدخل مفتاح RapidAPI الخاص بك"
-
 #: src/routes/_home/-sections/donate.tsx
 msgid "Every contribution, big or small, makes a huge difference to the project.<0/>Thank you for your support!"
 msgstr "كل مساهمة، كبيرة كانت أم صغيرة، تُحدث فارقًا كبيرًا في المشروع.<0/>شكرًا لك على دعمك!"
@@ -1373,6 +1399,10 @@ msgstr "تصدير"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 msgid "Failed to analyze resume."
 msgstr "فشل في تحليل السيرة الذاتية."
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Failed to apply suggestion."
+msgstr ""
 
 #. Fallback toast when creating an API key fails
 #: src/dialogs/api-key/create.tsx
@@ -1479,11 +1509,6 @@ msgstr "فشل في مزامنة المهارات"
 #: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 msgid "Failed to test AI provider connection. Please try again."
 msgstr "فشل اختبار اتصال موفر الذكاء الاصطناعي. يرجى المحاولة مرة أخرى."
-
-#. Fallback toast when testing RapidAPI job search connection fails
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Failed to test RapidAPI connection. Please try again."
-msgstr "فشل اختبار اتصال RapidAPI. يرجى المحاولة مرة أخرى."
 
 #. Fallback toast when unlinking a social authentication provider fails
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
@@ -1638,10 +1663,6 @@ msgstr "احصل على مراجعة متعمقة مدعومة بالذكاء ا
 #: src/routes/_home/-sections/hero.tsx
 msgid "Get Started"
 msgstr "ابدأ الآن"
-
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Get your API key from RapidAPI by subscribing to the JSearch API."
-msgstr "احصل على مفتاح API الخاص بك من RapidAPI من خلال الاشتراك في واجهة برمجة تطبيقات البحث المشترك."
 
 #. Authentication provider display name in account settings
 #. Brand name label for GitHub social sign-in button
@@ -1923,6 +1944,14 @@ msgstr "واجهة برمجة تطبيقات البحث عن وظيفة"
 msgid "Job search query"
 msgstr "استعلام البحث عن وظيفة"
 
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "JobServe"
+msgstr ""
+
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "JobServe RSS URL"
+msgstr ""
+
 #. Example full name placeholder on profile settings form
 #. Example full name placeholder on registration form
 #: src/routes/auth/register.tsx
@@ -1947,10 +1976,6 @@ msgstr "جون.دو"
 #: src/routes/dashboard/settings/profile.tsx
 msgid "john.doe@example.com"
 msgstr "john.doe@example.com"
-
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "JSearch aggregates job listings from multiple job boards. You can filter by country, date posted, job type, remote options, and experience level."
-msgstr "يجمع JSearch قوائم الوظائف من العديد من لوحات الوظائف. يمكنك التصفية حسب البلد، وتاريخ الإعلان، ونوع الوظيفة، وخيارات العمل عن بُعد، ومستوى الخبرة."
 
 #. Import source option for standard JSON Resume format
 #: src/dialogs/resume/import.tsx
@@ -2091,9 +2116,14 @@ msgstr "ارتفاع السطر"
 #. Authentication provider display name in account settings
 #. Brand name label for LinkedIn social sign-in button
 #: src/routes/auth/-components/social-auth.tsx
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
 msgid "LinkedIn"
 msgstr "لينكد إن"
+
+#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "LinkedIn RSS URL"
+msgstr ""
 
 #: src/routes/dashboard/settings/authentication/-components/hooks.tsx
 msgid "Linking your {providerName} account..."
@@ -2619,10 +2649,6 @@ msgstr "الناشر"
 msgid "Quota: {0} remaining"
 msgstr "الحصة: {0} متبقي"
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "RapidAPI Key"
-msgstr "مفتاح RapidAPI"
-
 #: src/routes/_home/-sections/header.tsx
 msgid "Reactive Resume - Go to homepage"
 msgstr "Reactive Resume - الانتقال إلى الصفحة الرئيسية"
@@ -2762,6 +2788,10 @@ msgstr "إعادة تعيين"
 msgid "Reset Password"
 msgstr "إعادة تعيين كلمة المرور"
 
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
+msgid "Reset to Default"
+msgstr ""
+
 #: src/routes/auth/reset-password.tsx
 msgid "Reset your password"
 msgstr "إعادة تعيين كلمة المرور"
@@ -2849,6 +2879,7 @@ msgstr "حفظ {0} مهارات"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
+#: src/routes/dashboard/job-search/-components/job-resource-cards.tsx
 #: src/routes/dashboard/settings/profile.tsx
 msgid "Save Changes"
 msgstr "حفظ التّغييرات"
@@ -3107,6 +3138,11 @@ msgstr "المعرّف النصي (Slug)"
 msgid "Something went wrong while analyzing your resume."
 msgstr "حدث خطأ ما أثناء تحليل سيرتك الذاتية."
 
+#. Fallback error description
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Something went wrong while applying the suggestion."
+msgstr ""
+
 #. Fallback error description when syncing newly detected skills fails
 #: src/routes/dashboard/job-search/-components/tailor-dialog.tsx
 msgid "Something went wrong while syncing skills."
@@ -3124,6 +3160,10 @@ msgstr "حدث خطأ ما. يُرجى المحاولة مرة أخرى."
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Sort by"
 msgstr "فرز حسب"
+
+#: src/routes/dashboard/job-search/-components/search-filters.tsx
+msgid "Source"
+msgstr ""
 
 #: src/routes/_home/-sections/footer.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
@@ -3193,6 +3233,10 @@ msgstr "شطب"
 #: src/routes/_home/-sections/footer.tsx
 msgid "Subreddit"
 msgstr "سبريديت"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
+msgid "Suggestion applied. Re-analyse to see your new score."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/resume-analysis.tsx
 msgid "Suggestions"
@@ -3271,8 +3315,11 @@ msgstr "معرض القوالب"
 msgid "Templates"
 msgstr "القوالب"
 
-#: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 #: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
+msgid "Test"
+msgstr ""
+
+#: src/routes/dashboard/settings/integrations/-components/ai-section.tsx
 msgid "Test Connection"
 msgstr "اختبار الاتصال"
 
@@ -3807,10 +3854,6 @@ msgstr "الموقع الإلكتروني"
 msgid "What do you want to rename this section to?"
 msgstr "بماذا تريد أن تعيد تسمية هذا القسم؟"
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "What is JSearch API?"
-msgstr "ما هي واجهة برمجة تطبيقات البحث JSearch API؟"
-
 #: src/routes/_home/-sections/faq.tsx
 msgid "What makes Reactive Resume different from other resume builders?"
 msgstr "ما الذي يميز Reactive Resume عن أدوات إنشاء السير الذاتية الأخرى؟"
@@ -3906,10 +3949,6 @@ msgstr "تم تحديث كلمة المرور الخاصة بك بنجاح."
 msgid "Your profile has been updated successfully."
 msgstr "تم تحديث ملفك الشخصي بنجاح."
 
-#: src/routes/dashboard/settings/integrations/-components/job-search-section.tsx
-msgid "Your RapidAPI key is stored locally on your browser. It is only sent to the server when making a request to search for jobs, and is never stored or logged on our servers."
-msgstr "يتم تخزين مفتاح RapidAPI الخاص بك محلياً على متصفحك. لا يتم إرساله إلى الخادم إلا عند تقديم طلب للبحث عن الوظائف، ولا يتم تخزينه أو تسجيله على خوادمنا."
-
 #: src/dialogs/resume/index.tsx
 msgid "Your resume has been created successfully."
 msgstr "تم إنشاء سيرتك الذاتية بنجاح."
@@ -3951,4 +3990,3 @@ msgstr "تصغير"
 #: src/utils/locale.ts
 msgid "Zulu"
 msgstr "الزولو"
-

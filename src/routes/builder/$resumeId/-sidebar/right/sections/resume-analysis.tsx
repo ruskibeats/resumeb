@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { ArrowRightIcon, InfoIcon, LightningIcon, SparkleIcon } from "@phosphor-icons/react";
+import { ArrowRightIcon, CheckCircleIcon, InfoIcon, LightningIcon, SparkleIcon } from "@phosphor-icons/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useMemo } from "react";
@@ -82,6 +82,35 @@ export function ResumeAnalysisSectionBuilder() {
           fallback: t({
             comment: "Fallback error description when resume analysis request fails",
             message: "Something went wrong while analyzing your resume.",
+          }),
+        }),
+      });
+    },
+  });
+
+  const { mutate: applySuggestion, isPending: isApplying } = useMutation({
+    ...orpc.ai.applySuggestion.mutationOptions(),
+    onSuccess: (updatedData) => {
+      const updateResumeData = useResumeStore.getState().updateResumeData;
+      if (updateResumeData) {
+        updateResumeData((draft) => {
+          Object.assign(draft, updatedData);
+        });
+      }
+      toast.success(t`Suggestion applied. Re-analyse to see your new score.`);
+    },
+    onError: (error) => {
+      toast.error(t`Failed to apply suggestion.`, {
+        description: getOrpcErrorMessage(error, {
+          byCode: {
+            BAD_GATEWAY: t({
+              comment: "Error description when AI provider cannot be reached",
+              message: "Could not reach the AI provider. Please try again.",
+            }),
+          },
+          fallback: t({
+            comment: "Fallback error description",
+            message: "Something went wrong while applying the suggestion.",
           }),
         }),
       });
@@ -235,6 +264,25 @@ export function ResumeAnalysisSectionBuilder() {
                               {suggestion.exampleRewrite}
                             </div>
                           )}
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={isApplying}
+                            onClick={() =>
+                              applySuggestion({
+                                provider: aiProvider,
+                                model: aiModel,
+                                apiKey: aiApiKey,
+                                baseURL: aiBaseURL,
+                                resumeData: resume.data,
+                                prompt: suggestion.copyPrompt,
+                              })
+                            }
+                            className="w-fit"
+                          >
+                            <CheckCircleIcon />
+                            {isApplying ? t`Applying...` : t`Apply`}
+                          </Button>
                         </div>
                       ))}
                     </div>

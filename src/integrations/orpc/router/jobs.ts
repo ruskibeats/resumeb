@@ -14,26 +14,35 @@ export const jobsRouter = {
       path: "/jobs/test-connection",
       tags: ["Jobs"],
       operationId: "testJobsConnection",
-      summary: "Test RapidAPI JSearch connection",
+      summary: "Test job source connection",
       description:
-        "Validates the RapidAPI key by performing a minimal test search against the JSearch API. Requires authentication.",
-      successDescription: "The RapidAPI key is valid and JSearch is reachable.",
+        "Tests connectivity to the configured job source (JSearch API or RSS feeds).",
+      successDescription: "The job source is reachable.",
     })
-    .input(z.object({ apiKey: z.string().min(1) }))
+    .input(
+      z.object({
+        apiKey: z.string().min(1).optional(),
+        rssUrl: z.string().optional(),
+        linkedInRssUrl: z.string().optional(),
+      }),
+    )
     .use(jobsTestConnectionRateLimit)
     .errors({
       BAD_GATEWAY: {
-        message: "The JSearch API returned an error or is unreachable.",
+        message: "The job source returned an error or is unreachable.",
         status: 502,
       },
     })
     .handler(async ({ input }) => {
       try {
-        return await jobsService.testConnection(input.apiKey);
+        return await jobsService.testConnection(input.apiKey, {
+          rssUrl: input.rssUrl,
+          linkedInRssUrl: input.linkedInRssUrl,
+        });
       } catch (error) {
-        console.error("[jobs.testConnection] Failed to test JSearch connection:", error);
+        console.error("[jobs.testConnection] Failed to test job source:", error);
         throw new ORPCError("BAD_GATEWAY", {
-          message: "The JSearch API returned an error or is unreachable.",
+          message: "The job source returned an error or is unreachable.",
         });
       }
     }),
@@ -46,12 +55,14 @@ export const jobsRouter = {
       operationId: "searchJobs",
       summary: "Search for job listings",
       description:
-        "Searches the JSearch API for job listings matching the given parameters. Results are deduplicated and optionally filtered. Requires authentication.",
+        "Searches for job listings from JSearch API or RSS feeds.",
       successDescription: "Job search results returned successfully.",
     })
     .input(
       z.object({
-        apiKey: z.string().min(1),
+        apiKey: z.string().min(1).optional(),
+        rssUrl: z.string().optional(),
+        linkedInRssUrl: z.string().optional(),
         params: searchParamsSchema,
         filters: postFilterOptionsSchema.optional(),
       }),
@@ -59,13 +70,16 @@ export const jobsRouter = {
     .use(jobsSearchRateLimit)
     .errors({
       BAD_GATEWAY: {
-        message: "The JSearch API returned an error or is unreachable.",
+        message: "The job source returned an error or is unreachable.",
         status: 502,
       },
     })
     .handler(async ({ input }) => {
       try {
-        const response = await jobsService.search(input.apiKey, input.params);
+        const response = await jobsService.search(input.apiKey, input.params, {
+          rssUrl: input.rssUrl,
+          linkedInRssUrl: input.linkedInRssUrl,
+        });
 
         let jobs = jobsService.deduplicateJobs(response.data);
 
@@ -75,9 +89,9 @@ export const jobsRouter = {
 
         return { data: jobs, rapidApiQuota: response.rapidApiQuota };
       } catch (error) {
-        console.error("[jobs.search] Failed to search jobs via JSearch:", error);
+        console.error("[jobs.search] Failed to search jobs:", error);
         throw new ORPCError("BAD_GATEWAY", {
-          message: "The JSearch API returned an error or is unreachable.",
+          message: "The job source returned an error or is unreachable.",
         });
       }
     }),

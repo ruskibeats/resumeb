@@ -210,6 +210,7 @@ export const aiRouter = {
         ...aiCredentialsSchema.shape,
         resumeData: resumeDataSchema,
         job: jobResultSchema,
+        customPrompt: z.string().optional(),
       }),
     )
     .use(aiRequestRateLimit)
@@ -258,6 +259,7 @@ export const aiRouter = {
         ...aiCredentialsSchema.shape,
         resumeId: z.string(),
         resumeData: resumeDataSchema,
+        job: jobResultSchema.optional(),
       }),
     )
     .use(aiRequestRateLimit)
@@ -281,6 +283,7 @@ export const aiRouter = {
             apiKey: input.apiKey,
             baseURL: input.baseURL,
             resumeData: input.resumeData,
+            job: input.job,
           }),
         );
 
@@ -294,6 +297,9 @@ export const aiRouter = {
               provider: input.provider,
               model: input.model,
             },
+            sourceJobUrl: input.job?.job_apply_link || undefined,
+            sourceJobTitle: input.job?.job_title || undefined,
+            sourceJobEmployer: input.job?.employer_name || undefined,
           },
         });
       } catch (error) {
@@ -310,4 +316,44 @@ export const aiRouter = {
         throw error;
       }
     }),
+
+  applySuggestion: protectedProcedure
+    .route({
+      method: "POST",
+      path: "/ai/apply-suggestion",
+      tags: ["AI"],
+      operationId: "applySuggestion",
+      summary: "Apply an AI analysis suggestion to the resume",
+      description: "Takes a copyPrompt from an analysis suggestion, sends it to the AI, and applies the resulting JSON Patch operations to the resume. Returns the updated resume data. Requires authentication and AI credentials.",
+      successDescription: "Suggestion applied successfully.",
+    })
+    .input(
+      z.object({
+        ...aiCredentialsSchema.shape,
+        resumeData: resumeDataSchema,
+        prompt: z.string().min(1),
+      }),
+    )
+    .use(aiRequestRateLimit)
+    .errors({
+      BAD_GATEWAY: {
+        message: "The AI provider returned an error or is unreachable.",
+        status: 502,
+      },
+      BAD_REQUEST: {
+        message: "The AI returned an invalid response.",
+        status: 400,
+      },
+    })
+    .handler(async ({ input }) => {
+      try {
+        return await aiService.applySuggestion(input);
+      } catch (error) {
+        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
+        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
+
+        throw error;
+      }
+    }),
+
 };

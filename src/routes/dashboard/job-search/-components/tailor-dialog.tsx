@@ -114,6 +114,11 @@ export function TailorDialog({ job, open, onOpenChange }: Props) {
       const resume = await client.resume.getById({ id: newResumeId });
 
       // Step 3: Call AI tailor endpoint
+            let customPrompt: string | undefined;
+      try {
+        customPrompt = localStorage.getItem("cv-prompt-" + job.job_id) || undefined;
+      } catch { /* ignore */ }
+
       const tailorOutput = await client.ai.tailorResume({
         provider: aiProvider,
         model: aiModel,
@@ -121,6 +126,7 @@ export function TailorDialog({ job, open, onOpenChange }: Props) {
         baseURL: aiBaseURL,
         resumeData: resume.data,
         job,
+        customPrompt,
       });
 
       // Step 4: Validate AI output

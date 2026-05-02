@@ -7,13 +7,23 @@ import { createJobSearchProvider } from "@/integrations/jobs/factory";
 async function search(
   apiKey: string,
   params: SearchParams,
+  rssUrls?: { rssUrl?: string; linkedInRssUrl?: string },
 ): Promise<SearchResponse & { rapidApiQuota?: RapidApiQuota }> {
-  const provider = createJobSearchProvider(apiKey);
+  const provider = createJobSearchProvider(apiKey, {
+    jobServeRssUrl: rssUrls?.rssUrl,
+    linkedInRssUrl: rssUrls?.linkedInRssUrl,
+  });
   return provider.search(params);
 }
 
-async function testConnection(apiKey: string): Promise<{ success: boolean; rapidApiQuota?: RapidApiQuota }> {
-  const provider = createJobSearchProvider(apiKey);
+async function testConnection(
+  apiKey?: string,
+  rssUrls?: { rssUrl?: string; linkedInRssUrl?: string },
+): Promise<{ success: boolean; rapidApiQuota?: RapidApiQuota }> {
+  const provider = createJobSearchProvider(apiKey || "", {
+    jobServeRssUrl: rssUrls?.rssUrl,
+    linkedInRssUrl: rssUrls?.linkedInRssUrl,
+  });
   return provider.testConnection();
 }
 

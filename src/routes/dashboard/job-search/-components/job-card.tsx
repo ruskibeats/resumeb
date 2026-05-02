@@ -39,6 +39,17 @@ export function JobCard({ job, onClick }: Props) {
         <div className="min-w-0 flex-1">
           <h3 className="truncate font-medium">{job.job_title}</h3>
           <p className="truncate text-sm text-muted-foreground">{job.employer_name}</p>
+          {job.job_publisher && (
+            <span
+              className={`mt-0.5 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${
+                job.job_publisher === "JobServe RSS"
+                  ? "bg-lime-50 text-lime-700 dark:bg-lime-950/40 dark:text-lime-400"
+                  : "bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-400"
+              }`}
+            >
+              {job.job_publisher === "JobServe RSS" ? "JobServe" : "LinkedIn"}
+            </span>
+          )}
         </div>
       </div>
 
