@@ -51,8 +51,13 @@ Each suggestion must include:
 - a clear, concise title
 - impact level (`high`, `medium`, or `low`)
 - explanation of why it matters for this specific candidate and target
+- `evidence` - specific resume content that supports this suggestion (quote or paraphrase exact content)
+- `why` - explanation of how the suggestion addresses the identified issue, referencing evidence
 - `exampleRewrite` — a short concrete rewrite example (or null if not applicable)
 - `copyPrompt` — a concrete, directly usable prompt the user can copy to another LLM to make the change
+
+The `evidence` field must cite specific text from the resume, e.g., "Current summary says 'Experienced professional'" or "Experience item 2 lacks dates".
+The `why` field should explicitly connect the evidence to the recommendation, e.g., "The summary lacks quantified achievements. Adding metrics would strengthen ATS compatibility.".
 
 `copyPrompt` should be specific, referencing current content and suggesting the improvement. For example:
 

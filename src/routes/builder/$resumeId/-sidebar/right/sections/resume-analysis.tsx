@@ -382,6 +382,15 @@ export function ResumeAnalysisSectionBuilder() {
 
                           <div className="text-xs text-muted-foreground">{suggestion.why}</div>
 
+                          {suggestion.evidence && (
+                            <div className="rounded bg-blue-50 p-2 text-xs text-blue-700 dark:bg-blue-950/30 dark:text-blue-300">
+                              <strong>
+                                <Trans>Evidence</Trans>:
+                              </strong>{" "}
+                              {suggestion.evidence}
+                            </div>
+                          )}
+
                           {suggestion.exampleRewrite && (
                             <div className="rounded bg-muted p-2 text-xs text-muted-foreground">
                               {suggestion.exampleRewrite}

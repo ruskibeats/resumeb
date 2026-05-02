@@ -16,6 +16,7 @@ export const analysisSuggestionSchema = z.object({
   why: z.string().min(1),
   exampleRewrite: z.string().nullable(),
   copyPrompt: z.string().min(1),
+  evidence: z.string().optional().describe("Specific resume content that supports this suggestion"),
   priority: analysisPrioritySchema.optional(),
   effort: analysisEffortSchema.optional(),
   category: z.string().min(1).optional(),
