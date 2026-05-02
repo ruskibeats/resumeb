@@ -4,8 +4,13 @@ import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { AISDKError } from "ai";
 import { ORPCError, streamToEventIterator } from "@orpc/server";
-import { logAiError, logAiDebug } from "@/utils/ai-logger";
+import {
+  logAiDebug,
+  logAiError,
+  logAiResponse,
+} from "@/utils/ai-logger";
 import {
   convertToModelMessages,
   createGateway,
@@ -49,6 +54,111 @@ import { isObject } from "@/utils/sanitize";
 import { isAllowedExternalUrl, parseAllowedHostList } from "@/utils/url-security";
 
 const aiExtractionTemplate = buildAiExtractionTemplate();
+
+// Retry configuration - exported for potential future use
+export const AI_MAX_RETRIES = 3;
+export const AI_INITIAL_BACKOFF_MS = 500;
+export const AI_MAX_BACKOFF_MS = 10000;
+
+/**
+ * Calculates exponential backoff delay with jitter.
+ */
+function calculateBackoff(attempt: number): number {
+  const exponential = AI_INITIAL_BACKOFF_MS * Math.pow(2, attempt - 1);
+  const capped = Math.min(exponential, AI_MAX_BACKOFF_MS);
+  // Add jitter (±25%)
+  const jitter = capped * 0.25 * (Math.random() * 2 - 1);
+  return Math.max(AI_INITIAL_BACKOFF_MS, Math.floor(capped + jitter));
+}
+
+/**
+ * Determines if an error is retryable (network issues, rate limits, 5xx errors).
+ */
+function isRetryableError(error: unknown): boolean {
+  if (error instanceof AISDKError) {
+    // Retry on network errors, rate limits, and 5xx errors
+    const message = error.message.toLowerCase();
+    return (
+      message.includes("rate limit") ||
+      message.includes("timeout") ||
+      message.includes("network") ||
+      message.includes("500") ||
+      message.includes("502") ||
+      message.includes("503") ||
+      message.includes("504")
+    );
+  }
+  if (error instanceof Error) {
+    const message = error.message.toLowerCase();
+    return (
+      message.includes("rate limit") ||
+      message.includes("timeout") ||
+      message.includes("network") ||
+      message.includes("etimedout") ||
+      message.includes("econnreset")
+    );
+  }
+  return false;
+}
+
+/**
+ * Wraps an async AI operation with retry logic and logging.
+ * Note: Currently not used in all operations but available for future integration.
+ */
+export async function withRetry<T>(
+  operation: string,
+  provider: AIProvider,
+  model: string,
+  fn: () => Promise<T>,
+): Promise<T> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= AI_MAX_RETRIES; attempt++) {
+    const startTime = Date.now();
+    try {
+      const result = await fn();
+      logAiResponse({
+        operation,
+        provider,
+        model,
+        responseLength: JSON.stringify(result).length,
+        responseTimeMs: Date.now() - startTime,
+        success: true,
+      });
+      return result;
+    } catch (err) {
+      lastError = err;
+      const responseTime = Date.now() - startTime;
+
+      if (!isRetryableError(err) || attempt === AI_MAX_RETRIES) {
+        logAiResponse({
+          operation,
+          provider,
+          model,
+          responseLength: 0,
+          responseTimeMs: responseTime,
+          success: false,
+          error: err instanceof Error ? err.message : String(err),
+        });
+        throw err;
+      }
+
+      const backoff = calculateBackoff(attempt);
+      logAiDebug(
+        `Attempt ${attempt} failed, retrying in ${backoff}ms...`,
+        JSON.stringify({
+          error: err instanceof Error ? err.message : String(err),
+          attempt,
+          nextDelayMs: backoff,
+        }),
+      );
+
+      await new Promise((resolve) => setTimeout(resolve, backoff));
+    }
+  }
+
+  throw lastError;
+}
 
 /**
  * Merges two objects recursively, filling in missing properties in the target object
