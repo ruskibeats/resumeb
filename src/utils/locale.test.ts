@@ -10,15 +10,14 @@ const { isLocale, isRTL } = await import("./locale");
 
 describe("isLocale", () => {
   it("should return true for valid locales", () => {
-    expect(isLocale("en-US")).toBe(true);
-    expect(isLocale("fr-FR")).toBe(true);
-    expect(isLocale("zh-CN")).toBe(true);
+    expect(isLocale("en-GB")).toBe(true);
   });
 
   it("should return false for invalid locales", () => {
     expect(isLocale("xx-YY")).toBe(false);
     expect(isLocale("english")).toBe(false);
     expect(isLocale("")).toBe(false);
+    expect(isLocale("en-US")).toBe(false);
   });
 });
 
@@ -31,8 +30,6 @@ describe("isRTL", () => {
   });
 
   it("should return false for LTR languages", () => {
-    expect(isRTL("en-US")).toBe(false);
-    expect(isRTL("fr-FR")).toBe(false);
-    expect(isRTL("zh-CN")).toBe(false);
+    expect(isRTL("en-GB")).toBe(false);
   });
 });

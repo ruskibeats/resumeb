@@ -538,7 +538,7 @@ export const sampleResumeData: ResumeData = {
       marginX: 16,
       marginY: 14,
       format: "a4",
-      locale: "en-US",
+      locale: "en-GB",
       hideIcons: false,
     },
     design: {

@@ -38,6 +38,8 @@ import {
 } from "@/integrations/ai/tools/patch-resume";
 import { applyResumePatches } from "@/utils/resume/patch";
 import { AI_PROVIDER_DEFAULT_BASE_URLS, aiProviderSchema, type AIProvider } from "@/integrations/ai/types";
+import { coverLetterSchema, type CoverLetter, type CoverLetterTarget, type CoverLetterTone } from "@/schema/cover-letter";
+import { interviewPreparationSchema, type InterviewPreparation } from "@/schema/interview-prep";
 import { resumeAnalysisSchema, type ResumeAnalysis } from "@/schema/resume/analysis";
 import { defaultResumeData, resumeDataSchema } from "@/schema/resume/data";
 import { tailorOutputSchema, type TailorOutput } from "@/schema/tailor";
@@ -279,7 +281,7 @@ async function testConnection(input: TestConnectionInput): Promise<boolean> {
     const result = await generateText({
       model: getModel(input),
       messages: [{ role: "user", content: "Respond with OK" }],
-      maxTokens: 5,
+      maxOutputTokens: 5,
     });
     return result.text.trim().length > 0;
   } catch {
@@ -394,7 +396,12 @@ async function chat(input: ChatInput) {
   return streamToEventIterator(result.toUIMessageStream());
 }
 
-async function applySuggestion(input: SuggestionInput): Promise<ResumeData> {
+type SuggestionOutput = {
+  resumeData: ResumeData;
+  operations: Array<Record<string, any>>;
+};
+
+async function applySuggestion(input: SuggestionInput): Promise<SuggestionOutput> {
   const model = getModel(input);
   const resumeCopy = JSON.parse(JSON.stringify(input.resumeData)) as ResumeData;
 
@@ -409,7 +416,7 @@ async function applySuggestion(input: SuggestionInput): Promise<ResumeData> {
         content: input.prompt + "\n\nReturn JSON Patch (RFC 6902) operations for this resume data:\n\n" + JSON.stringify(input.resumeData, null, 2),
       },
     ],
-    maxTokens: 8192,
+    maxOutputTokens: 8192,
   });
 
   if (!result.text) {
@@ -437,7 +444,10 @@ async function applySuggestion(input: SuggestionInput): Promise<ResumeData> {
     const validated = patchResumeInputSchema.parse({ operations });
     const patched = applyResumePatches(resumeCopy, validated.operations);
     logAiDebug("applySuggestion done", validated.operations.length + " ops applied, headline: " + (patched.basics?.headline || "none"));
-    return patched;
+    return {
+      resumeData: patched,
+      operations: validated.operations,
+    };
   } catch (error) {
     logAiError("applySuggestion", error, result.text);
     throw new ORPCError("BAD_REQUEST", {
@@ -528,7 +538,7 @@ async function analyzeResume(input: AnalyzeResumeInput): Promise<ResumeAnalysis>
           "Analyze this resume and return a structured report with scorecard, overall score, strengths, and actionable suggestions. Return ONLY valid JSON. Do not include markdown, explanations, or code fences.",
       },
     ],
-    maxTokens: 8192,
+    maxOutputTokens: 8192,
   });
 
   if (!result.text) {
@@ -571,7 +581,7 @@ async function tailorResume(input: TailorResumeInput): Promise<TailorOutput> {
         content: `Please tailor this resume for the ${input.job.job_title} position at ${input.job.employer_name}. Optimize for ATS compatibility and relevance. Return ONLY valid JSON with exactly these top-level keys: summary, experiences, references, skills. Do not return the full resume object. Do not include markdown, explanations, or code fences.`,
       },
     ],
-    maxTokens: 8192,
+    maxOutputTokens: 8192,
   });
 
   if (!result.text) {
@@ -744,12 +754,139 @@ async function tailorResume(input: TailorResumeInput): Promise<TailorOutput> {
   }
 }
 
+type GenerateCoverLetterInput = z.infer<typeof aiCredentialsSchema> & {
+  resumeData: ResumeData;
+  job?: JobResult;
+  target?: CoverLetterTarget;
+  tone: CoverLetterTone;
+  additionalInstructions?: string;
+};
+
+async function generateCoverLetter(input: GenerateCoverLetterInput): Promise<CoverLetter> {
+  const model = getModel(input);
+
+  const jobTitle = input.job?.job_title || input.target?.jobTitle || "";
+  const employerName = input.job?.employer_name || input.target?.employerName || "";
+  const hiringManager = input.target?.hiringManager || "";
+  const jobDescription = input.job?.job_description || input.target?.jobDescription || "";
+
+  const systemPrompt = `You are an expert cover letter writer. Generate a truthful, job-targeted cover letter based on the provided resume data and job details.
+
+Tone: ${input.tone}
+Job Title: ${jobTitle}
+Employer: ${employerName}
+Hiring Manager: ${hiringManager}
+${input.additionalInstructions ? `Additional Instructions: ${input.additionalInstructions}` : ""}
+
+Return ONLY valid JSON with these exact keys: recipient (HTML), content (HTML), plainText, wordCount, tone.
+- recipient: Address block as HTML with <p> and <br /> tags only
+- content: Cover letter body as HTML with <p>, <br />, and <strong> tags only
+- plainText: Plain text version of the body
+- wordCount: Integer word count
+- tone: Must match the requested tone`;
+
+  const result = await generateText({
+    model,
+    messages: [
+      { role: "system", content: systemPrompt },
+      {
+        role: "user",
+        content: `Write a cover letter for this position: ${jobTitle} at ${employerName}\n\nJob Description:\n${jobDescription}\n\nBased on this resume:\n\n${JSON.stringify(input.resumeData, null, 2)}`,
+      },
+    ],
+  });
+
+  if (!result.text) {
+    logAiError("generateCoverLetter", new Error("AI returned no cover letter content."));
+    throw new Error("AI returned no cover letter content.");
+  }
+
+  logAiDebug("generateCoverLetter raw", result.text.substring(0, 4000));
+
+  try {
+    const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    const jsonStr = match ? match[1].trim() : result.text.trim();
+    let output: unknown;
+
+    try {
+      output = JSON.parse(jsonStr);
+    } catch {
+      output = JSON.parse(jsonrepair(jsonStr));
+    }
+
+    return coverLetterSchema.parse(output);
+  } catch (error) {
+    logAiError("generateCoverLetter", error, result.text);
+    throw new ORPCError("BAD_REQUEST", {
+      message: "The AI returned an invalid cover letter format.",
+    });
+  }
+}
+
+type PrepareForInterviewInput = z.infer<typeof aiCredentialsSchema> & {
+  resumeData: ResumeData;
+  jobData?: JobResult;
+  focusAreas?: string[];
+};
+
+async function prepareForInterview(input: PrepareForInterviewInput): Promise<InterviewPreparation> {
+  const model = getModel(input);
+
+  const systemPrompt = `You are an interview preparation specialist. Generate interview questions and preparation materials based on the resume and job description.
+
+${input.focusAreas?.length ? `Focus Areas: ${input.focusAreas.join(", ")}` : ""}
+
+Return ONLY valid JSON with these exact keys: questions (array), overview, preparationGuide, generatedAt.
+Structure each question with: id, category, question, difficulty, explanation, suggestedAnswerFramework, relatedSkills, preparationTips, evidenceMap.
+- categories: technical, behavioral, situational, company, delivery, stakeholder, contractor-fit
+- difficulties: easy, medium, hard`;
+
+  const result = await generateText({
+    model,
+    messages: [
+      { role: "system", content: systemPrompt },
+      {
+        role: "user",
+        content: `Generate interview preparation materials for this position: ${input.jobData?.job_title || "General"}\n\n${input.jobData?.job_description ? `Job Description:\n${input.jobData.job_description}\n\n` : ""}Based on this resume:\n\n${JSON.stringify(input.resumeData, null, 2)}`,
+      },
+    ],
+  });
+
+  if (!result.text) {
+    logAiError("prepareForInterview", new Error("AI returned no interview preparation content."));
+    throw new Error("AI returned no interview preparation content.");
+  }
+
+  logAiDebug("prepareForInterview raw", result.text.substring(0, 4000));
+
+  try {
+    const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    const jsonStr = match ? match[1].trim() : result.text.trim();
+    let output: unknown;
+
+    try {
+      output = JSON.parse(jsonStr);
+    } catch {
+      output = JSON.parse(jsonrepair(jsonStr));
+    }
+
+    return interviewPreparationSchema.parse(output);
+  } catch (error) {
+    logAiError("prepareForInterview", error, result.text);
+    throw new ORPCError("BAD_REQUEST", {
+      message: "The AI returned an invalid interview preparation format.",
+    });
+  }
+}
+
 export const aiService = {
   analyzeResume,
   applySuggestion,
   chat,
+  generateCoverLetter,
   parseDocx,
   parsePdf,
+  prepareForInterview,
   tailorResume,
   testConnection,
 };

@@ -3,7 +3,7 @@ import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, CheckCircleIcon, InfoIcon, LightningIcon, SparkleIcon } from "@phosphor-icons/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { match } from "ts-pattern";
 
@@ -11,11 +11,13 @@ import { useResumeStore } from "@/components/resume/store/resume";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { PatchPreviewDialog } from "@/components/resume/patch-preview-dialog";
 import { useAIStore } from "@/integrations/ai/store";
 import { orpc } from "@/integrations/orpc/client";
 import { getOrpcErrorMessage } from "@/utils/error-message";
 
 import { SectionBase } from "../shared/section-base";
+import { CoverLetterGenerator } from "./cover-letter-generator";
 
 function impactCircleClass(impact: "high" | "medium" | "low") {
   return match(impact)
@@ -48,6 +50,31 @@ function impactLabel(impact: "high" | "medium" | "low") {
     .exhaustive();
 }
 
+function levelBadgeClass(level: "high" | "medium" | "low") {
+  return match(level)
+    .with(
+      "high",
+      () => "border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-900 dark:bg-rose-950 dark:text-rose-300",
+    )
+    .with(
+      "medium",
+      () => "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300",
+    )
+    .with(
+      "low",
+      () =>
+        "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300",
+    )
+    .exhaustive();
+}
+
+function scoreToneClass(score: number | null | undefined) {
+  if (score == null) return "bg-muted";
+  if (score >= 80) return "bg-emerald-600";
+  if (score >= 60) return "bg-amber-600";
+  return "bg-rose-600";
+}
+
 export function ResumeAnalysisSectionBuilder() {
   const queryClient = useQueryClient();
 
@@ -59,6 +86,12 @@ export function ResumeAnalysisSectionBuilder() {
   const aiBaseURL = useAIStore((state) => state.baseURL);
 
   const analysisQuery = useQuery(orpc.resume.analysis.getById.queryOptions({ input: { id: resume.id } }));
+
+  // Preview dialog state
+  const [previewState, setPreviewState] = useState<{
+    operations: Array<Record<string, unknown>>;
+    pendingApply: () => void;
+  } | null>(null);
 
   const { mutate: analyzeResume, isPending } = useMutation({
     ...orpc.ai.analyzeResume.mutationOptions(),
@@ -90,16 +123,24 @@ export function ResumeAnalysisSectionBuilder() {
 
   const { mutate: applySuggestion, isPending: isApplying } = useMutation({
     ...orpc.ai.applySuggestion.mutationOptions(),
-    onSuccess: (updatedData) => {
-      const updateResumeData = useResumeStore.getState().updateResumeData;
-      if (updateResumeData) {
-        updateResumeData((draft) => {
-          Object.assign(draft, updatedData);
-        });
-      }
-      toast.success(t`Suggestion applied. Re-analyse to see your new score.`);
+    onSuccess: (result) => {
+      // Show preview dialog instead of directly applying
+      setPreviewState({
+        operations: result.operations,
+        pendingApply: () => {
+          const updateResumeData = useResumeStore.getState().updateResumeData;
+          if (updateResumeData) {
+            updateResumeData((draft) => {
+              Object.assign(draft, result.resumeData);
+            });
+          }
+          setPreviewState(null);
+          toast.success(t`Suggestion applied. Re-analyse to see your new score.`);
+        },
+      });
     },
     onError: (error) => {
+      setPreviewState(null);
       toast.error(t`Failed to apply suggestion.`, {
         description: getOrpcErrorMessage(error, {
           byCode: {
@@ -121,12 +162,7 @@ export function ResumeAnalysisSectionBuilder() {
   const score = analysis?.overallScore ?? null;
   const analyzeLabel = isPending ? t`Analyzing...` : t`Analyze Resume`;
 
-  const scoreTone = useMemo(() => {
-    if (score == null) return "bg-muted";
-    if (score >= 80) return "bg-emerald-600";
-    if (score >= 60) return "bg-amber-600";
-    return "bg-rose-600";
-  }, [score]);
+  const scoreTone = useMemo(() => scoreToneClass(score), [score]);
 
   const onAnalyze = () => {
     analyzeResume({
@@ -193,6 +229,8 @@ export function ResumeAnalysisSectionBuilder() {
               </div>
             </div>
 
+            <CoverLetterGenerator />
+
             {analysisQuery.isFetched && !analysis && !isPending && (
               <div className="rounded-md border border-dashed p-3">
                 <p className="max-w-xs text-sm text-muted-foreground">
@@ -203,6 +241,72 @@ export function ResumeAnalysisSectionBuilder() {
 
             {analysis && (
               <div className="space-y-4">
+                {analysis.atsCompatibility && (
+                  <div className="space-y-3 rounded-md border p-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="space-y-1">
+                        <h5 className="flex items-center gap-2 text-sm font-semibold">
+                          <LightningIcon className="text-primary" />
+                          <Trans>ATS Compatibility</Trans>
+                        </h5>
+                        {analysis.atsCompatibility.summary && (
+                          <p className="text-xs text-muted-foreground">{analysis.atsCompatibility.summary}</p>
+                        )}
+                      </div>
+
+                      <div
+                        className={`grid size-14 shrink-0 place-items-center rounded-full border-3 border-background text-sm font-bold text-white ${scoreToneClass(
+                          analysis.atsCompatibility.overallScore,
+                        )}`}
+                        title={t`ATS compatibility score`}
+                        aria-label={t`ATS compatibility score`}
+                      >
+                        {analysis.atsCompatibility.overallScore}
+                      </div>
+                    </div>
+
+                    {analysis.atsCompatibility.dimensions && analysis.atsCompatibility.dimensions.length > 0 && (
+                      <div className="space-y-2">
+                        {analysis.atsCompatibility.dimensions.map((dimension, index) => (
+                          <div
+                            key={`${dimension.dimension}-${index}`}
+                            className="space-y-2 rounded-md border bg-card p-2"
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="text-xs font-medium">{dimension.dimension}</div>
+                              <Badge variant="secondary">{dimension.score}/100</Badge>
+                            </div>
+                            {dimension.rationale && (
+                              <p className="text-xs text-muted-foreground">{dimension.rationale}</p>
+                            )}
+                            {dimension.issues && dimension.issues.length > 0 && (
+                              <ul className="list-outside list-disc pl-4 text-xs text-muted-foreground">
+                                {dimension.issues.map((issue, issueIndex) => (
+                                  <li key={`${issue}-${issueIndex}`}>{issue}</li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {analysis.atsCompatibility.recommendations &&
+                      analysis.atsCompatibility.recommendations.length > 0 && (
+                        <div className="space-y-2 rounded-md bg-muted p-2">
+                          <p className="text-xs font-medium">
+                            <Trans>ATS Recommendations</Trans>
+                          </p>
+                          <ul className="list-outside list-disc pl-4 text-xs text-muted-foreground">
+                            {analysis.atsCompatibility.recommendations.map((recommendation, index) => (
+                              <li key={`${recommendation}-${index}`}>{recommendation}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                  </div>
+                )}
+
                 <div className="space-y-3 rounded-md border p-3">
                   <h5 className="flex items-center gap-2 text-sm font-semibold">
                     <LightningIcon className="text-primary" />
@@ -247,14 +351,33 @@ export function ResumeAnalysisSectionBuilder() {
                     <div className="space-y-3">
                       {analysis.suggestions.map((suggestion, index) => (
                         <div key={`${suggestion.title}-${index}`} className="space-y-3 rounded-md border bg-card p-3">
-                          <div className="flex items-center gap-2">
-                            <span
-                              role="img"
-                              className={`size-2.5 shrink-0 rounded-full ring-1 ring-border ${impactCircleClass(suggestion.impact)}`}
-                              title={impactLabel(suggestion.impact)}
-                              aria-label={impactLabel(suggestion.impact)}
-                            />
-                            <div className="text-sm font-semibold tracking-tight">{suggestion.title}</div>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <span
+                                role="img"
+                                className={`size-2.5 shrink-0 rounded-full ring-1 ring-border ${impactCircleClass(suggestion.impact)}`}
+                                title={impactLabel(suggestion.impact)}
+                                aria-label={impactLabel(suggestion.impact)}
+                              />
+                              <div className="text-sm font-semibold tracking-tight">{suggestion.title}</div>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <Badge variant="secondary">
+                                <Trans>Impact</Trans>: {impactLabel(suggestion.impact)}
+                              </Badge>
+                              {suggestion.priority && (
+                                <Badge variant="outline" className={levelBadgeClass(suggestion.priority)}>
+                                  <Trans>Priority</Trans>: {impactLabel(suggestion.priority)}
+                                </Badge>
+                              )}
+                              {suggestion.effort && (
+                                <Badge variant="outline">
+                                  <Trans>Effort</Trans>: {impactLabel(suggestion.effort)}
+                                </Badge>
+                              )}
+                              {suggestion.category && <Badge variant="outline">{suggestion.category}</Badge>}
+                            </div>
                           </div>
 
                           <div className="text-xs text-muted-foreground">{suggestion.why}</div>
@@ -281,7 +404,7 @@ export function ResumeAnalysisSectionBuilder() {
                             className="w-fit"
                           >
                             <CheckCircleIcon />
-                            {isApplying ? t`Applying...` : t`Apply`}
+                            {isApplying ? t`Applying...` : t`Preview Changes`}
                           </Button>
                         </div>
                       ))}
@@ -293,6 +416,14 @@ export function ResumeAnalysisSectionBuilder() {
           </div>
         </>
       )}
+
+      <PatchPreviewDialog
+        open={!!previewState}
+        onOpenChange={() => setPreviewState(null)}
+        operations={previewState?.operations || []}
+        onConfirm={previewState?.pendingApply || (() => {})}
+        onCancel={() => setPreviewState(null)}
+      />
     </SectionBase>
   );
 }

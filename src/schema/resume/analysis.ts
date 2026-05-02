@@ -6,12 +6,34 @@ export const analysisDimensionSchema = z.object({
   rationale: z.string().min(1),
 });
 
+export const analysisPrioritySchema = z.enum(["high", "medium", "low"]);
+
+export const analysisEffortSchema = z.enum(["high", "medium", "low"]);
+
 export const analysisSuggestionSchema = z.object({
   title: z.string().min(1),
   impact: z.enum(["high", "medium", "low"]),
   why: z.string().min(1),
   exampleRewrite: z.string().nullable(),
   copyPrompt: z.string().min(1),
+  priority: analysisPrioritySchema.optional(),
+  effort: analysisEffortSchema.optional(),
+  category: z.string().min(1).optional(),
+});
+
+export const atsCompatibilityDimensionSchema = z.object({
+  dimension: z.string().min(1),
+  score: z.number().int().min(0).max(100),
+  rationale: z.string().min(1).optional(),
+  issues: z.array(z.string().min(1)).optional(),
+  suggestions: z.array(z.string().min(1)).optional(),
+});
+
+export const atsCompatibilitySchema = z.object({
+  overallScore: z.number().int().min(0).max(100),
+  summary: z.string().min(1).optional(),
+  dimensions: z.array(atsCompatibilityDimensionSchema).optional(),
+  recommendations: z.array(z.string().min(1)).optional(),
 });
 
 export const resumeAnalysisSchema = z.object({
@@ -19,6 +41,7 @@ export const resumeAnalysisSchema = z.object({
   scorecard: z.array(analysisDimensionSchema).min(1),
   suggestions: z.array(analysisSuggestionSchema).max(10),
   strengths: z.array(z.string().min(1)).max(10),
+  atsCompatibility: atsCompatibilitySchema.optional(),
 });
 
 export const resumeAnalysisOutputSchema = z.object({
@@ -37,9 +60,13 @@ export const resumeAnalysisOutputSchema = z.object({
       why: z.string(),
       exampleRewrite: z.string().nullable(),
       copyPrompt: z.string(),
+      priority: analysisPrioritySchema.optional(),
+      effort: analysisEffortSchema.optional(),
+      category: z.string().min(1).optional(),
     }),
   ),
   strengths: z.array(z.string()),
+  atsCompatibility: atsCompatibilitySchema.optional(),
 });
 
 export const storedResumeAnalysisSchema = resumeAnalysisSchema.extend({
@@ -53,5 +80,7 @@ export const storedResumeAnalysisSchema = resumeAnalysisSchema.extend({
   sourceJobEmployer: z.string().optional().describe("Employer name from the tailoring source"),
 });
 
+export type AtsCompatibility = z.infer<typeof atsCompatibilitySchema>;
+export type AnalysisSuggestion = z.infer<typeof analysisSuggestionSchema>;
 export type ResumeAnalysis = z.infer<typeof resumeAnalysisSchema>;
 export type StoredResumeAnalysis = z.infer<typeof storedResumeAnalysisSchema>;

@@ -4,6 +4,8 @@ import { AISDKError, type UIMessage } from "ai";
 import z, { flattenError, ZodError } from "zod";
 
 import { jobResultSchema } from "@/schema/jobs";
+import { coverLetterSchema, coverLetterTargetSchema, coverLetterToneSchema } from "@/schema/cover-letter";
+import { interviewPreparationSchema } from "@/schema/interview-prep";
 import { resumeAnalysisSchema, storedResumeAnalysisSchema } from "@/schema/resume/analysis";
 import { type ResumeData, resumeDataSchema } from "@/schema/resume/data";
 import { tailorOutputSchema } from "@/schema/tailor";
@@ -14,6 +16,12 @@ import { aiCredentialsSchema, aiService, fileInputSchema } from "../services/ai"
 import { resumeService } from "../services/resume";
 
 type AIProvider = z.infer<typeof aiCredentialsSchema.shape.provider>;
+
+// Extended output type for applySuggestion that includes the patch operations
+const suggestionOutputSchema = z.object({
+  resumeData: resumeDataSchema,
+  operations: z.array(z.any()),
+});
 
 function isInvalidAiBaseUrlError(error: unknown): boolean {
   return error instanceof Error && error.message === "INVALID_AI_BASE_URL";
@@ -317,6 +325,67 @@ export const aiRouter = {
       }
     }),
 
+  generateCoverLetter: protectedProcedure
+    .route({
+      method: "POST",
+      path: "/ai/generate-cover-letter",
+      tags: ["AI"],
+      operationId: "generateCoverLetter",
+      summary: "Generate a cover letter",
+      description:
+        "Generates a truthful, job-targeted cover letter from the current resume data and optional target role details. Returns HTML suitable for a Reactive Resume cover-letter custom section. Requires authentication and AI credentials.",
+      successDescription: "Cover letter generated successfully.",
+    })
+    .input(
+      z.object({
+        ...aiCredentialsSchema.shape,
+        resumeData: resumeDataSchema,
+        job: jobResultSchema.optional(),
+        target: coverLetterTargetSchema.optional(),
+        tone: coverLetterToneSchema.default("professional"),
+        additionalInstructions: z.string().max(4000).optional().default(""),
+      }),
+    )
+    .use(aiRequestRateLimit)
+    .output(coverLetterSchema)
+    .errors({
+      BAD_GATEWAY: {
+        message: "The AI provider returned an error or is unreachable.",
+        status: 502,
+      },
+      BAD_REQUEST: {
+        message: "The AI returned an invalid cover letter format.",
+        status: 400,
+      },
+    })
+    .handler(async ({ input }) => {
+      try {
+        return await aiService.generateCoverLetter({
+          provider: input.provider,
+          model: input.model,
+          apiKey: input.apiKey,
+          baseURL: input.baseURL,
+          resumeData: input.resumeData,
+          job: input.job,
+          target: input.target,
+          tone: input.tone,
+          additionalInstructions: input.additionalInstructions,
+        });
+      } catch (error) {
+        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
+        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
+
+        if (error instanceof ZodError) {
+          throw new ORPCError("BAD_REQUEST", {
+            message: "Invalid cover letter structure",
+            cause: flattenError(error),
+          });
+        }
+
+        throw error;
+      }
+    }),
+
   applySuggestion: protectedProcedure
     .route({
       method: "POST",
@@ -324,7 +393,7 @@ export const aiRouter = {
       tags: ["AI"],
       operationId: "applySuggestion",
       summary: "Apply an AI analysis suggestion to the resume",
-      description: "Takes a copyPrompt from an analysis suggestion, sends it to the AI, and applies the resulting JSON Patch operations to the resume. Returns the updated resume data. Requires authentication and AI credentials.",
+      description: "Takes a copyPrompt from an analysis suggestion, sends it to the AI, and applies the resulting JSON Patch operations to the resume. Returns the updated resume data along with the patch operations for preview. Requires authentication and AI credentials.",
       successDescription: "Suggestion applied successfully.",
     })
     .input(
@@ -335,6 +404,7 @@ export const aiRouter = {
       }),
     )
     .use(aiRequestRateLimit)
+    .output(suggestionOutputSchema)
     .errors({
       BAD_GATEWAY: {
         message: "The AI provider returned an error or is unreachable.",
@@ -348,6 +418,55 @@ export const aiRouter = {
     .handler(async ({ input }) => {
       try {
         return await aiService.applySuggestion(input);
+      } catch (error) {
+        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
+        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
+
+        throw error;
+      }
+    }),
+
+  prepareForInterview: protectedProcedure
+    .route({
+      method: "POST",
+      path: "/ai/prepare-for-interview",
+      tags: ["AI"],
+      operationId: "prepareForInterview",
+      summary: "Generate interview preparation materials",
+      description: "Creates personalized interview questions and preparation materials based on resume data and job description.",
+      successDescription: "Interview preparation materials generated successfully.",
+    })
+    .input(
+      z.object({
+        ...aiCredentialsSchema.shape,
+        resumeData: resumeDataSchema,
+        job: jobResultSchema.optional(),
+        focusAreas: z.array(z.string()).optional(),
+      }),
+    )
+    .use(aiRequestRateLimit)
+    .output(interviewPreparationSchema)
+    .errors({
+      BAD_GATEWAY: {
+        message: "The AI provider returned an error or is unreachable.",
+        status: 502,
+      },
+      BAD_REQUEST: {
+        message: "Invalid input for interview preparation",
+        status: 400,
+      },
+    })
+    .handler(async ({ input }) => {
+      try {
+        return await aiService.prepareForInterview({
+          provider: input.provider,
+          model: input.model,
+          apiKey: input.apiKey,
+          baseURL: input.baseURL,
+          resumeData: input.resumeData,
+          jobData: input.job,
+          focusAreas: input.focusAreas,
+        });
       } catch (error) {
         if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
         if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
