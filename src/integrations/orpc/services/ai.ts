@@ -773,17 +773,15 @@ function formatJobHighlights(highlights: Record<string, string[]> | null): strin
     .join("\n\n");
 }
 
-function buildTailorSystemPrompt(resumeData: ResumeData, job: JobResult): string {
-  const jobContext = `## Job Context
-- Title: ${job.job_title}
-- Employer: ${job.employer_name}
-- URL: ${job.job_apply_link || "N/A"}
-Always tailor your analysis, suggestions, and cover letter to this specific role.
+function buildTailorSystemPrompt(resumeData: ResumeData, job: JobResult, donorResumeData?: ResumeData): string {
+  const donorCvData = donorResumeData
+    ? `\`\`\`json\n${JSON.stringify(donorResumeData, null, 2)}\n\`\`\``
+    : "Not available (no donor CV provided).";
 
-`;
-  return jobContext + tailorSystemPromptTemplate
+  return tailorSystemPromptTemplate
     .replace("{{MASTER_CAREER_DATA}}", masterCareerData)
     .replace("{{RESUME_DATA}}", JSON.stringify(resumeData, null, 2))
+    .replace("{{DONOR_CV_DATA}}", donorCvData)
     .replace("{{JOB_TITLE}}", job.job_title)
     .replace("{{COMPANY}}", job.employer_name)
     .replace("{{JOB_DESCRIPTION}}", job.job_description || "No description provided.")
@@ -794,6 +792,8 @@ Always tailor your analysis, suggestions, and cover letter to this specific role
 type TailorResumeInput = z.infer<typeof aiCredentialsSchema> & {
   resumeData: ResumeData;
   job: JobResult;
+  /** Optional donor CV for comparison context */
+  donorResumeData?: ResumeData;
 };
 
 type AnalyzeResumeInput = z.infer<typeof aiCredentialsSchema> & {
@@ -1118,7 +1118,11 @@ async function analyzeResume(input: AnalyzeResumeInput): Promise<ResumeAnalysis>
 async function tailorResume(input: TailorResumeInput): Promise<TailorOutput> {
   const { provider } = input;
   const model = getModel(input);
-  const systemPrompt = buildTailorSystemPrompt(input.resumeData, input.job);
+  const systemPrompt = buildTailorSystemPrompt(
+    input.resumeData,
+    input.job,
+    input.donorResumeData,
+  );
 
   return withRetry("tailorResume", provider, input.model, async () => {
     const result = await generateText({

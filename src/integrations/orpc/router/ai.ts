@@ -273,6 +273,7 @@ export const aiRouter = {
         resumeData: resumeDataSchema,
         job: jobResultSchema,
         customPrompt: z.string().optional(),
+        donorResumeData: resumeDataSchema.optional().describe("The donor CV (original imported resume) for full-context curation"),
       }),
     )
     .use(aiRequestRateLimit)
