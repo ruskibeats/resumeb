@@ -842,15 +842,26 @@ function trimResumeForAi(resume: ResumeData): ResumeData {
   return trimmed as ResumeData;
 }
 
+/**
+ * Converts a dot-notation path (from AI-generated suggestions) to JSON Pointer format.
+ * "sections.certifications.items.0.date" → "/sections/certifications/items/0/date"
+ * Already-formatted paths (starting with /) pass through unchanged.
+ */
+function toJsonPointer(path: string): string {
+  if (path.startsWith("/")) return path;
+  return "/" + path.replace(/\.(\d+)\./g, "/$1/").replace(/\./g, "/");
+}
+
 async function applySuggestion(input: SuggestionInput): Promise<SuggestionOutput> {
   const { provider } = input;
   const resumeCopy = JSON.parse(JSON.stringify(input.resumeData)) as ResumeData;
 
   // --- Local apply: if affectedPaths + exampleRewrite provided, skip AI call entirely ---
   if (input.affectedPaths && input.affectedPaths.length > 0 && input.exampleRewrite) {
-    const operations: Operation[] = input.affectedPaths.map((path) => ({
+    // Normalize dot-notation paths (from AI) to JSON Pointer for fast-json-patch
+    const operations: Operation[] = input.affectedPaths.map((rawPath) => ({
       op: "replace",
-      path,
+      path: toJsonPointer(rawPath),
       value: input.exampleRewrite,
     }));
 

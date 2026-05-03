@@ -203,7 +203,9 @@ export function generatePreview(value: unknown, maxLength = 60): string {
 export function getValueAtPath(obj: unknown, path: string): unknown {
   if (path === "" || path === "/") return obj;
 
-  const parts = path.replace(/^\//, "").split("/").filter(Boolean);
+  // Normalize: handle both dot-notation (from AI) and JSON Pointer
+  const normalized = path.startsWith("/") ? path : "/" + path.replace(/\./g, "/");
+  const parts = normalized.replace(/^\//, "").split("/").filter(Boolean);
 
   let current: unknown = obj;
 
@@ -219,7 +221,9 @@ export function getValueAtPath(obj: unknown, path: string): unknown {
 }
 
 function describePath(original: ResumeData, path: string): { label: string; field: string } {
-  const parts = path.replace(/^\//, "").split("/").filter(Boolean);
+  // Normalize: handle both dot-notation (from AI) and JSON Pointer
+  const normalized = path.startsWith("/") ? path : "/" + path.replace(/\./g, "/");
+  const parts = normalized.replace(/^\//, "").split("/").filter(Boolean);
   const field = parts[parts.length - 1] ?? "value";
 
   if (parts[0] === "sections" && parts[2] === "items" && parts[3] !== undefined) {
