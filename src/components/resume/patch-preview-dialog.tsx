@@ -1,7 +1,7 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, CheckCircleIcon, EyeIcon, EyeSlashIcon, XCircleIcon } from "@phosphor-icons/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,11 @@ export function PatchPreviewDialog({
 }: PatchPreviewDialogProps) {
   const [isApplying, setIsApplying] = useState(false);
 
+  // Reset applying state whenever dialog closes (door re-opens clean)
+  useEffect(() => {
+    if (!open) setIsApplying(false);
+  }, [open]);
+
   const changes = getPatchDescription(operations);
   const sections = getAffectedSections(operations);
   const counts = countOperations(operations);
@@ -62,12 +67,7 @@ export function PatchPreviewDialog({
   }, [visiblePreviews, previews]);
 
   const handleClose = (open: boolean) => {
-    // Block close while applying
-    if (!open && isApplying) return;
-    if (!open) {
-      setIsApplying(false);
-      onCancel();
-    }
+    if (!open) onCancel();
     onOpenChange(open);
   };
 
