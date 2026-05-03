@@ -42,8 +42,24 @@ export function PatchPreviewDialog({
 
   const previewSummary = useMemo(() => summarizePreviews(previews), [previews]);
   const visibilityPreview = useMemo(() => buildVisibilityPreview(previews), [previews]);
-  const visiblePreviews = useMemo(() => previews?.slice(0, 12) ?? [], [previews]);
-  const remainingPreviewCount = Math.max((previews?.length ?? 0) - visiblePreviews.length, 0);
+  const visiblePreviews = useMemo(() => {
+    const raw = previews ?? [];
+    // Collapse consecutive previews with identical after values into summary rows
+    const collapsed: (OperationPreview & { count?: number })[] = [];
+    for (const preview of raw) {
+      const last = collapsed[collapsed.length - 1];
+      if (last && last.after === preview.after && last.before === preview.before) {
+        last.count = (last.count ?? 1) + 1;
+      } else {
+        collapsed.push({ ...preview });
+      }
+    }
+    return collapsed.slice(0, 12);
+  }, [previews]);
+  const remainingPreviewCount = useMemo(() => {
+    const shown = visiblePreviews.reduce((sum, p) => sum + (p.count ?? 1), 0);
+    return Math.max((previews?.length ?? 0) - shown, 0);
+  }, [visiblePreviews, previews]);
 
   const handleConfirm = async () => {
     setIsApplying(true);
@@ -150,9 +166,16 @@ export function PatchPreviewDialog({
                 <div className="space-y-2 pr-3">
                   {visiblePreviews.map((preview, index) => (
                     <div key={`${preview.path}-${index}`} className="rounded-md border p-3">
-                      <div className="text-sm font-medium">{preview.label}</div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm font-medium">{preview.label}</div>
+                        {preview.count && preview.count > 1 && (
+                          <Badge variant="secondary" className="text-[10px]">×{preview.count}</Badge>
+                        )}
+                      </div>
                       <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
-                        <div className="rounded-md bg-muted/60 p-2 text-xs text-muted-foreground">{preview.before}</div>
+                        <div className="rounded-md bg-muted/60 p-2 text-xs text-muted-foreground">
+                          {preview.before}
+                        </div>
                         <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
                           {preview.before === "Hidden" && preview.after === "Visible" ? (
                             <>
@@ -165,7 +188,7 @@ export function PatchPreviewDialog({
                           )}
                         </div>
                         <div className="rounded-md bg-emerald-50 p-2 text-xs text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300">
-                          {preview.after}
+                          {preview.after.length > 150 ? `${preview.after.substring(0, 150)}...` : preview.after}
                         </div>
                       </div>
                     </div>
