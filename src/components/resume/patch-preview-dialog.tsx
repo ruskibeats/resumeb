@@ -61,7 +61,17 @@ export function PatchPreviewDialog({
     return Math.max((previews?.length ?? 0) - shown, 0);
   }, [visiblePreviews, previews]);
 
-  const handleConfirm = async () => {
+  const handleClose = (open: boolean) => {
+    // Block close while applying
+    if (!open && isApplying) return;
+    if (!open) {
+      setIsApplying(false);
+      onCancel();
+    }
+    onOpenChange(open);
+  };
+
+  const handleConfirm = () => {
     setIsApplying(true);
     onConfirm();
   };
@@ -73,7 +83,7 @@ export function PatchPreviewDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>
