@@ -559,7 +559,7 @@ async function testConnection(input: TestConnectionInput): Promise<{
       return generateText({
         model,
         messages: [{ role: "user", content: "Respond with OK" }],
-        maxOutputTokens: 5,
+        maxOutputTokens: 50,
       });
     });
 
