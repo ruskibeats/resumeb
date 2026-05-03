@@ -3,7 +3,7 @@ import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, CheckCircleIcon, InfoIcon, LightningIcon, SparkleIcon } from "@phosphor-icons/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { match } from "ts-pattern";
 
@@ -95,6 +95,11 @@ export function ResumeAnalysisSectionBuilder() {
     pendingApply: () => void;
   } | null>(null);
 
+  const [showDebug, setShowDebug] = useState(false);
+
+  // Track which suggestion is currently being applied (per-button state)
+  const [applyingIndex, setApplyingIndex] = useState<number | null>(null);
+
   const { mutate: analyzeResume, isPending } = useMutation({
     ...orpc.ai.analyzeResume.mutationOptions(),
     onMutate: () => {
@@ -126,9 +131,12 @@ export function ResumeAnalysisSectionBuilder() {
     },
   });
 
-  const { mutate: applySuggestion, isPending: isApplying } = useMutation({
+  const { mutate: applySuggestion } = useMutation({
     ...orpc.ai.applySuggestion.mutationOptions(),
     onSuccess: (result) => {
+      // Reset applying state
+      setApplyingIndex(null);
+
       // Show preview dialog instead of directly applying
       setPreviewState({
         operations: result.operations,
@@ -146,6 +154,7 @@ export function ResumeAnalysisSectionBuilder() {
       });
     },
     onError: (error) => {
+      setApplyingIndex(null);
       setPreviewState(null);
       toast.error(t`Failed to apply suggestion.`, {
         description: getOrpcErrorMessage(error, {
@@ -520,8 +529,9 @@ export function ResumeAnalysisSectionBuilder() {
                           <Button
                             size="sm"
                             variant="outline"
-                            disabled={isApplying}
-                            onClick={() =>
+                            disabled={applyingIndex !== null}
+                            onClick={() => {
+                              setApplyingIndex(index);
                               applySuggestion({
                                 provider: aiProvider,
                                 model: aiModel,
@@ -529,15 +539,14 @@ export function ResumeAnalysisSectionBuilder() {
                                 baseURL: aiBaseURL,
                                 resumeData: resume.data,
                                 prompt: suggestion.copyPrompt,
-                                // Provide suggestion data for local apply (bypasses AI call)
                                 affectedPaths: suggestion.affectedPaths,
                                 exampleRewrite: suggestion.exampleRewrite ?? undefined,
-                              })
-                            }
+                              });
+                            }}
                             className="w-fit"
                           >
                             <CheckCircleIcon />
-                            {isApplying ? t`Applying...` : t`Preview Changes`}
+                            {applyingIndex === index ? t`Applying...` : t`Preview Changes`}
                           </Button>
                         </div>
                       ))}
@@ -546,11 +555,9 @@ export function ResumeAnalysisSectionBuilder() {
                 )}
 
                 {/* Dev-only debug toggle for raw analysis JSON */}
-                {analysis && (() => {
-                  const [showDebug, setShowDebug] = React.useState(false);
-                  return (
-                    <>
-                      <button
+                {analysis && (
+                  <>
+                    <button
                         type="button"
                         onClick={() => setShowDebug(!showDebug)}
                         className="w-full cursor-pointer text-center text-[10px] uppercase tracking-widest text-muted-foreground/40 hover:text-muted-foreground/70"
@@ -577,8 +584,7 @@ export function ResumeAnalysisSectionBuilder() {
                         </pre>
                       )}
                     </>
-                  );
-                })()}
+                  )}
               </div>
             )}
           </div>
