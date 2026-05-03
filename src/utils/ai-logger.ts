@@ -5,7 +5,6 @@
 import { appendFileSync } from "fs";
 
 const LOG_FILE = "/tmp/rr-ai-debug.log";
-const MAX_LOG_SIZE = 10 * 1024 * 1024; // 10MB max log size
 
 type AiOperationContext = {
   operation: string;
@@ -14,6 +13,7 @@ type AiOperationContext = {
   userId?: string;
   sessionId?: string;
   resumeId?: string;
+  requestId?: string;
 };
 
 type AiRequestLog = AiOperationContext & {
@@ -35,6 +35,8 @@ type AiResponseLog = AiOperationContext & {
   };
   success: boolean;
   error?: string;
+  /** Arbitrary structured metadata for richer telemetry */
+  extra?: Record<string, unknown>;
 };
 
 /**
@@ -103,9 +105,11 @@ export function logAiResponse(input: AiResponseLog): void {
     resumeId: input.resumeId,
     responseLength: input.responseLength,
     responseTimeMs: input.responseTimeMs,
+    requestId: input.requestId,
     tokenUsage: input.tokenUsage,
     success: input.success,
     error: input.error,
+    ...(input.extra ? { extra: input.extra } : {}),
   });
 }
 

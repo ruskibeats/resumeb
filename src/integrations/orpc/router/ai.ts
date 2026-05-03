@@ -6,7 +6,7 @@ import z, { flattenError, ZodError } from "zod";
 import { jobResultSchema } from "@/schema/jobs";
 import { coverLetterSchema, coverLetterTargetSchema, coverLetterToneSchema } from "@/schema/cover-letter";
 import { interviewPreparationSchema } from "@/schema/interview-prep";
-import { resumeAnalysisSchema, storedResumeAnalysisSchema } from "@/schema/resume/analysis";
+import { storedResumeAnalysisSchema } from "@/schema/resume/analysis";
 import { type ResumeData, resumeDataSchema } from "@/schema/resume/data";
 import { tailorOutputSchema } from "@/schema/tailor";
 
@@ -14,6 +14,8 @@ import { protectedProcedure } from "../context";
 import { aiRequestRateLimit } from "../rate-limit";
 import { aiCredentialsSchema, aiService, fileInputSchema } from "../services/ai";
 import { resumeService } from "../services/resume";
+import { classifyError } from "@/utils/ai-errors";
+import { logAiError, logAiResponse } from "@/utils/ai-logger";
 
 type AIProvider = z.infer<typeof aiCredentialsSchema.shape.provider>;
 
@@ -21,6 +23,12 @@ type AIProvider = z.infer<typeof aiCredentialsSchema.shape.provider>;
 const suggestionOutputSchema = z.object({
   resumeData: resumeDataSchema,
   operations: z.array(z.any()),
+  previews: z.array(z.object({
+    path: z.string(),
+    label: z.string(),
+    before: z.string(),
+    after: z.string(),
+  })).optional(),
 });
 
 function isInvalidAiBaseUrlError(error: unknown): boolean {
@@ -28,21 +36,82 @@ function isInvalidAiBaseUrlError(error: unknown): boolean {
 }
 
 function isAiProviderGatewayError(error: unknown): boolean {
-  return error instanceof AISDKError;
+  return error instanceof AISDKError || (error instanceof Error && /cookie\s*auth|no\s*auth\s*credentials/i.test(error.message));
 }
 
-function throwAiProviderGatewayError(): never {
-  throw new ORPCError("BAD_GATEWAY", { message: "Could not reach the AI provider." });
+
+
+/**
+ * Error taxonomy for the AI pipeline.
+ * - MODEL_API_ERROR: The AI provider returned an error (timeout, rate limit, auth, etc.)
+ * - CONTRACT_ERROR: The AI returned valid JSON but it doesn't match the expected schema
+ * - INTERNAL_ERROR: DB issues, coding bugs, or unexpected failures
+ */
+type AiPipelineErrorKind = "MODEL_API_ERROR" | "CONTRACT_ERROR" | "INTERNAL_ERROR";
+
+function classifyPipelineError(error: unknown, provider: string): {
+  kind: AiPipelineErrorKind;
+  orpcCode: string;
+  userMessage: string;
+} {
+  // 1. Invalid base URL (configuration issue)
+  if (isInvalidAiBaseUrlError(error)) {
+    return {
+      kind: "MODEL_API_ERROR",
+      orpcCode: "BAD_REQUEST",
+      userMessage: "Invalid AI provider configuration.",
+    };
+  }
+
+  // 2. Known provider gateway errors (auth, rate limit, timeout, etc.)
+  if (isAiProviderGatewayError(error)) {
+    const info = classifyError(error, provider as AIProvider);
+    return {
+      kind: "MODEL_API_ERROR",
+      orpcCode: "BAD_GATEWAY",
+      userMessage: info.userMessage,
+    };
+  }
+
+  // 3. Zod schema contract errors (AI output didn't match expected shape)
+  if (error instanceof ZodError) {
+    return {
+      kind: "CONTRACT_ERROR",
+      orpcCode: "BAD_REQUEST",
+      userMessage: "The AI returned an invalid analysis format. Please try again.",
+    };
+  }
+
+  // 4. Circuit breaker open
+  if (error instanceof Error && error.message.startsWith("CIRCUIT_BREAKER_OPEN")) {
+    return {
+      kind: "MODEL_API_ERROR",
+      orpcCode: "BAD_GATEWAY",
+      userMessage: "Service temporarily unavailable. Please try again in a few minutes.",
+    };
+  }
+
+  // 5. Everything else — internal/unexpected
+  return {
+    kind: "INTERNAL_ERROR",
+    orpcCode: "INTERNAL_SERVER_ERROR",
+    userMessage: "An unexpected error occurred. Please try again later.",
+  };
 }
 
-function throwAiProviderConfigError(): never {
-  throw new ORPCError("BAD_REQUEST", { message: "Invalid AI provider configuration." });
-}
+function throwAiPipelineError(error: unknown, provider: string, operation: string): never {
+  const { kind, orpcCode, userMessage } = classifyPipelineError(error, provider);
 
-function throwResumeStructureError(error: ZodError): never {
-  throw new ORPCError("BAD_REQUEST", {
-    message: "Invalid resume data structure",
-    cause: flattenError(error),
+  // Log structured error entries by category
+  const context = `${operation}/${kind}`;
+  logAiError(context, error);
+
+  // Include Zod flatten details in contract errors for debugging
+  const cause = error instanceof ZodError ? flattenError(error) : undefined;
+
+  throw new ORPCError(orpcCode, {
+    message: userMessage,
+    cause,
   });
 }
 
@@ -78,10 +147,7 @@ export const aiRouter = {
       try {
         return await aiService.testConnection(input);
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
-
-        throw error;
+        throwAiPipelineError(error, input.provider, "testConnection");
       }
     }),
 
@@ -117,11 +183,7 @@ export const aiRouter = {
       try {
         return await aiService.parsePdf(input);
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
-
-        if (error instanceof ZodError) throwResumeStructureError(error);
-        throw error;
+        throwAiPipelineError(error, input.provider, "parsePdf");
       }
     }),
 
@@ -161,12 +223,7 @@ export const aiRouter = {
       try {
         return await aiService.parseDocx(input);
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
-
-        if (error instanceof ZodError) throwResumeStructureError(error);
-
-        throw error;
+        throwAiPipelineError(error, input.provider, "parseDocx");
       }
     }),
 
@@ -195,10 +252,7 @@ export const aiRouter = {
       try {
         return await aiService.chat(input);
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
-
-        throw error;
+        throwAiPipelineError(error, input.provider, "chat");
       }
     }),
 
@@ -237,17 +291,7 @@ export const aiRouter = {
       try {
         return await aiService.tailorResume(input);
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
-
-        if (error instanceof ZodError) {
-          throw new ORPCError("BAD_REQUEST", {
-            message: "Invalid resume data structure",
-            cause: flattenError(error),
-          });
-        }
-
-        throw error;
+        throwAiPipelineError(error, input.provider, "tailorResume");
       }
     }),
 
@@ -283,23 +327,32 @@ export const aiRouter = {
       },
     })
     .handler(async ({ context, input }) => {
-      try {
-        const analysis = resumeAnalysisSchema.parse(
-          await aiService.analyzeResume({
-            provider: input.provider,
-            model: input.model,
-            apiKey: input.apiKey,
-            baseURL: input.baseURL,
-            resumeData: input.resumeData,
-            job: input.job,
-          }),
-        );
+      const requestId = crypto.randomUUID();
+      const startTime = Date.now();
 
-        return await resumeService.analysis.upsert({
+      try {
+        // Service now always returns a valid ResumeAnalysis (graceful degradation)
+        const analysis = await aiService.analyzeResume({
+          provider: input.provider,
+          model: input.model,
+          apiKey: input.apiKey,
+          baseURL: input.baseURL,
+          resumeData: input.resumeData,
+          job: input.job,
+        });
+
+        // Detect degradation: if the AI returned a fallback scorecard
+        // (single "General Assessment" dimension), mark as degraded
+        const isDegraded =
+          analysis.scorecard.length === 1 &&
+          analysis.scorecard[0].dimension === "General Assessment";
+
+        const stored = await resumeService.analysis.upsert({
           id: input.resumeId,
           userId: context.user.id,
           analysis: {
             ...analysis,
+            degraded: isDegraded || undefined,
             updatedAt: new Date(),
             modelMeta: {
               provider: input.provider,
@@ -310,18 +363,39 @@ export const aiRouter = {
             sourceJobEmployer: input.job?.employer_name || undefined,
           },
         });
+
+        logAiResponse({
+          operation: "analyzeResume",
+          provider: input.provider,
+          model: input.model,
+          responseLength: JSON.stringify(stored).length,
+          responseTimeMs: Date.now() - startTime,
+          success: true,
+          resumeId: input.resumeId,
+          requestId,
+          extra: {
+            degraded: isDegraded,
+            scorecardDimensions: analysis.scorecard.length,
+            suggestionCount: analysis.suggestions.length,
+            strengthCount: analysis.strengths.length,
+          },
+        });
+
+        return stored;
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
+        logAiResponse({
+          operation: "analyzeResume",
+          provider: input.provider,
+          model: input.model,
+          responseLength: 0,
+          responseTimeMs: Date.now() - startTime,
+          success: false,
+          error: error instanceof Error ? error.message : String(error),
+          resumeId: input.resumeId,
+          requestId,
+        });
 
-        if (error instanceof ZodError) {
-          throw new ORPCError("BAD_REQUEST", {
-            message: "Invalid resume analysis structure",
-            cause: flattenError(error),
-          });
-        }
-
-        throw error;
+        throwAiPipelineError(error, input.provider, "analyzeResume");
       }
     }),
 
@@ -372,17 +446,7 @@ export const aiRouter = {
           additionalInstructions: input.additionalInstructions,
         });
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
-
-        if (error instanceof ZodError) {
-          throw new ORPCError("BAD_REQUEST", {
-            message: "Invalid cover letter structure",
-            cause: flattenError(error),
-          });
-        }
-
-        throw error;
+        throwAiPipelineError(error, input.provider, "generateCoverLetter");
       }
     }),
 
@@ -393,7 +457,8 @@ export const aiRouter = {
       tags: ["AI"],
       operationId: "applySuggestion",
       summary: "Apply an AI analysis suggestion to the resume",
-      description: "Takes a copyPrompt from an analysis suggestion, sends it to the AI, and applies the resulting JSON Patch operations to the resume. Returns the updated resume data along with the patch operations for preview. Requires authentication and AI credentials.",
+      description:
+        "Applies a suggestion from resume analysis. If affectedPaths and exampleRewrite are provided, applies the change locally without calling the AI. Otherwise falls back to sending the copyPrompt to the AI for patch generation.",
       successDescription: "Suggestion applied successfully.",
     })
     .input(
@@ -401,6 +466,9 @@ export const aiRouter = {
         ...aiCredentialsSchema.shape,
         resumeData: resumeDataSchema,
         prompt: z.string().min(1),
+        // Optional: local apply fields (bypass AI call)
+        affectedPaths: z.array(z.string()).optional(),
+        exampleRewrite: z.string().optional(),
       }),
     )
     .use(aiRequestRateLimit)
@@ -419,10 +487,7 @@ export const aiRouter = {
       try {
         return await aiService.applySuggestion(input);
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
-
-        throw error;
+        throwAiPipelineError(error, input.provider, "applySuggestion");
       }
     }),
 
@@ -468,10 +533,7 @@ export const aiRouter = {
           focusAreas: input.focusAreas,
         });
       } catch (error) {
-        if (isInvalidAiBaseUrlError(error)) throwAiProviderConfigError();
-        if (isAiProviderGatewayError(error)) throwAiProviderGatewayError();
-
-        throw error;
+        throwAiPipelineError(error, input.provider, "prepareForInterview");
       }
     }),
 

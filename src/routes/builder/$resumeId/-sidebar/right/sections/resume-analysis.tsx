@@ -3,7 +3,7 @@ import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, CheckCircleIcon, InfoIcon, LightningIcon, SparkleIcon } from "@phosphor-icons/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { match } from "ts-pattern";
 
@@ -15,6 +15,7 @@ import { PatchPreviewDialog } from "@/components/resume/patch-preview-dialog";
 import { useAIStore } from "@/integrations/ai/store";
 import { orpc } from "@/integrations/orpc/client";
 import { getOrpcErrorMessage } from "@/utils/error-message";
+import { getStoredJobContext, type StoredJobContext } from "@/utils/job-context";
 
 import { SectionBase } from "../shared/section-base";
 import { CoverLetterGenerator } from "./cover-letter-generator";
@@ -90,33 +91,37 @@ export function ResumeAnalysisSectionBuilder() {
   // Preview dialog state
   const [previewState, setPreviewState] = useState<{
     operations: Array<Record<string, unknown>>;
+    previews?: Array<{ path: string; label: string; before: string; after: string }>;
     pendingApply: () => void;
   } | null>(null);
 
   const { mutate: analyzeResume, isPending } = useMutation({
     ...orpc.ai.analyzeResume.mutationOptions(),
+    onMutate: () => {
+      setAnalysisError(null);
+    },
     onSuccess: (analysis) => {
+      setAnalysisError(null);
       queryClient.setQueryData(orpc.resume.analysis.getById.queryKey({ input: { id: resume.id } }), analysis);
       toast.success(t`Resume analysis complete.`);
     },
     onError: (error) => {
-      toast.error(t`Failed to analyze resume.`, {
-        description: getOrpcErrorMessage(error, {
+      const errMsg = getOrpcErrorMessage(error, {
           byCode: {
             BAD_REQUEST: t({
               comment: "Error description when AI returns invalid resume analysis format",
               message: "The AI returned an invalid analysis format. Please try again.",
             }),
-            BAD_GATEWAY: t({
-              comment: "Error description when AI provider cannot be reached during resume analysis",
-              message: "Could not reach the AI provider. Please try again.",
-            }),
           },
+          allowServerMessage: true,
           fallback: t({
             comment: "Fallback error description when resume analysis request fails",
             message: "Something went wrong while analyzing your resume.",
           }),
-        }),
+        });
+      setAnalysisError(errMsg);
+      toast.error(t`Failed to analyze resume.`, {
+        description: errMsg,
       });
     },
   });
@@ -127,6 +132,7 @@ export function ResumeAnalysisSectionBuilder() {
       // Show preview dialog instead of directly applying
       setPreviewState({
         operations: result.operations,
+        previews: result.previews,
         pendingApply: () => {
           const updateResumeData = useResumeStore.getState().updateResumeData;
           if (updateResumeData) {
@@ -159,12 +165,32 @@ export function ResumeAnalysisSectionBuilder() {
   });
 
   const analysis = analysisQuery.data;
+  const [storedJobContext, setStoredJobContext] = useState<StoredJobContext | null>(null);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
   const score = analysis?.overallScore ?? null;
   const analyzeLabel = isPending ? t`Analyzing...` : t`Analyze Resume`;
 
   const scoreTone = useMemo(() => scoreToneClass(score), [score]);
 
+  useEffect(() => {
+    setStoredJobContext(getStoredJobContext(resume.id));
+  }, [resume.id]);
+
   const onAnalyze = () => {
+    if (!aiApiKey.trim()) {
+      toast.error(t`Missing API key.`, {
+        description: t`Please enter your AI API key in Settings and test the connection again.`,
+      });
+      return;
+    }
+
+    if (!aiModel.trim()) {
+      toast.error(t`Missing model.`, {
+        description: t`Please enter a model name in Settings before analyzing your resume.`,
+      });
+      return;
+    }
+
     analyzeResume({
       provider: aiProvider,
       model: aiModel,
@@ -225,9 +251,77 @@ export function ResumeAnalysisSectionBuilder() {
                       <Trans>Last analyzed on {new Date(analysis.updatedAt).toLocaleString()}</Trans>
                     </p>
                   )}
+                  {analysis?.sourceJobTitle && (
+                    <p className="text-xs leading-none text-muted-foreground">
+                      <Trans>
+                        Analyzed for: {analysis.sourceJobTitle}
+                        {analysis.sourceJobEmployer ? ` at ${analysis.sourceJobEmployer}` : ""}
+                      </Trans>
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
+
+            {isPending && !analysis && (
+              <div className="space-y-3 rounded-md border p-3">
+                <div className="flex flex-col gap-2">
+                  <div className="h-4 w-24 animate-pulse rounded bg-muted" />
+                  <div className="h-3 w-full animate-pulse rounded bg-muted" />
+                  <div className="h-3 w-3/4 animate-pulse rounded bg-muted" />
+                </div>
+              </div>
+            )}
+
+            {analysisError && !analysis && (
+              <Alert>
+                <InfoIcon />
+                <AlertDescription>
+                  {analysisError}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {(storedJobContext?.title || storedJobContext?.url || storedJobContext?.description || analysis?.sourceJobTitle || analysis?.sourceJobUrl) && (
+              <div className="space-y-2 rounded-md border bg-card/50 px-3 py-2 text-xs text-muted-foreground">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground/80">
+                  Job context
+                </p>
+                {(storedJobContext?.title || analysis?.sourceJobTitle) && (
+                  <div>
+                    <span className="font-semibold">Job title:</span>{" "}
+                    {storedJobContext?.title || analysis?.sourceJobTitle}
+                  </div>
+                )}
+                {storedJobContext?.employer && (
+                  <div>
+                    <span className="font-semibold">Employer:</span>{" "}
+                    {storedJobContext.employer}
+                  </div>
+                )}
+                {(storedJobContext?.url || analysis?.sourceJobUrl) && (
+                  <div>
+                    <span className="font-semibold">Job URL:</span>{" "}
+                    <a
+                      href={storedJobContext?.url || analysis?.sourceJobUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="break-all text-blue-400 underline"
+                    >
+                      {storedJobContext?.url || analysis?.sourceJobUrl}
+                    </a>
+                  </div>
+                )}
+                {storedJobContext?.description && (
+                  <div className="space-y-1">
+                    <span className="font-semibold">Job description:</span>
+                    <p className="max-h-32 overflow-y-auto whitespace-pre-wrap rounded border bg-background/50 p-2 text-[11px] leading-relaxed text-muted-foreground">
+                      {storedJobContext.description}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
 
             <CoverLetterGenerator />
 
@@ -241,6 +335,15 @@ export function ResumeAnalysisSectionBuilder() {
 
             {analysis && (
               <div className="space-y-4">
+                {(analysis as { degraded?: boolean })?.degraded && (
+                  <div className="rounded-md border border-amber-300 bg-amber-50 p-3 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+                    <Trans>
+                      Analysis incomplete. Some sections could not be scored.
+                      Run analysis again or adjust your resume.
+                    </Trans>
+                  </div>
+                )}
+
                 {analysis.atsCompatibility && (
                   <div className="space-y-3 rounded-md border p-3">
                     <div className="flex items-start justify-between gap-3">
@@ -349,7 +452,25 @@ export function ResumeAnalysisSectionBuilder() {
                     </h5>
 
                     <div className="space-y-3">
-                      {analysis.suggestions.map((suggestion, index) => (
+                      {analysis.suggestions
+                        .filter((s) => {
+                          // Filter out suggestions where beforePreview ≡ afterPreview (no actual change)
+                          if (s.beforePreview && s.afterPreview) {
+                            const before = s.beforePreview.trim().toLowerCase();
+                            const after = s.afterPreview.trim().toLowerCase();
+                            if (before === after) return false;
+                          }
+                          // Filter out suggestions where exampleRewrite matches beforePreview
+                          if (
+                            s.exampleRewrite &&
+                            s.beforePreview &&
+                            s.exampleRewrite.trim().toLowerCase() === s.beforePreview.trim().toLowerCase()
+                          ) {
+                            return false;
+                          }
+                          return true;
+                        })
+                        .map((suggestion, index) => (
                         <div key={`${suggestion.title}-${index}`} className="space-y-3 rounded-md border bg-card p-3">
                           <div className="space-y-2">
                             <div className="flex items-center gap-2">
@@ -408,6 +529,9 @@ export function ResumeAnalysisSectionBuilder() {
                                 baseURL: aiBaseURL,
                                 resumeData: resume.data,
                                 prompt: suggestion.copyPrompt,
+                                // Provide suggestion data for local apply (bypasses AI call)
+                                affectedPaths: suggestion.affectedPaths,
+                                exampleRewrite: suggestion.exampleRewrite ?? undefined,
                               })
                             }
                             className="w-fit"
@@ -420,6 +544,41 @@ export function ResumeAnalysisSectionBuilder() {
                     </div>
                   </div>
                 )}
+
+                {/* Dev-only debug toggle for raw analysis JSON */}
+                {analysis && (() => {
+                  const [showDebug, setShowDebug] = React.useState(false);
+                  return (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setShowDebug(!showDebug)}
+                        className="w-full cursor-pointer text-center text-[10px] uppercase tracking-widest text-muted-foreground/40 hover:text-muted-foreground/70"
+                      >
+                        {showDebug ? t`Hide raw data` : t`Show raw data`}
+                      </button>
+                      {showDebug && (
+                        <pre className="max-h-48 overflow-auto rounded-md border bg-card p-2 text-[10px] leading-relaxed text-muted-foreground">
+                          {JSON.stringify(
+                            {
+                              analysisVersion: (analysis as Record<string, unknown>).analysisVersion,
+                              degraded: (analysis as Record<string, unknown>).degraded,
+                              overallScore: analysis.overallScore,
+                              scorecardCount: analysis.scorecard.length,
+                              strengthsCount: analysis.strengths.length,
+                              suggestionsCount: analysis.suggestions.length,
+                              updatedAt: analysis.updatedAt,
+                            },
+                            null,
+                            2,
+                          )}
+                          {"\n\n"}
+                          {JSON.stringify(analysis, null, 2)}
+                        </pre>
+                      )}
+                    </>
+                  );
+                })()}
               </div>
             )}
           </div>
@@ -430,6 +589,7 @@ export function ResumeAnalysisSectionBuilder() {
         open={!!previewState}
         onOpenChange={() => setPreviewState(null)}
         operations={previewState?.operations || []}
+        previews={previewState?.previews}
         onConfirm={previewState?.pendingApply || (() => {})}
         onCancel={() => setPreviewState(null)}
       />

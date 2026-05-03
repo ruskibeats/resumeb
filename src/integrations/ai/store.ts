@@ -12,7 +12,7 @@ type AIStoreState = {
   enabled: boolean;
   provider: AIProvider;
   model: string;
-  // API key is NOT persisted - must be re-entered each session for security
+  // API key is persisted locally in the browser
   apiKey: string;
   baseURL: string;
   testStatus: TestStatus;
@@ -40,8 +40,6 @@ const initialState: AIStoreState = {
 
 /**
  * Validates API key format based on provider.
- * This allows users to verify they've entered the correct format
- * without storing the key.
  */
 function validateApiKeyFormat(provider: AIProvider, key: string): boolean {
   if (!key || key.length < 10) return false;
@@ -67,27 +65,27 @@ function validateApiKeyFormat(provider: AIProvider, key: string): boolean {
 }
 
 /**
- * Session-only storage that does not persist API keys.
- * Other settings (provider, model, baseURL) are persisted for convenience.
+ * Browser-local storage.
+ * Values survive page refreshes and browser restarts.
  */
-const secureSessionStorage = {
+const secureLocalStorage = {
   getItem: (name: string): string | null => {
     try {
-      return window.sessionStorage.getItem(name);
+      return window.localStorage.getItem(name);
     } catch {
       return null;
     }
   },
   setItem: (name: string, value: string): void => {
     try {
-      window.sessionStorage.setItem(name, value);
+      window.localStorage.setItem(name, value);
     } catch {
       // Ignore storage errors
     }
   },
   removeItem: (name: string): void => {
     try {
-      window.sessionStorage.removeItem(name);
+      window.localStorage.removeItem(name);
     } catch {
       // Ignore storage errors
     }
@@ -136,15 +134,13 @@ export const useAIStore = create<AIStore>()(
     })),
     {
       name: "ai-store",
-      // Use sessionStorage instead of localStorage for better security
-      storage: createJSONStorage(() => secureSessionStorage),
+      storage: createJSONStorage(() => secureLocalStorage),
       partialize: (state) => ({
-        // NOTE: apiKey is intentionally NOT persisted for security
-        // Users must re-enter their API key each session
-        enabled: state.enabled,
         provider: state.provider,
         model: state.model,
+        apiKey: state.apiKey,
         baseURL: state.baseURL,
+        enabled: state.enabled,
         testStatus: state.testStatus,
       }),
     },

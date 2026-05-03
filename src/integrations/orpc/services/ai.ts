@@ -1,28 +1,23 @@
 import type { ModelMessage } from "ai";
 
-import { createAnthropic } from "@ai-sdk/anthropic";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { createOpenAI } from "@ai-sdk/openai";
-import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { AISDKError } from "ai";
 import { ORPCError, streamToEventIterator } from "@orpc/server";
 import {
   logAiDebug,
   logAiError,
+  logAiOutputParsing,
   logAiResponse,
 } from "@/utils/ai-logger";
 import {
   convertToModelMessages,
-  createGateway,
   generateText,
   stepCountIs,
   streamText,
   tool,
+  type LanguageModel,
   type UIMessage,
 } from "ai";
 import { jsonrepair } from "jsonrepair";
-import { createOllama } from "ollama-ai-provider-v2";
-import { match } from "ts-pattern";
 import z, { flattenError, ZodError } from "zod";
 
 import type { JobResult } from "@/schema/jobs";
@@ -41,17 +36,34 @@ import {
   patchResumeDescription,
   patchResumeInputSchema,
 } from "@/integrations/ai/tools/patch-resume";
+import {
+  getProviderAdapter,
+} from "@/integrations/ai/providers";
+import { registerProviders } from "@/integrations/ai/providers/register";
 import { applyResumePatches } from "@/utils/resume/patch";
 import { AI_PROVIDER_DEFAULT_BASE_URLS, aiProviderSchema, type AIProvider } from "@/integrations/ai/types";
+import type { Operation } from "fast-json-patch";
+import { generateOperationPreviews } from "@/utils/resume/diff";
 import { coverLetterSchema, type CoverLetter, type CoverLetterTarget, type CoverLetterTone } from "@/schema/cover-letter";
 import { interviewPreparationSchema, type InterviewPreparation } from "@/schema/interview-prep";
-import { resumeAnalysisSchema, type ResumeAnalysis } from "@/schema/resume/analysis";
+import {
+  analysisDimensionSchema,
+  analysisSuggestionSchema,
+  atsCompatibilitySchema,
+  resumeAnalysisSchema,
+  type ResumeAnalysis,
+} from "@/schema/resume/analysis";
 import { defaultResumeData, resumeDataSchema } from "@/schema/resume/data";
 import { tailorOutputSchema, type TailorOutput } from "@/schema/tailor";
 import { buildAiExtractionTemplate } from "@/utils/ai-template";
 import { env } from "@/utils/env";
+import { coerceScore } from "@/utils/analysis";
 import { isObject } from "@/utils/sanitize";
 import { isAllowedExternalUrl, parseAllowedHostList } from "@/utils/url-security";
+import { isCircuitOpen, recordFailure, recordSuccess } from "@/utils/circuit-breaker";
+
+// Register providers at module load
+registerProviders();
 
 const aiExtractionTemplate = buildAiExtractionTemplate();
 
@@ -59,6 +71,32 @@ const aiExtractionTemplate = buildAiExtractionTemplate();
 export const AI_MAX_RETRIES = 3;
 export const AI_INITIAL_BACKOFF_MS = 500;
 export const AI_MAX_BACKOFF_MS = 10000;
+
+// Timeout configuration for AI operations (in milliseconds)
+export const AI_TIMEOUT_MS = 120000; // 2 minutes default
+export const AI_STREAM_TIMEOUT_MS = 300000; // 5 minutes for streaming operations
+
+/**
+ * Timeout wrapper for AI operations.
+ * Returns a promise that rejects after the specified timeout.
+ */
+export async function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  errorMessage = "AI operation timed out",
+): Promise<T> {
+  let timeoutId: NodeJS.Timeout | undefined;
+
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error(errorMessage)), timeoutMs);
+  });
+
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
 
 /**
  * Calculates exponential backoff delay with jitter.
@@ -350,32 +388,33 @@ function resolveBaseUrl(input: GetModelInput): string {
   return baseURL;
 }
 
-function getModel(input: GetModelInput) {
+function getModel(input: GetModelInput): LanguageModel {
   const { provider, model, apiKey } = input;
-  const baseURL = resolveBaseUrl(input);
+  const resolvedUrl = resolveBaseUrl(input);
 
-  return match(provider)
-    .with("openai", () => createOpenAI({ apiKey, baseURL }).chat(model))
-    .with("anthropic", () => createAnthropic({ apiKey, baseURL }).languageModel(model))
-    .with("gemini", () => createGoogleGenerativeAI({ apiKey, baseURL }).languageModel(model))
-    .with("vercel-ai-gateway", () => createGateway({ apiKey, baseURL }).languageModel(model))
-    .with("openrouter", () => createOpenAICompatible({ name: "openrouter", apiKey, baseURL }).languageModel(model))
-    .with("ollama", () => {
-      const ollama = createOllama({
-        name: "ollama",
-        baseURL,
-        headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : undefined,
-      });
+  logAiDebug(
+    "getModel",
+    JSON.stringify({
+      provider,
+      model,
+      baseURL: resolvedUrl,
+      hasCustomBaseURL: Boolean(input.baseURL?.trim()),
+      hasApiKey: Boolean(apiKey?.trim()),
+      apiKeyLength: apiKey?.length ?? 0,
+    }),
+  );
 
-      return ollama.languageModel(model);
-    })
-    .exhaustive();
+  // Get provider adapter (throws if not registered)
+  const adapter = getProviderAdapter(provider);
+
+  // Create model using the adapter
+  return adapter.createModel(model, apiKey, resolvedUrl);
 }
 
 export const aiCredentialsSchema = z.object({
   provider: aiProviderSchema,
-  model: z.string(),
-  apiKey: z.string(),
+  model: z.string().trim().min(1, "Model is required."),
+  apiKey: z.string().trim().min(1, "API key is required."),
   baseURL: z.string().optional().default(""),
 });
 
@@ -388,13 +427,28 @@ type TestConnectionInput = z.infer<typeof aiCredentialsSchema>;
 
 async function testConnection(input: TestConnectionInput): Promise<boolean> {
   try {
-    const result = await generateText({
-      model: getModel(input),
-      messages: [{ role: "user", content: "Respond with OK" }],
-      maxOutputTokens: 5,
+    const { provider } = input;
+
+    if (isCircuitOpen(provider)) {
+      logAiDebug("testConnection: circuit open", provider);
+      return false;
+    }
+
+    const result = await withRetry("testConnection", provider, input.model, async () => {
+      const model = getModel(input);
+      return generateText({
+        model,
+        messages: [{ role: "user", content: "Respond with OK" }],
+        maxOutputTokens: 5,
+      });
     });
+
+    recordSuccess(provider);
     return result.text.trim().length > 0;
-  } catch {
+  } catch (error) {
+    const { provider } = input;
+    recordFailure(provider);
+    logAiError("testConnection failed", error);
     return false;
   }
 }
@@ -435,19 +489,25 @@ function buildResumeParsingMessages({
 }
 
 async function parsePdf(input: ParsePdfInput): Promise<ResumeData> {
+  const { provider } = input;
   const model = getModel(input);
 
-  const result = await generateText({
-    model,
-    messages: buildResumeParsingMessages({
-      systemPrompt: pdfParserSystemPrompt,
-      userPrompt: pdfParserUserPrompt,
-      file: input.file,
-      mediaType: "application/pdf",
-    }),
-  }).catch((error: unknown) => logAndRethrow("Failed to generate the text with the model", error));
-
-  return parseAndValidateResumeJson(result.text);
+  return withRetry("parsePdf", provider, input.model, async () => {
+    const result = await generateText({
+      model,
+      messages: buildResumeParsingMessages({
+        systemPrompt: pdfParserSystemPrompt,
+        userPrompt: pdfParserUserPrompt,
+        file: input.file,
+        mediaType: "application/pdf",
+      }),
+    });
+    recordSuccess(provider);
+    return parseAndValidateResumeJson(result.text);
+  }).catch((error: unknown) => {
+    recordFailure(provider);
+    return logAndRethrow("Failed to parse PDF with AI", error);
+  });
 }
 
 type ParseDocxInput = z.infer<typeof aiCredentialsSchema> & {
@@ -456,19 +516,25 @@ type ParseDocxInput = z.infer<typeof aiCredentialsSchema> & {
 };
 
 async function parseDocx(input: ParseDocxInput): Promise<ResumeData> {
+  const { provider } = input;
   const model = getModel(input);
 
-  const result = await generateText({
-    model,
-    messages: buildResumeParsingMessages({
-      systemPrompt: docxParserSystemPrompt,
-      userPrompt: docxParserUserPrompt,
-      file: input.file,
-      mediaType: input.mediaType,
-    }),
-  }).catch((error: unknown) => logAndRethrow("Failed to generate the text with the model", error));
-
-  return parseAndValidateResumeJson(result.text);
+  return withRetry("parseDocx", provider, input.model, async () => {
+    const result = await generateText({
+      model,
+      messages: buildResumeParsingMessages({
+        systemPrompt: docxParserSystemPrompt,
+        userPrompt: docxParserUserPrompt,
+        file: input.file,
+        mediaType: input.mediaType,
+      }),
+    });
+    recordSuccess(provider);
+    return parseAndValidateResumeJson(result.text);
+  }).catch((error: unknown) => {
+    recordFailure(provider);
+    return logAndRethrow("Failed to parse DOCX with AI", error);
+  });
 }
 
 function buildChatSystemPrompt(resumeData: ResumeData): string {
@@ -478,6 +544,9 @@ function buildChatSystemPrompt(resumeData: ResumeData): string {
 type SuggestionInput = z.infer<typeof aiCredentialsSchema> & {
   resumeData: ResumeData;
   prompt: string;
+  /** When provided, applies the change locally instead of calling the AI */
+  affectedPaths?: string[];
+  exampleRewrite?: string;
 };
 
 type ChatInput = z.infer<typeof aiCredentialsSchema> & {
@@ -486,6 +555,12 @@ type ChatInput = z.infer<typeof aiCredentialsSchema> & {
 };
 
 async function chat(input: ChatInput) {
+  const { provider } = input;
+
+  if (isCircuitOpen(provider)) {
+    throw new Error(`CIRCUIT_BREAKER_OPEN:${provider}`);
+  }
+
   const model = getModel(input);
   const systemPrompt = buildChatSystemPrompt(input.resumeData);
 
@@ -509,61 +584,186 @@ async function chat(input: ChatInput) {
 type SuggestionOutput = {
   resumeData: ResumeData;
   operations: Array<Record<string, any>>;
+  previews?: Array<{ path: string; label: string; before: string; after: string }>;
 };
 
+function limitSkillVisibilityOperations(operations: Operation[], resumeData: ResumeData): Operation[] {
+  const skillsItems = resumeData.sections.skills.items;
+  const currentlyVisibleCount = skillsItems.filter((item) => !item.hidden).length;
+
+  const visibilityOps = operations.filter(
+    (op) =>
+      op.op === "replace" &&
+      /^\/sections\/skills\/items\/\d+\/hidden$/.test(op.path) &&
+      typeof op.value === "boolean",
+  );
+
+  if (visibilityOps.length === 0) return operations;
+
+  const nonVisibilityOps = operations.filter(
+    (op) =>
+      !(op.op === "replace" &&
+      /^\/sections\/skills\/items\/\d+\/hidden$/.test(op.path) &&
+      typeof op.value === "boolean"),
+  );
+
+  const toVisible = visibilityOps.filter((op) => op.op === "replace" && op.value === false);
+  const toHidden = visibilityOps.filter((op) => op.op === "replace" && op.value === true);
+
+  const targetMaxVisible = 12;
+  const allowedToVisible = Math.max(0, targetMaxVisible - currentlyVisibleCount + toHidden.length);
+
+  if (toVisible.length <= allowedToVisible) return operations;
+
+  const limited = [...nonVisibilityOps, ...toHidden, ...toVisible.slice(0, allowedToVisible)];
+
+  logAiDebug(
+    "applySuggestion skills visibility limited",
+    JSON.stringify({
+      currentlyVisibleCount,
+      requestedToVisible: toVisible.length,
+      requestedToHidden: toHidden.length,
+      allowedToVisible,
+      finalOperationCount: limited.length,
+    }),
+  );
+
+  return limited;
+}
+
+/**
+ * Strips verbose/non-essential fields from resume data before sending to AI
+ * to reduce token count and speed up responses.
+ * Uses type assertion since we're intentionally pruning fields.
+ */
+function trimResumeForAi(resume: ResumeData): ResumeData {
+  const trimmed = JSON.parse(JSON.stringify(resume)) as Record<string, unknown>;
+
+  // Strip picture data (base64 images are very large)
+  if (trimmed.picture && typeof trimmed.picture === "object") {
+    (trimmed.picture as Record<string, unknown>).url = "";
+  }
+
+  // Reduce metadata to essentials
+  if (trimmed.metadata && typeof trimmed.metadata === "object") {
+    const meta = trimmed.metadata as Record<string, unknown>;
+    const page = meta.page as Record<string, unknown> | undefined;
+    meta.page = page ? { format: page.format } : {};
+    delete meta.theme;
+    delete meta.notes;
+  }
+
+  // Keep section structure but prune hidden items
+  if (trimmed.sections && typeof trimmed.sections === "object") {
+    const sections = trimmed.sections as Record<string, unknown>;
+    for (const sectionKey of Object.keys(sections)) {
+      const section = sections[sectionKey] as Record<string, unknown> | undefined;
+      if (section && Array.isArray(section.items)) {
+        section.items = (section.items as Record<string, unknown>[]).map((item) => {
+          if (item.hidden === true) {
+            // Keep only id for hidden items
+            return { id: item.id, hidden: true };
+          }
+          return item;
+        });
+      }
+    }
+  }
+
+  return trimmed as ResumeData;
+}
+
 async function applySuggestion(input: SuggestionInput): Promise<SuggestionOutput> {
-  const model = getModel(input);
+  const { provider } = input;
   const resumeCopy = JSON.parse(JSON.stringify(input.resumeData)) as ResumeData;
 
-  const systemPrompt = "You are a resume editing assistant. Return ONLY JSON Patch (RFC 6902) operations to apply the user's requested change. Do not include markdown, explanations, or code fences. Return an array of patch operations in this format: [{ op: \"replace\", path: \"/sections/experience/items/0/description\", value: \"...\" }]. Prefer 'replace' for updates. Use '-' to append to arrays.";
+  // --- Local apply: if affectedPaths + exampleRewrite provided, skip AI call entirely ---
+  if (input.affectedPaths && input.affectedPaths.length > 0 && input.exampleRewrite) {
+    const operations: Operation[] = input.affectedPaths.map((path) => ({
+      op: "replace",
+      path,
+      value: input.exampleRewrite,
+    }));
 
-  const result = await generateText({
-    model,
-    system: systemPrompt,
-    messages: [
-      {
-        role: "user",
-        content: input.prompt + "\n\nReturn JSON Patch (RFC 6902) operations for this resume data:\n\n" + JSON.stringify(input.resumeData, null, 2),
-      },
-    ],
-    maxOutputTokens: 8192,
-  });
+    const patched = applyResumePatches(resumeCopy, operations);
+    const previews = generateOperationPreviews(input.resumeData, operations);
 
-  if (!result.text) {
-    logAiError("applySuggestion", new Error("Empty AI response"));
-    throw new Error("AI returned no suggestion output.");
-  }
+    logAiDebug("applySuggestion local", `${operations.length} ops applied locally`);
 
-  logAiDebug("applySuggestion raw", result.text.substring(0, 4000));
-
-  try {
-    const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
-    const jsonStr = match ? match[1].trim() : result.text.trim();
-    let operations: Array<Record<string, unknown>>;
-
-    try {
-      operations = JSON.parse(jsonStr);
-    } catch {
-      operations = JSON.parse(jsonrepair(jsonStr));
-    }
-
-    if (!Array.isArray(operations)) {
-      throw new Error("AI did not return an array of patch operations");
-    }
-
-    const validated = patchResumeInputSchema.parse({ operations });
-    const patched = applyResumePatches(resumeCopy, validated.operations);
-    logAiDebug("applySuggestion done", validated.operations.length + " ops applied, headline: " + (patched.basics?.headline || "none"));
     return {
       resumeData: patched,
-      operations: validated.operations,
+      operations,
+      previews,
     };
-  } catch (error) {
-    logAiError("applySuggestion", error, result.text);
-    throw new ORPCError("BAD_REQUEST", {
-      message: "The AI returned an invalid suggestion format. Please try again.",
-    });
   }
+
+  // --- AI-based apply (fallback) ---
+  const model = getModel(input);
+  const trimmedResume = trimResumeForAi(input.resumeData);
+
+  const systemPrompt = "You are a resume editing assistant. Return ONLY JSON Patch (RFC 6902) operations to apply the user's requested change. Do not include markdown, explanations, or code fences. Return an array of patch operations in this format: [{ op: \"replace\", path: \"/sections/experience/items/0/description\", value: \"...\" }]. Prefer 'replace' for updates. Use '-' to append to arrays. When editing the skills section for ATS optimisation, do NOT unhide every skill. Keep the final visible skills list focused and selective, usually 8 to 12 of the most relevant, specific, non-duplicative skills. If you unhide skills, also hide weaker or redundant ones when needed so the final visible set stays concise.";
+
+  return withRetry("applySuggestion", provider, input.model, async () => {
+    return generateText({
+      model,
+      system: systemPrompt,
+      messages: [
+        {
+          role: "user",
+          content: input.prompt + "\n\nReturn JSON Patch (RFC 6902) operations for this resume data (some non-essential fields have been trimmed):\n\n" + JSON.stringify(trimmedResume, null, 2),
+        },
+      ],
+      maxOutputTokens: 4096,
+    });
+  })
+    .then((result) => {
+      if (!result.text) {
+        logAiError("applySuggestion", new Error("Empty AI response"));
+        throw new Error("AI returned no suggestion output.");
+      }
+
+      logAiDebug("applySuggestion raw", result.text.substring(0, 4000));
+
+      try {
+        const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
+        const jsonStr = match ? match[1].trim() : result.text.trim();
+        let operations: Array<Record<string, unknown>>;
+
+        try {
+          operations = JSON.parse(jsonStr);
+        } catch {
+          operations = JSON.parse(jsonrepair(jsonStr));
+        }
+
+        if (!Array.isArray(operations)) {
+          throw new Error("AI did not return an array of patch operations");
+        }
+
+        const validated = patchResumeInputSchema.parse({ operations });
+        const limitedOperations = limitSkillVisibilityOperations(validated.operations as Operation[], input.resumeData);
+        const patched = applyResumePatches(resumeCopy, limitedOperations);
+        recordSuccess(provider);
+        logAiDebug("applySuggestion done", limitedOperations.length + " ops applied, headline: " + (patched.basics?.headline || "none"));
+
+        // Generate previews for the operations
+        const previews = generateOperationPreviews(input.resumeData, limitedOperations);
+
+        return {
+          resumeData: patched,
+          operations: limitedOperations,
+          previews,
+        };
+      } catch (error) {
+        logAiError("applySuggestion", error, result.text);
+        throw new ORPCError("BAD_REQUEST", {
+          message: "The AI returned an invalid suggestion format. Please try again.",
+        });
+      }
+    })
+    .catch((error) => {
+      recordFailure(provider);
+      throw error;
+    });
 }
 
 function formatJobHighlights(highlights: Record<string, string[]> | null): string {
@@ -574,7 +774,14 @@ function formatJobHighlights(highlights: Record<string, string[]> | null): strin
 }
 
 function buildTailorSystemPrompt(resumeData: ResumeData, job: JobResult): string {
-  return tailorSystemPromptTemplate
+  const jobContext = `## Job Context
+- Title: ${job.job_title}
+- Employer: ${job.employer_name}
+- URL: ${job.job_apply_link || "N/A"}
+Always tailor your analysis, suggestions, and cover letter to this specific role.
+
+`;
+  return jobContext + tailorSystemPromptTemplate
     .replace("{{MASTER_CAREER_DATA}}", masterCareerData)
     .replace("{{RESUME_DATA}}", JSON.stringify(resumeData, null, 2))
     .replace("{{JOB_TITLE}}", job.job_title)
@@ -595,276 +802,504 @@ type AnalyzeResumeInput = z.infer<typeof aiCredentialsSchema> & {
 };
 
 function buildAnalyzeResumeSystemPrompt(resumeData: ResumeData, job?: JobResult): string {
-  const dimensions = job?.job_description?.trim() ? `## Scoring Dimensions
-
-Score each dimension independently on a 0-100 scale. Be specific and evidence-based in your rationale.
-
-Since a target job description IS provided below, you MUST score the resume against that specific job ({{JOB_TITLE}} at {{JOB_EMPLOYER}}, URL: {{JOB_URL}}). Use the job description as the reference for alignment.
-
-1. **JD Keyword Match** — What percentage of key terms from the job description appear in the resume? Include hard skills, methodologies, technologies, qualifications. Is coverage natural or forced?
-
-2. **Experience Alignment** — Does the candidate's experience credibly match what the job asks for? Are the role levels, sector experience, and project scales aligned?
-
-3. **Skills Coverage** — How many required skills are evidenced? Are there clear gaps where the job asks for something the resume does not demonstrate?
-
-4. **Gap Analysis** — What would a hiring manager flag as missing? Certifications, specific tools, sector experience, clearance level, contract type, location?
-
-5. **Overall Fit Score** — Given all available evidence, how likely is this candidate to progress past initial screening and into interview? This is your holistic fit judgement.` : `## Scoring Dimensions
-
-Score each dimension independently on a 0-100 scale. Be specific and evidence-based in your rationale.
-
-Since no target job description is available, score the resume purely on ATS quality and general CV strength.
-
-1. **Clarity & Specificity** — Are bullet points concrete? Do they use action verbs? Is it clear what the candidate did and what level they operated at?
-
-2. **Impact & Quantification** — Are achievements quantified with scale (sites, users, budget, team size, cost savings, timelines)? Are outcomes described or just activities?
-
-3. **ATS Compatibility** — Does the resume use industry-standard terminology? Are there duplicate skills, missing dates, inconsistent formatting, or hidden sections that hurt ATS parsing?
-
-4. **Structure & Completeness** — Are all major sections present? Layout clean and readable? Certifications, education, and clearances properly listed?
-
-5. **Language Quality & Relevance** — Professional tone, consistent voice, no cliches or inflated language. Experience descriptions match the implied seniority level.`;
   return analyzeResumeSystemPromptTemplate
-    .replace("{SCORING_DIMENSIONS}", dimensions)
-    .replace("{MASTER_CAREER_DATA}", masterCareerData)
-    .replace("{RESUME_DATA}", JSON.stringify(resumeData, null, 2))
-    .replace("{JOB_TITLE}", job?.job_title || "")
-    .replace("{JOB_EMPLOYER}", job?.employer_name || "")
-    .replace("{JOB_URL}", job?.job_apply_link || "")
-    .replace("{JOB_DESCRIPTION}", job?.job_description || "");
+    .replace("{{MASTER_CAREER_DATA}}", masterCareerData)
+    .replace("{{RESUME_DATA}}", JSON.stringify(resumeData, null, 2))
+    .replace("{{JOB_TITLE}}", job?.job_title || "")
+    .replace("{{JOB_EMPLOYER}}", job?.employer_name || "")
+    .replace("{{JOB_URL}}", job?.job_apply_link || "")
+    .replace("{{JOB_DESCRIPTION}}", job?.job_description || "");
 }
 
 async function analyzeResume(input: AnalyzeResumeInput): Promise<ResumeAnalysis> {
+  const { provider } = input;
   const model = getModel(input);
-  const systemPrompt = buildAnalyzeResumeSystemPrompt(input.resumeData, input.job);
+  const systemPrompt = buildAnalyzeResumeSystemPrompt(
+    input.resumeData,
+    input.job,
+  );
 
-  const result = await generateText({
-    model,
-    messages: [
-      { role: "system", content: systemPrompt },
-      {
-        role: "user",
-        content:
-          "Analyze this resume and return a structured report with scorecard, overall score, strengths, and actionable suggestions. Return ONLY valid JSON. Do not include markdown, explanations, or code fences.",
-      },
-    ],
-    maxOutputTokens: 8192,
-  });
+  logAiDebug(
+    "analyzeResume request",
+    JSON.stringify({
+      provider,
+      model: input.model,
+      systemPromptLength: systemPrompt.length,
+      resumeBytes: JSON.stringify(input.resumeData).length,
+      hasJob: Boolean(input.job),
 
-  if (!result.text) {
-    logAiError("analyzeResume", new Error("Empty AI response"));
-    throw new Error("AI returned no structured analysis output.");
-  }
+    }),
+  );
 
-  logAiDebug("analyzeResume raw", result.text.substring(0, 8000));
-
-  try {
-    const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
-    const jsonStr = match ? match[1].trim() : result.text.trim();
-    let output: unknown;
-
-    try {
-      output = JSON.parse(jsonStr);
-    } catch {
-      output = JSON.parse(jsonrepair(jsonStr));
-    }
-
-    return resumeAnalysisSchema.parse(output);
-  } catch (error) {
-    logAiError("analyzeResume", error, result.text);
-    throw new ORPCError("BAD_REQUEST", {
-      message: "The AI returned an invalid analysis format. Please try again.",
+  return withRetry("analyzeResume", provider, input.model, async () => {
+    const result = await generateText({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        {
+          role: "user",
+          content:
+            "Analyze this resume and return a structured report with scorecard, overall score, strengths, and actionable suggestions. Return ONLY valid JSON. Do not include markdown, explanations, or code fences.",
+        },
+      ],
+      maxOutputTokens: 8192,
     });
-  }
+    recordSuccess(provider);
+    return result;
+  })
+    .then((result) => {
+      if (!result.text) {
+        logAiError("analyzeResume", new Error("Empty AI response"));
+        throw new Error("AI returned no structured analysis output.");
+      }
+
+      logAiDebug("analyzeResume raw", result.text.substring(0, 8000));
+
+      try {
+        const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
+        const jsonStr = match ? match[1].trim() : result.text.trim();
+        let output: unknown;
+
+        try {
+          output = JSON.parse(jsonStr);
+        } catch {
+          output = JSON.parse(jsonrepair(jsonStr));
+        }
+
+        logAiOutputParsing("analyzeResume", true, JSON.stringify(output));
+
+        const normalizedOutput = normalizeAnalysisOutput(output);
+
+        logAiOutputParsing(
+          "analyzeResume normalized",
+          true,
+          JSON.stringify(normalizedOutput, null, 2),
+        );
+
+        // Attempt full parse; degrade gracefully on partial failure
+        return safeParseAnalysisResult(normalizedOutput as Record<string, unknown>);
+      } catch (error) {
+        logAiError("analyzeResume", error, result.text);
+        throw new ORPCError("BAD_REQUEST", {
+          message: "The AI returned an invalid analysis format. Please try again.",
+        });
+      }
+
+      function normalizeAnalysisOutput(output: unknown): unknown {
+        if (!output || typeof output !== "object" || Array.isArray(output)) {
+          return output;
+        }
+
+        const obj = output as Record<string, unknown>;
+
+        // --- Top-level coercions ---
+
+        // Inject analysisVersion if missing
+        if (!("analysisVersion" in obj)) {
+          obj.analysisVersion = 1;
+        }
+
+        // Coerce overallScore: handle string numbers and floats
+        if ("overallScore" in obj) {
+          obj.overallScore = coerceScore(obj.overallScore);
+        }
+
+        // --- Scorecard coercions ---
+        if (Array.isArray(obj.scorecard)) {
+          obj.scorecard = obj.scorecard.map((d: unknown) => {
+            if (!d || typeof d !== "object") return d;
+            const dim = d as Record<string, unknown>;
+            if ("score" in dim) dim.score = coerceScore(dim.score);
+            return dim;
+          });
+        }
+
+        // --- Suggestions normalization ---
+        if (Array.isArray(obj.suggestions)) {
+          obj.suggestions = obj.suggestions.map((s) => {
+            if (!s || typeof s !== "object") return s;
+            const sug = s as Record<string, unknown>;
+
+            // Coerce impact to lowercase enum
+            if (typeof sug.impact === "string") {
+              sug.impact = sug.impact.toLowerCase();
+            }
+
+            // affectedPaths: string → array
+            if (typeof sug.affectedPaths === "string") {
+              sug.affectedPaths = [sug.affectedPaths];
+            }
+
+            // exampleRewrite: object → string
+            if (sug.exampleRewrite && typeof sug.exampleRewrite === "object") {
+              const rewrite = sug.exampleRewrite as Record<string, unknown>;
+              if (typeof rewrite.after === "string") {
+                sug.exampleRewrite = rewrite.after;
+              } else if (typeof rewrite.rewrite === "string") {
+                sug.exampleRewrite = rewrite.rewrite;
+              } else if (typeof rewrite.example === "string") {
+                sug.exampleRewrite = rewrite.example;
+              } else {
+                sug.exampleRewrite = JSON.stringify(rewrite);
+              }
+            }
+
+            // Fill missing optional fields with undefined (Zod treats as absent)
+            const optionalFields = ["evidence", "priority", "effort", "category", "affectedPaths", "beforePreview", "afterPreview"] as const;
+            for (const field of optionalFields) {
+              if (!(field in sug)) sug[field] = undefined;
+            }
+
+            // Priority/effort lowercase
+            if (typeof sug.priority === "string") sug.priority = sug.priority.toLowerCase();
+            if (typeof sug.effort === "string") sug.effort = sug.effort.toLowerCase();
+
+            return sug;
+          });
+        }
+
+        // --- Strengths: filter empty strings ---
+        if (Array.isArray(obj.strengths)) {
+          obj.strengths = (obj.strengths as unknown[]).filter(
+            (s): s is string => typeof s === "string" && s.trim().length > 0,
+          );
+        }
+
+        // Filter out any suggestions missing required fields (title, impact, why, copyPrompt)
+        if (Array.isArray(obj.suggestions)) {
+          obj.suggestions = (obj.suggestions as Record<string, unknown>[]).filter(
+            (s) =>
+              s &&
+              typeof s.title === "string" &&
+              s.title.trim().length > 0 &&
+              typeof s.why === "string" &&
+              s.why.trim().length > 0 &&
+              typeof s.copyPrompt === "string" &&
+              s.copyPrompt.trim().length > 0,
+          );
+        }
+
+        // Filter out scorecard dimensions with empty dimension name
+        if (Array.isArray(obj.scorecard)) {
+          obj.scorecard = (obj.scorecard as Record<string, unknown>[]).filter(
+            (d) => d && typeof d.dimension === "string" && d.dimension.trim().length > 0,
+          );
+        }
+
+        // --- ATS compatibility normalization ---
+        if (!("atsCompatibility" in obj)) {
+          obj.atsCompatibility = undefined;
+        } else if (obj.atsCompatibility && typeof obj.atsCompatibility === "object" && !Array.isArray(obj.atsCompatibility)) {
+          const ats = obj.atsCompatibility as Record<string, unknown>;
+
+          // Coerce ats.overallScore
+          if ("overallScore" in ats) ats.overallScore = coerceScore(ats.overallScore);
+
+          // Dimensions: object map → array
+          if (ats.dimensions && typeof ats.dimensions === "object" && !Array.isArray(ats.dimensions)) {
+            ats.dimensions = Object.entries(ats.dimensions as Record<string, unknown>).map(([dimension, value]) => {
+              if (value && typeof value === "object" && !Array.isArray(value)) {
+                return { dimension, ...(value as Record<string, unknown>) };
+              }
+
+              const score = typeof value === "number" ? value : Number(value);
+              return {
+                dimension,
+                score: Number.isNaN(score) ? 0 : score,
+              };
+            });
+          }
+
+          // Coerce dimension scores inside ats dimensions
+          if (Array.isArray(ats.dimensions)) {
+            ats.dimensions = (ats.dimensions as Record<string, unknown>[]).map((dim) => {
+              if ("score" in dim) dim.score = coerceScore(dim.score);
+              return dim;
+            });
+          }
+        }
+
+        return obj;
+      }
+
+      /**
+       * Attempt a full Zod parse; on failure, degrade gracefully by extracting
+       * whatever valid fields are available and returning a partial result.
+       * The caller (router) is responsible for setting the `degraded` flag on the
+       * stored analysis when the returned object lacks the canonical shape.
+       */
+      function safeParseAnalysisResult(
+        raw: Record<string, unknown>,
+      ): ResumeAnalysis {
+        // 1. Try full parse first
+        const full = resumeAnalysisSchema.safeParse(raw);
+        if (full.success) {
+          return full.data;
+        }
+
+        logAiError(
+          "analyzeResume zod failure — degrading",
+          full.error,
+          JSON.stringify(raw, null, 2),
+          { zodError: flattenError(full.error) },
+        );
+
+        // 2. Salvage what we can, field by field
+        const partial: Record<string, unknown> = {
+          analysisVersion: 1,
+        };
+
+        // overallScore
+        const scoreResult = z.coerce.number().int().min(0).max(100).safeParse(raw.overallScore);
+        partial.overallScore = scoreResult.success ? scoreResult.data : 0;
+
+        // scorecard (must be at least 1 entry for the schema)
+        const scorecardResult = z
+          .array(analysisDimensionSchema)
+          .min(1)
+          .safeParse(raw.scorecard);
+        partial.scorecard = scorecardResult.success
+          ? scorecardResult.data
+          : [
+              {
+                dimension: "General Assessment",
+                score: partial.overallScore as number,
+                rationale:
+                  "The AI returned an incomplete analysis. Overall score shown above could not be broken down by dimension.",
+              },
+            ];
+
+        // suggestions
+        const suggestionsResult = z
+          .array(analysisSuggestionSchema)
+          .max(10)
+          .safeParse(raw.suggestions);
+        partial.suggestions = suggestionsResult.success ? suggestionsResult.data : [];
+
+        // strengths
+        const strengthsResult = z
+          .array(z.string().min(1))
+          .max(10)
+          .safeParse(raw.strengths);
+        partial.strengths = strengthsResult.success ? strengthsResult.data : [];
+
+        // atsCompatibility (optional — graceful if missing or malformed)
+        if (raw.atsCompatibility !== undefined) {
+          const atsResult = atsCompatibilitySchema.safeParse(raw.atsCompatibility);
+          if (atsResult.success) {
+            partial.atsCompatibility = atsResult.data;
+          }
+        }
+
+        logAiDebug(
+          "analyzeResume degraded result",
+          JSON.stringify({
+            hadOverallScore: scoreResult.success,
+            hadScorecard: scorecardResult.success,
+            hadSuggestions: suggestionsResult.success,
+            hadStrengths: strengthsResult.success,
+            hadAtsCompatibility: "atsCompatibility" in partial,
+          }),
+        );
+
+        // Final re-parse — should always succeed since we built defensively
+        return resumeAnalysisSchema.parse(partial);
+      }
+    })
+    .catch((error) => {
+      recordFailure(provider);
+      throw error;
+    });
 }
 
 async function tailorResume(input: TailorResumeInput): Promise<TailorOutput> {
+  const { provider } = input;
   const model = getModel(input);
   const systemPrompt = buildTailorSystemPrompt(input.resumeData, input.job);
 
-  const result = await generateText({
-    model,
-    messages: [
-      { role: "system", content: systemPrompt },
-      {
-        role: "user",
-        content: `Please tailor this resume for the ${input.job.job_title} position at ${input.job.employer_name}. Optimize for ATS compatibility and relevance. Return ONLY valid JSON with exactly these top-level keys: summary, experiences, references, skills. Do not return the full resume object. Do not include markdown, explanations, or code fences.`,
-      },
-    ],
-    maxOutputTokens: 8192,
-  });
+  return withRetry("tailorResume", provider, input.model, async () => {
+    const result = await generateText({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        {
+          role: "user",
+          content: `Please tailor this resume for the ${input.job.job_title} position at ${input.job.employer_name}. Optimize for ATS compatibility and relevance. Return ONLY valid JSON with exactly these top-level keys: summary, experiences, references, skills. Do not return the full resume object. Do not include markdown, explanations, or code fences.`,
+        },
+      ],
+      maxOutputTokens: 8192,
+    });
+    recordSuccess(provider);
+    return result;
+  })
+    .then((result) => {
+      if (!result.text) {
+        logAiError("tailorResume", new Error("AI returned no tailoring output."));
+        throw new Error("AI returned no tailoring output.");
+      }
 
-  if (!result.text) {
-    logAiError("tailorResume", new Error("AI returned no tailoring output."));
-    throw new Error("AI returned no tailoring output.");
-  }
+      logAiDebug("tailorResume raw", result.text.substring(0, 8000));
+      const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
+      const jsonStr = match ? match[1].trim() : result.text.trim();
+      let output: unknown;
 
-  try {
-    logAiDebug("tailorResume raw", result.text.substring(0, 8000));
-    const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
-    const jsonStr = match ? match[1].trim() : result.text.trim();
-    let output: unknown;
+      try {
+        output = JSON.parse(jsonStr);
+      } catch {
+        output = JSON.parse(jsonrepair(jsonStr));
+      }
 
-    try {
-      output = JSON.parse(jsonStr);
-    } catch {
-      output = JSON.parse(jsonrepair(jsonStr));
-    }
+      try {
+        return tailorOutputSchema.parse(output);
+      } catch (schemaError) {
+        const data = output as Record<string, unknown>;
 
-    try {
-      return tailorOutputSchema.parse(output);
-    } catch (schemaError) {
-      const data = output as Record<string, unknown>;
+        const originalExperienceItems = input.resumeData.sections.experience.items;
+        const originalReferenceItems = input.resumeData.sections.references.items;
+        const experienceIndexById = new Map(originalExperienceItems.map((item, index) => [item.id, index]));
+        const referenceIndexById = new Map(originalReferenceItems.map((item, index) => [item.id, index]));
 
-      const originalExperienceItems = input.resumeData.sections.experience.items;
-      const originalReferenceItems = input.resumeData.sections.references.items;
-      const experienceIndexById = new Map(originalExperienceItems.map((item, index) => [item.id, index]));
-      const referenceIndexById = new Map(originalReferenceItems.map((item, index) => [item.id, index]));
+        const topExperiences = data.experiences as Array<Record<string, unknown>> | undefined;
+        const topReferences = data.references as Array<Record<string, unknown>> | undefined;
+        const topSkills = data.skills as Array<Record<string, unknown>> | undefined;
 
-      const topExperiences = data.experiences as Array<Record<string, unknown>> | undefined;
-      const topReferences = data.references as Array<Record<string, unknown>> | undefined;
-      const topSkills = data.skills as Array<Record<string, unknown>> | undefined;
+        // Shape often returned by OpenRouter text mode: { summary: string, experiences: [{ id, description }], skills: [{ name, keywords }] }
+        if (typeof data.summary === "string" || Array.isArray(topExperiences) || Array.isArray(topSkills)) {
+          const normalized = {
+            summary: {
+              content:
+                typeof data.summary === "string"
+                  ? data.summary
+                  : typeof (data.summary as Record<string, unknown> | undefined)?.content === "string"
+                    ? ((data.summary as Record<string, unknown>).content as string)
+                    : "",
+            },
+            experiences: Array.isArray(topExperiences)
+              ? topExperiences.map((item, arrayIndex) => ({
+                  index:
+                    typeof item.index === "number"
+                      ? item.index
+                      : typeof item.id === "string" && experienceIndexById.has(item.id)
+                        ? (experienceIndexById.get(item.id) as number)
+                        : arrayIndex,
+                  description: typeof item.description === "string" ? item.description : "",
+                  position: typeof item.position === "string" ? item.position : undefined,
+                  roles: Array.isArray(item.roles)
+                    ? (item.roles as Array<Record<string, unknown>>).map((role, roleIndex) => ({
+                        index: typeof role.index === "number" ? role.index : roleIndex,
+                        description: typeof role.description === "string" ? role.description : "",
+                      }))
+                    : [],
+                }))
+              : [],
+            references: Array.isArray(topReferences)
+              ? topReferences.map((item, arrayIndex) => ({
+                  index:
+                    typeof item.index === "number"
+                      ? item.index
+                      : typeof item.id === "string" && referenceIndexById.has(item.id)
+                        ? (referenceIndexById.get(item.id) as number)
+                        : arrayIndex,
+                  description: typeof item.description === "string" ? item.description : "",
+                }))
+              : [],
+            skills: Array.isArray(topSkills)
+              ? topSkills.map((item) => ({
+                  name: typeof item.name === "string" && item.name.trim() ? item.name : "Relevant Skills",
+                  keywords: Array.isArray(item.keywords)
+                    ? (item.keywords as unknown[]).filter((keyword): keyword is string => typeof keyword === "string")
+                    : [],
+                  proficiency: typeof item.proficiency === "string" ? item.proficiency : "",
+                  icon: typeof item.icon === "string" ? item.icon : "",
+                  isNew: typeof item.isNew === "boolean" ? item.isNew : false,
+                }))
+              : [],
+          };
 
-      // Shape often returned by OpenRouter text mode: { summary: string, experiences: [{ id, description }], skills: [{ name, keywords }] }
-      if (typeof data.summary === "string" || Array.isArray(topExperiences) || Array.isArray(topSkills)) {
-        const normalized = {
+          logAiDebug(
+            "tailorResume normalized compact output",
+            JSON.stringify({
+              experiences: normalized.experiences.length,
+              references: normalized.references.length,
+              skills: normalized.skills.length,
+              originalKeys: Object.keys(data),
+            }),
+          );
+
+          return tailorOutputSchema.parse(normalized);
+        }
+
+        // Fallback shape: full Reactive Resume object returned by the model.
+        const sections = data.sections as Record<string, unknown> | undefined;
+        const experienceSection = sections?.experience as Record<string, unknown> | undefined;
+        const referenceSection = sections?.references as Record<string, unknown> | undefined;
+        const skillsSection = sections?.skills as Record<string, unknown> | undefined;
+
+        const experienceItems = experienceSection?.items as Array<Record<string, unknown>> | undefined;
+        const referenceItems = referenceSection?.items as Array<Record<string, unknown>> | undefined;
+        const skillItems = skillsSection?.items as Array<Record<string, unknown>> | undefined;
+        const summary = data.summary as Record<string, unknown> | undefined;
+
+        const extracted = {
           summary: {
-            content:
-              typeof data.summary === "string"
-                ? data.summary
-                : typeof (data.summary as Record<string, unknown> | undefined)?.content === "string"
-                  ? ((data.summary as Record<string, unknown>).content as string)
-                  : "",
+            content: typeof summary?.content === "string" ? summary.content : "",
           },
-          experiences: Array.isArray(topExperiences)
-            ? topExperiences.map((item, arrayIndex) => ({
-                index:
-                  typeof item.index === "number"
-                    ? item.index
-                    : typeof item.id === "string" && experienceIndexById.has(item.id)
-                      ? (experienceIndexById.get(item.id) as number)
-                      : arrayIndex,
+          experiences: Array.isArray(experienceItems)
+            ? experienceItems.map((item, index) => ({
+                index,
                 description: typeof item.description === "string" ? item.description : "",
                 position: typeof item.position === "string" ? item.position : undefined,
                 roles: Array.isArray(item.roles)
                   ? (item.roles as Array<Record<string, unknown>>).map((role, roleIndex) => ({
-                      index: typeof role.index === "number" ? role.index : roleIndex,
+                      index: roleIndex,
                       description: typeof role.description === "string" ? role.description : "",
                     }))
                   : [],
               }))
             : [],
-          references: Array.isArray(topReferences)
-            ? topReferences.map((item, arrayIndex) => ({
-                index:
-                  typeof item.index === "number"
-                    ? item.index
-                    : typeof item.id === "string" && referenceIndexById.has(item.id)
-                      ? (referenceIndexById.get(item.id) as number)
-                      : arrayIndex,
+          references: Array.isArray(referenceItems)
+            ? referenceItems.map((item, index) => ({
+                index,
                 description: typeof item.description === "string" ? item.description : "",
               }))
             : [],
-          skills: Array.isArray(topSkills)
-            ? topSkills.map((item) => ({
-                name: typeof item.name === "string" && item.name.trim() ? item.name : "Relevant Skills",
-                keywords: Array.isArray(item.keywords)
-                  ? (item.keywords as unknown[]).filter((keyword): keyword is string => typeof keyword === "string")
-                  : [],
-                proficiency: typeof item.proficiency === "string" ? item.proficiency : "",
-                icon: typeof item.icon === "string" ? item.icon : "",
-                isNew: typeof item.isNew === "boolean" ? item.isNew : false,
-              }))
+          skills: Array.isArray(skillItems)
+            ? skillItems
+                .filter((item) => item && item.hidden !== true)
+                .map((item) => ({
+                  name: typeof item.name === "string" && item.name.trim() ? item.name : "Relevant Skills",
+                  keywords: Array.isArray(item.keywords)
+                    ? (item.keywords as unknown[]).filter((keyword): keyword is string => typeof keyword === "string")
+                    : [],
+                  proficiency: typeof item.proficiency === "string" ? item.proficiency : "",
+                  icon: typeof item.icon === "string" ? item.icon : "",
+                  isNew: false,
+                }))
             : [],
         };
 
         logAiDebug(
-          "tailorResume normalized compact output",
+          "tailorResume extracted full resume",
           JSON.stringify({
-            experiences: normalized.experiences.length,
-            references: normalized.references.length,
-            skills: normalized.skills.length,
+            experiences: extracted.experiences.length,
+            references: extracted.references.length,
+            skills: extracted.skills.length,
             originalKeys: Object.keys(data),
           }),
         );
 
-        return tailorOutputSchema.parse(normalized);
+        try {
+          return tailorOutputSchema.parse(extracted);
+        } catch {
+          throw schemaError;
+        }
       }
-
-      // Fallback shape: full Reactive Resume object returned by the model.
-      const sections = data.sections as Record<string, unknown> | undefined;
-      const experienceSection = sections?.experience as Record<string, unknown> | undefined;
-      const referenceSection = sections?.references as Record<string, unknown> | undefined;
-      const skillsSection = sections?.skills as Record<string, unknown> | undefined;
-
-      const experienceItems = experienceSection?.items as Array<Record<string, unknown>> | undefined;
-      const referenceItems = referenceSection?.items as Array<Record<string, unknown>> | undefined;
-      const skillItems = skillsSection?.items as Array<Record<string, unknown>> | undefined;
-      const summary = data.summary as Record<string, unknown> | undefined;
-
-      const extracted = {
-        summary: {
-          content: typeof summary?.content === "string" ? summary.content : "",
-        },
-        experiences: Array.isArray(experienceItems)
-          ? experienceItems.map((item, index) => ({
-              index,
-              description: typeof item.description === "string" ? item.description : "",
-              position: typeof item.position === "string" ? item.position : undefined,
-              roles: Array.isArray(item.roles)
-                ? (item.roles as Array<Record<string, unknown>>).map((role, roleIndex) => ({
-                    index: roleIndex,
-                    description: typeof role.description === "string" ? role.description : "",
-                  }))
-                : [],
-            }))
-          : [],
-        references: Array.isArray(referenceItems)
-          ? referenceItems.map((item, index) => ({
-              index,
-              description: typeof item.description === "string" ? item.description : "",
-            }))
-          : [],
-        skills: Array.isArray(skillItems)
-          ? skillItems
-              .filter((item) => item && item.hidden !== true)
-              .map((item) => ({
-                name: typeof item.name === "string" && item.name.trim() ? item.name : "Relevant Skills",
-                keywords: Array.isArray(item.keywords)
-                  ? (item.keywords as unknown[]).filter((keyword): keyword is string => typeof keyword === "string")
-                  : [],
-                proficiency: typeof item.proficiency === "string" ? item.proficiency : "",
-                icon: typeof item.icon === "string" ? item.icon : "",
-                isNew: false,
-              }))
-          : [],
-      };
-
-      logAiDebug(
-        "tailorResume extracted full resume",
-        JSON.stringify({
-          experiences: extracted.experiences.length,
-          references: extracted.references.length,
-          skills: extracted.skills.length,
-          originalKeys: Object.keys(data),
-        }),
-      );
-
-      try {
-        return tailorOutputSchema.parse(extracted);
-      } catch {
-        throw schemaError;
-      }
-    }
-  } catch (error) {
-    logAiError("tailorResume", error, result.text);
-    throw new ORPCError("BAD_REQUEST", {
-      message: "The AI returned invalid tailoring data. Please try again.",
+    })
+    .catch((error) => {
+      recordFailure(provider);
+      throw error;
     });
-  }
-}
-
-type GenerateCoverLetterInput = z.infer<typeof aiCredentialsSchema> & {
+}type GenerateCoverLetterInput = z.infer<typeof aiCredentialsSchema> & {
   resumeData: ResumeData;
   job?: JobResult;
   target?: CoverLetterTarget;
@@ -873,6 +1308,7 @@ type GenerateCoverLetterInput = z.infer<typeof aiCredentialsSchema> & {
 };
 
 async function generateCoverLetter(input: GenerateCoverLetterInput): Promise<CoverLetter> {
+  const { provider } = input;
   const model = getModel(input);
 
   const jobTitle = input.job?.job_title || input.target?.jobTitle || "";
@@ -895,42 +1331,51 @@ Return ONLY valid JSON with these exact keys: recipient (HTML), content (HTML), 
 - wordCount: Integer word count
 - tone: Must match the requested tone`;
 
-  const result = await generateText({
-    model,
-    messages: [
-      { role: "system", content: systemPrompt },
-      {
-        role: "user",
-        content: `Write a cover letter for this position: ${jobTitle} at ${employerName}\n\nJob Description:\n${jobDescription}\n\nBased on this resume:\n\n${JSON.stringify(input.resumeData, null, 2)}`,
-      },
-    ],
-  });
-
-  if (!result.text) {
-    logAiError("generateCoverLetter", new Error("AI returned no cover letter content."));
-    throw new Error("AI returned no cover letter content.");
-  }
-
-  logAiDebug("generateCoverLetter raw", result.text.substring(0, 4000));
-
-  try {
-    const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
-    const jsonStr = match ? match[1].trim() : result.text.trim();
-    let output: unknown;
-
-    try {
-      output = JSON.parse(jsonStr);
-    } catch {
-      output = JSON.parse(jsonrepair(jsonStr));
-    }
-
-    return coverLetterSchema.parse(output);
-  } catch (error) {
-    logAiError("generateCoverLetter", error, result.text);
-    throw new ORPCError("BAD_REQUEST", {
-      message: "The AI returned an invalid cover letter format.",
+  return withRetry("generateCoverLetter", provider, input.model, async () => {
+    const result = await generateText({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        {
+          role: "user",
+          content: `Write a cover letter for this position: ${jobTitle} at ${employerName}\n\nJob Description:\n${jobDescription}\n\nBased on this resume:\n\n${JSON.stringify(input.resumeData, null, 2)}`,
+        },
+      ],
     });
-  }
+    recordSuccess(provider);
+    return result;
+  })
+    .then((result) => {
+      if (!result.text) {
+        logAiError("generateCoverLetter", new Error("AI returned no cover letter content."));
+        throw new Error("AI returned no cover letter content.");
+      }
+
+      logAiDebug("generateCoverLetter raw", result.text.substring(0, 4000));
+
+      try {
+        const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
+        const jsonStr = match ? match[1].trim() : result.text.trim();
+        let output: unknown;
+
+        try {
+          output = JSON.parse(jsonStr);
+        } catch {
+          output = JSON.parse(jsonrepair(jsonStr));
+        }
+
+        return coverLetterSchema.parse(output);
+      } catch (error) {
+        logAiError("generateCoverLetter", error, result.text);
+        throw new ORPCError("BAD_REQUEST", {
+          message: "The AI returned an invalid cover letter format.",
+        });
+      }
+    })
+    .catch((error) => {
+      recordFailure(provider);
+      throw error;
+    });
 }
 
 type PrepareForInterviewInput = z.infer<typeof aiCredentialsSchema> & {
@@ -940,6 +1385,7 @@ type PrepareForInterviewInput = z.infer<typeof aiCredentialsSchema> & {
 };
 
 async function prepareForInterview(input: PrepareForInterviewInput): Promise<InterviewPreparation> {
+  const { provider } = input;
   const model = getModel(input);
 
   const systemPrompt = `You are an interview preparation specialist. Generate interview questions and preparation materials based on the resume and job description.
@@ -951,42 +1397,51 @@ Structure each question with: id, category, question, difficulty, explanation, s
 - categories: technical, behavioral, situational, company, delivery, stakeholder, contractor-fit
 - difficulties: easy, medium, hard`;
 
-  const result = await generateText({
-    model,
-    messages: [
-      { role: "system", content: systemPrompt },
-      {
-        role: "user",
-        content: `Generate interview preparation materials for this position: ${input.jobData?.job_title || "General"}\n\n${input.jobData?.job_description ? `Job Description:\n${input.jobData.job_description}\n\n` : ""}Based on this resume:\n\n${JSON.stringify(input.resumeData, null, 2)}`,
-      },
-    ],
-  });
-
-  if (!result.text) {
-    logAiError("prepareForInterview", new Error("AI returned no interview preparation content."));
-    throw new Error("AI returned no interview preparation content.");
-  }
-
-  logAiDebug("prepareForInterview raw", result.text.substring(0, 4000));
-
-  try {
-    const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
-    const jsonStr = match ? match[1].trim() : result.text.trim();
-    let output: unknown;
-
-    try {
-      output = JSON.parse(jsonStr);
-    } catch {
-      output = JSON.parse(jsonrepair(jsonStr));
-    }
-
-    return interviewPreparationSchema.parse(output);
-  } catch (error) {
-    logAiError("prepareForInterview", error, result.text);
-    throw new ORPCError("BAD_REQUEST", {
-      message: "The AI returned an invalid interview preparation format.",
+  return withRetry("prepareForInterview", provider, input.model, async () => {
+    const result = await generateText({
+      model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        {
+          role: "user",
+          content: `Generate interview preparation materials for this position: ${input.jobData?.job_title || "General"}\n\n${input.jobData?.job_description ? `Job Description:\n${input.jobData.job_description}\n\n` : ""}Based on this resume:\n\n${JSON.stringify(input.resumeData, null, 2)}`,
+        },
+      ],
     });
-  }
+    recordSuccess(provider);
+    return result;
+  })
+    .then((result) => {
+      if (!result.text) {
+        logAiError("prepareForInterview", new Error("AI returned no interview preparation content."));
+        throw new Error("AI returned no interview preparation content.");
+      }
+
+      logAiDebug("prepareForInterview raw", result.text.substring(0, 4000));
+
+      try {
+        const match = result.text.match(/```(?:json)?\s*([\s\S]*?)```/);
+        const jsonStr = match ? match[1].trim() : result.text.trim();
+        let output: unknown;
+
+        try {
+          output = JSON.parse(jsonStr);
+        } catch {
+          output = JSON.parse(jsonrepair(jsonStr));
+        }
+
+        return interviewPreparationSchema.parse(output);
+      } catch (error) {
+        logAiError("prepareForInterview", error, result.text);
+        throw new ORPCError("BAD_REQUEST", {
+          message: "The AI returned an invalid interview preparation format.",
+        });
+      }
+    })
+    .catch((error) => {
+      recordFailure(provider);
+      throw error;
+    });
 }
 
 export const aiService = {

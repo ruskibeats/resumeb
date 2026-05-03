@@ -2,7 +2,7 @@ import z from "zod";
 
 export const analysisDimensionSchema = z.object({
   dimension: z.string().min(1),
-  score: z.number().int().min(0).max(100),
+  score: z.coerce.number().int().min(0).max(100),
   rationale: z.string().min(1),
 });
 
@@ -20,25 +20,30 @@ export const analysisSuggestionSchema = z.object({
   priority: analysisPrioritySchema.optional(),
   effort: analysisEffortSchema.optional(),
   category: z.string().min(1).optional(),
+  // Enhanced fields for Phase 2: User trust and patch safety
+  affectedPaths: z.array(z.string()).optional().describe("JSON paths that would be modified by this suggestion"),
+  beforePreview: z.string().optional().describe("Preview of current content"),
+  afterPreview: z.string().optional().describe("Preview of suggested replacement"),
 });
 
 export const atsCompatibilityDimensionSchema = z.object({
   dimension: z.string().min(1),
-  score: z.number().int().min(0).max(100),
+  score: z.coerce.number().int().min(0).max(100),
   rationale: z.string().min(1).optional(),
   issues: z.array(z.string().min(1)).optional(),
   suggestions: z.array(z.string().min(1)).optional(),
 });
 
 export const atsCompatibilitySchema = z.object({
-  overallScore: z.number().int().min(0).max(100),
+  overallScore: z.coerce.number().int().min(0).max(100),
   summary: z.string().min(1).optional(),
   dimensions: z.array(atsCompatibilityDimensionSchema).optional(),
   recommendations: z.array(z.string().min(1)).optional(),
 });
 
 export const resumeAnalysisSchema = z.object({
-  overallScore: z.number().int().min(0).max(100),
+  analysisVersion: z.literal(1).optional().default(1).describe("Schema version for future migrations — auto-added if missing"),
+  overallScore: z.coerce.number().int().min(0).max(100),
   scorecard: z.array(analysisDimensionSchema).min(1),
   suggestions: z.array(analysisSuggestionSchema).max(10),
   strengths: z.array(z.string().min(1)).max(10),
@@ -46,7 +51,7 @@ export const resumeAnalysisSchema = z.object({
 });
 
 export const resumeAnalysisOutputSchema = z.object({
-  overallScore: z.number(),
+  overallScore: z.coerce.number(),
   scorecard: z.array(
     z.object({
       dimension: z.string(),
@@ -64,6 +69,9 @@ export const resumeAnalysisOutputSchema = z.object({
       priority: analysisPrioritySchema.optional(),
       effort: analysisEffortSchema.optional(),
       category: z.string().min(1).optional(),
+      affectedPaths: z.array(z.string()).optional(),
+      beforePreview: z.string().optional(),
+      afterPreview: z.string().optional(),
     }),
   ),
   strengths: z.array(z.string()),
@@ -79,6 +87,7 @@ export const storedResumeAnalysisSchema = resumeAnalysisSchema.extend({
   sourceJobUrl: z.string().optional().describe("Job posting URL from the tailoring source"),
   sourceJobTitle: z.string().optional().describe("Job title from the tailoring source"),
   sourceJobEmployer: z.string().optional().describe("Employer name from the tailoring source"),
+  degraded: z.boolean().optional().describe("True if the analysis is partial due to schema mismatch"),
 });
 
 export type AtsCompatibility = z.infer<typeof atsCompatibilitySchema>;
