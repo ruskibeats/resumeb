@@ -130,6 +130,7 @@ export const aiRouter = {
     .input(
       z.object({
         ...aiCredentialsSchema.shape,
+        contextSizeTest: z.boolean().optional().default(false).describe("Run a heavy context test to validate throughput with large prompts"),
       }),
     )
     .use(aiRequestRateLimit)

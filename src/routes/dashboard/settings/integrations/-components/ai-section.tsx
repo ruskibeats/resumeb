@@ -1,8 +1,8 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { CheckCircleIcon, InfoIcon, XCircleIcon } from "@phosphor-icons/react";
+import { CheckCircleIcon, GaugeIcon, InfoIcon, XCircleIcon, WarningCircleIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -79,11 +79,23 @@ const providerOptions: AIProviderOption[] = [
 function AIForm() {
   const { set, model, apiKey, baseURL, provider, enabled, testStatus } = useAIStore();
 
+  const [heavyTestResult, setHeavyTestResult] = useState<{
+    passed: boolean;
+    responseTimeMs: number;
+    promptSizeBytes: number;
+  } | null>(null);
+
   const selectedOption = useMemo(() => {
     return providerOptions.find((option) => option.value === provider);
   }, [provider]);
 
-  const { mutate: testConnection, isPending: isTesting } = useMutation(orpc.ai.testConnection.mutationOptions());
+  const { mutate: testConnection, isPending: isTesting } = useMutation(
+    orpc.ai.testConnection.mutationOptions(),
+  );
+
+  const { mutate: testContextCapacity, isPending: isTestingHeavy } = useMutation(
+    orpc.ai.testConnection.mutationOptions(),
+  );
 
   const handleProviderChange = (value: AIProvider | null) => {
     if (!value) return;
@@ -94,12 +106,13 @@ function AIForm() {
   };
 
   const handleTestConnection = () => {
+    setHeavyTestResult(null);
     testConnection(
       { provider, model, apiKey, baseURL },
       {
         onSuccess: (data) => {
           set((draft) => {
-            draft.testStatus = data ? "success" : "failure";
+            draft.testStatus = data.success ? "success" : "failure";
           });
         },
         onError: (error) => {
@@ -110,19 +123,42 @@ function AIForm() {
           toast.error(
             getOrpcErrorMessage(error, {
               byCode: {
-                BAD_REQUEST: t({
-                  comment: "Error shown when AI provider credentials or base URL are invalid in AI settings",
-                  message: "Invalid AI provider configuration. Please check your settings.",
-                }),
                 BAD_GATEWAY: t({
                   comment: "Error shown when the configured AI provider cannot be reached during connection test",
                   message: "Could not reach the AI provider. Please try again.",
                 }),
               },
+              allowServerMessage: true,
               fallback: t({
                 comment: "Fallback toast when testing AI provider connection fails",
                 message: "Failed to test AI provider connection. Please try again.",
               }),
+            }),
+          );
+        },
+      },
+    );
+  };
+
+  const handleTestContextCapacity = () => {
+    setHeavyTestResult(null);
+    testContextCapacity(
+      { provider, model, apiKey, baseURL, contextSizeTest: true },
+      {
+        onSuccess: (data) => {
+          if (data.heavyTest) {
+            setHeavyTestResult(data.heavyTest);
+          }
+        },
+        onError: (error) => {
+          setHeavyTestResult({
+            passed: false,
+            responseTimeMs: 0,
+            promptSizeBytes: 0,
+          });
+          toast.error(
+            getOrpcErrorMessage(error, {
+              fallback: t`Context capacity test failed. The model may not handle large prompts.`,
             }),
           );
         },
@@ -194,6 +230,9 @@ function AIForm() {
           data-bwignore="true"
           data-1p-ignore="true"
         />
+        <p className="text-xs text-muted-foreground">
+          <Trans>Your API key is stored locally in this browser and will survive refreshes and browser restarts.</Trans>
+        </p>
       </div>
 
       <div className="flex flex-col gap-y-2 sm:col-span-2">
@@ -219,7 +258,7 @@ function AIForm() {
         />
       </div>
 
-      <div>
+      <div className="flex flex-wrap gap-2 sm:col-span-2">
         <Button variant="outline" disabled={isTesting || enabled} onClick={handleTestConnection}>
           {isTesting ? (
             <Spinner />
@@ -230,7 +269,78 @@ function AIForm() {
           ) : null}
           <Trans>Test Connection</Trans>
         </Button>
+
+        <Button
+          variant="outline"
+          disabled={isTestingHeavy || testStatus !== "success" || enabled}
+          onClick={handleTestContextCapacity}
+        >
+          {isTestingHeavy ? (
+            <Spinner />
+          ) : heavyTestResult?.passed ? (
+            <CheckCircleIcon className="text-success" />
+          ) : heavyTestResult && !heavyTestResult.passed ? (
+            <XCircleIcon className="text-destructive" />
+          ) : (
+            <GaugeIcon />
+          )}
+          <Trans>Context Capacity Test</Trans>
+        </Button>
       </div>
+
+      {heavyTestResult && (
+        <div
+          className={cn(
+            "flex items-center gap-3 rounded-md border p-3 sm:col-span-2",
+            heavyTestResult.passed
+              ? heavyTestResult.responseTimeMs > 30000
+                ? "border-amber-500/50 bg-amber-50 dark:bg-amber-950/20"
+                : "border-green-500/50 bg-green-50 dark:bg-green-950/20"
+              : "border-destructive/50 bg-destructive/10",
+          )}
+        >
+          {heavyTestResult.passed ? (
+            heavyTestResult.responseTimeMs > 30000 ? (
+              <WarningCircleIcon className="shrink-0 text-amber-500" size={20} />
+            ) : (
+              <CheckCircleIcon className="shrink-0 text-success" size={20} />
+            )
+          ) : (
+            <XCircleIcon className="shrink-0 text-destructive" size={20} />
+          )}
+          <div className="text-sm">
+            {heavyTestResult.passed ? (
+              <>
+                <p className="font-semibold">
+                  {heavyTestResult.responseTimeMs > 30000
+                    ? "Context test passed but was slow"
+                    : "Context test passed"}
+                </p>
+                <p className="text-muted-foreground">
+                  <Trans>
+                    Response in {((heavyTestResult.responseTimeMs) / 1000).toFixed(1)}s with {""}
+                    {(heavyTestResult.promptSizeBytes / 1024).toFixed(0)} KB prompt.
+                    {heavyTestResult.responseTimeMs > 30000
+                      ? " Full analysis/tailoring may take longer."
+                      : ""}
+                  </Trans>
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="font-semibold">
+                  <Trans>Context test failed</Trans>
+                </p>
+                <p className="text-muted-foreground">
+                  <Trans>
+                    The model could not process a large prompt. Full resume analysis or tailoring may not work.
+                  </Trans>
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

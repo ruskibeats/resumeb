@@ -423,15 +423,135 @@ export const fileInputSchema = z.object({
   data: z.string().max(MAX_AI_FILE_BASE64_CHARS, "File is too large. Maximum size is 10MB."), // base64 encoded
 });
 
-type TestConnectionInput = z.infer<typeof aiCredentialsSchema>;
+type TestConnectionInput = z.infer<typeof aiCredentialsSchema> & {
+  contextSizeTest?: boolean;
+};
 
-async function testConnection(input: TestConnectionInput): Promise<boolean> {
+/**
+ * Builds a synthetic large prompt (~60K chars) that mimics the structure
+ * of a real resume analysis/tailoring prompt without using any real data.
+ */
+function buildHeavyTestPrompt(): string {
+  // Fake career highlights using generic industry terms
+  const fakeCareerHighlights = `
+**CANDIDATE PROFILE**
+* **Core Capability:** Infrastructure Programme Director & Technical Operations Director specialising in live-estate modernisation, multi-vendor orchestration, and large-scale network deployments.
+* **Clearances:** Security Check (SC) - Active | NPPV3 - Active
+
+**CAREER METRICS & HIGHLIGHTS**
+* **Cost & Commercial:** Achieved 60% WAN cost reduction across 200+ sites and led a £12M voice and data services re-tender.
+* **Infrastructure Scale:** Managed 6,100+ circuit migrations and 7,000+ endpoint deployments across EMEA. Deployed c.25,000 Wi-Fi endpoints.
+* **User Migrations:** Delivered Microsoft 365 / EUC migration for ~42,000 users.
+* **Cross-Cutting Programmes:** Pan-European infrastructure upgrade across 200+ sites. Restructured a 30-person on-ground team to recover delivery cadence.
+
+**JOB HISTORY**
+* **1. Company A | Infrastructure Programme Manager:** Managed LAN, Wi-Fi, and comms-room infrastructure uplifts across live estates. Enforced zero-disruption delivery constraints within occupied, mission-critical environments.
+* **2. Company B | Technical Programme Director:** Directed concurrent infrastructure programmes for Tier 1 financial services and public sector clients. Oversaw network separation/integration, data centre transitions, EUC upgrades.
+`.repeat(3); // ~3KB
+
+  // Build a synthetic resume JSON with realistic structure
+  const syntheticResume: Record<string, unknown> = {
+    basics: {
+      name: "Test Candidate",
+      headline: "Infrastructure Programme Director | Mass Onboarding at Scale",
+      email: "candidate@example.com",
+      phone: "+44 7000 000000",
+      location: "London, UK",
+    },
+    sections: {
+      summary: {
+        items: [{
+          content: "<p>Senior infrastructure and operations leader with 25+ years delivering large-scale network modernisation, EUC transformation, and service transition programmes across regulated environments.</p>",
+        }],
+      },
+      experience: {
+        items: Array.from({ length: 8 }, (_, i) => ({
+          id: `exp-${i}`,
+          position: ["Infrastructure Programme Director", "Technical Operations Director", "EMEA Operations Director", "Programme Manager", "Service Transition Lead", "Network Programme Manager", "Infrastructure Project Director", "Technical Delivery Consultant"][i],
+          company: ["Company Alpha Ltd", "Beta Corp", "Gamma Industries", "Delta Systems", "Epsilon Group", "Zeta Networks", "Eta Solutions", "Theta Consulting"][i],
+          date: "2020-01-01 - Present",
+          description: `<ul>${Array.from({ length: 5 }, () => `<li>Led cross-functional teams of 20-50 engineers delivering infrastructure modernisation programmes across 200+ sites with zero-disruption constraints, achieving 60% cost reduction through strategic vendor consolidation and process optimisation.</li>`).join("")}</ul>`,
+          summary: "Key achievements in infrastructure delivery and team leadership.",
+        })),
+      },
+      skills: {
+        items: Array.from({ length: 15 }, (_, i) => ({
+          id: `skill-${i}`,
+          name: ["Infrastructure Programme Management", "Service Transition", "Network Modernisation", "EUC Transformation", "Vendor Management", "Stakeholder Governance", "Risk Management", "Commercial Negotiation", "Data Centre Migration", "Cloud Strategy", "SD-WAN", "Agile Delivery", "ITIL Service Management", "Team Leadership", "Budget & P&L Accountability"][i],
+          keywords: ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"],
+          proficiency: "Advanced",
+        })),
+      },
+      education: { items: [{ institution: "Test University", degree: "BSc Computer Science", date: "1995" }] },
+      certifications: { items: [{ name: "PRINCE2 Practitioner", issuer: "AXELOS", date: "2010" }, { name: "ITIL v3 Expert", issuer: "AXELOS", date: "2012" }] },
+    },
+  };
+
+  const resumeJson = JSON.stringify(syntheticResume, null, 2); // ~12KB
+
+  // Job description filler (~5KB)
+  const fakeJobDescription = `
+**Job Title:** IT Operations Manager (Mass Onboarding Project)
+**Employer:** Test Employer Ltd
+**Location:** London (Onsite)
+**Type:** Full-time, 6-month contract
+
+**Overview:** A market leader in the EdTech space is searching for an experienced Onboarding & IT Operations Manager to join one of their growing teams in London. This individual will be responsible for the onboarding of circa 150 resources by November 2026. They will assist with hands-on onboarding (2nd-3rd Line) but also be responsible for service and process mapping across the IT operations function.
+
+**Key Requirements:**
+* 10+ years experience in IT operations and infrastructure management
+* Proven experience with mass onboarding programmes (100+ users)
+* Strong knowledge of JML processes, ServiceNow, and ITSM frameworks
+* Experience with Windows 11 migrations and EUC transformation
+* SC clearance or eligibility is highly desirable
+* Excellent stakeholder management and communication skills
+* Prince2, ITIL, or equivalent certification
+
+**Responsibilities:**
+* Lead the IT onboarding workstream for 150 new resources
+* Design and implement end-to-end onboarding processes
+* Manage device provisioning, access management, and user readiness
+* Coordinate with HR, facilities, and third-party vendors
+* Ensure compliance with security policies and regulatory requirements
+* Provide hands-on 2nd-3rd line support during cutover periods
+* Develop service transition plans and operational runbooks
+* Report progress to senior leadership and programme board
+
+**Desirable Skills:** SD-WAN, SASE, Zero Trust, Azure, Active Directory, Intune, Autopilot, PowerShell, ServiceNow, ITIL, PRINCE2, Agile, Scrum, Jira, Confluence.
+`.repeat(5); // ~5KB
+
+  return `You are an Elite Executive CV Writer, ATS Optimization Specialist, and Technical Search Consultant.
+
+Your goal is to curate the best possible executive CV content from the available career data and resume, mapped to the target job description.
+
+## MASTER_CAREER_DATA
+${fakeCareerHighlights}
+
+## Current Resume Data
+\`\`\`json
+${resumeJson}
+\`\`\`
+
+## Target Job Posting
+${fakeJobDescription}
+
+Return ONLY: {"status": "ok", "promptSizeChars": ${fakeCareerHighlights.length + resumeJson.length + fakeJobDescription.length}}`;
+}
+
+async function testConnection(input: TestConnectionInput): Promise<{
+  success: boolean;
+  heavyTest?: {
+    passed: boolean;
+    responseTimeMs: number;
+    promptSizeBytes: number;
+  };
+}> {
   try {
     const { provider } = input;
 
     if (isCircuitOpen(provider)) {
       logAiDebug("testConnection: circuit open", provider);
-      return false;
+      return { success: false };
     }
 
     const result = await withRetry("testConnection", provider, input.model, async () => {
@@ -444,12 +564,61 @@ async function testConnection(input: TestConnectionInput): Promise<boolean> {
     });
 
     recordSuccess(provider);
-    return result.text.trim().length > 0;
+    const connected = result.text.trim().length > 0;
+
+    // Optional heavy context test
+    if (input.contextSizeTest && connected) {
+      const heavyStart = Date.now();
+      try {
+        const heavyPrompt = buildHeavyTestPrompt();
+        const heavyResult = await withTimeout(
+          generateText({
+            model: getModel(input),
+            messages: [{ role: "user", content: heavyPrompt }],
+            maxOutputTokens: 100,
+          }),
+          AI_TIMEOUT_MS,
+          `Context capacity test timed out after ${AI_TIMEOUT_MS / 1000}s`,
+        );
+        const heavyPassed = heavyResult.text.trim().length > 0;
+
+        logAiResponse({
+          operation: "testConnection/heavy",
+          provider,
+          model: input.model,
+          responseLength: heavyPrompt.length,
+          responseTimeMs: Date.now() - heavyStart,
+          success: heavyPassed,
+          extra: { promptSizeBytes: Buffer.byteLength(heavyPrompt, "utf-8") },
+        });
+
+        return {
+          success: connected,
+          heavyTest: {
+            passed: heavyPassed,
+            responseTimeMs: Date.now() - heavyStart,
+            promptSizeBytes: Buffer.byteLength(heavyPrompt, "utf-8"),
+          },
+        };
+      } catch (heavyError) {
+        logAiError("testConnection/heavy failed", heavyError);
+        return {
+          success: connected,
+          heavyTest: {
+            passed: false,
+            responseTimeMs: Date.now() - heavyStart,
+            promptSizeBytes: 0,
+          },
+        };
+      }
+    }
+
+    return { success: connected };
   } catch (error) {
     const { provider } = input;
     recordFailure(provider);
     logAiError("testConnection failed", error);
-    return false;
+    return { success: false };
   }
 }
 
