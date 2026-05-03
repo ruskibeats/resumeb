@@ -173,4 +173,34 @@ describe("stripHiddenItems", () => {
     stripHiddenItems(original);
     expect(original).toEqual(copy);
   });
+
+  it("strips hidden custom sections", () => {
+    const data = makeResume({
+      customSections: [
+        { id: "c1", hidden: false, items: [{ id: "i1", hidden: false, name: "Visible" }] },
+        { id: "c2", hidden: true, items: [{ id: "i2", hidden: false, name: "Hidden" }] },
+      ],
+    });
+    const result = stripHiddenItems(data);
+    expect(result.customSections).toHaveLength(1);
+    expect(result.customSections![0].id).toBe("c1");
+  });
+
+  it("strips hidden items within custom sections", () => {
+    const data = makeResume({
+      customSections: [
+        {
+          id: "c1",
+          hidden: false,
+          items: [
+            { id: "i1", hidden: false, name: "Keep" },
+            { id: "i2", hidden: true, name: "Remove" },
+          ],
+        },
+      ],
+    });
+    const result = stripHiddenItems(data);
+    expect(result.customSections![0].items).toHaveLength(1);
+    expect(result.customSections![0].items![0].id).toBe("i1");
+  });
 });

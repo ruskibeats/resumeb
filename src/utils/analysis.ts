@@ -3,11 +3,15 @@
  * Extracted from services/ai.ts so they can be unit-tested independently.
  */
 
-/** Minimal shape we need — matches ResumeData's hidden/sections structure */
+/** Minimal shape we need — matches ResumeData's hidden/sections/customSections structure */
 interface SanitizableResume {
   summary?: { hidden?: boolean; content?: string };
   picture?: { hidden?: boolean; url?: string };
   sections: Record<string, {
+    hidden?: boolean;
+    items?: Array<{ hidden?: boolean }>;
+  }>;
+  customSections?: Array<{
     hidden?: boolean;
     items?: Array<{ hidden?: boolean }>;
   }>;
@@ -30,21 +34,31 @@ export function stripHiddenItems(data: SanitizableResume): SanitizableResume {
     cleaned.picture.url = "";
   }
 
-  // Strip hidden sections and hidden items within sections
+  // Strip hidden standard sections and hidden items within them
   for (const key of Object.keys(cleaned.sections)) {
     const section = cleaned.sections[key];
     if (!section) continue;
 
-    // Remove entire hidden section
     if (section.hidden) {
       delete cleaned.sections[key];
       continue;
     }
 
-    // Remove hidden items within the section
     if (Array.isArray(section.items)) {
       section.items = section.items.filter((item: { hidden?: boolean }) => !item.hidden);
     }
+  }
+
+  // Strip hidden custom sections and their hidden items
+  if (Array.isArray(cleaned.customSections)) {
+    cleaned.customSections = cleaned.customSections
+      .filter((cs) => !cs.hidden)
+      .map((cs) => ({
+        ...cs,
+        items: Array.isArray(cs.items)
+          ? cs.items.filter((item: { hidden?: boolean }) => !item.hidden)
+          : cs.items,
+      }));
   }
 
   return cleaned;
