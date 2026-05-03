@@ -57,7 +57,7 @@ import { defaultResumeData, resumeDataSchema } from "@/schema/resume/data";
 import { tailorOutputSchema, type TailorOutput } from "@/schema/tailor";
 import { buildAiExtractionTemplate } from "@/utils/ai-template";
 import { env } from "@/utils/env";
-import { coerceScore } from "@/utils/analysis";
+import { coerceScore, stripHiddenItems } from "@/utils/analysis";
 import { isObject } from "@/utils/sanitize";
 import { isAllowedExternalUrl, parseAllowedHostList } from "@/utils/url-security";
 import { isCircuitOpen, recordFailure, recordSuccess } from "@/utils/circuit-breaker";
@@ -802,9 +802,12 @@ type AnalyzeResumeInput = z.infer<typeof aiCredentialsSchema> & {
 };
 
 function buildAnalyzeResumeSystemPrompt(resumeData: ResumeData, job?: JobResult): string {
+  // Strip hidden items so the AI literally cannot see them
+  const sanitized = stripHiddenItems(resumeData as never) as ResumeData;
+
   return analyzeResumeSystemPromptTemplate
     .replace("{{MASTER_CAREER_DATA}}", masterCareerData)
-    .replace("{{RESUME_DATA}}", JSON.stringify(resumeData, null, 2))
+    .replace("{{RESUME_DATA}}", JSON.stringify(sanitized, null, 2))
     .replace("{{JOB_TITLE}}", job?.job_title || "")
     .replace("{{JOB_EMPLOYER}}", job?.employer_name || "")
     .replace("{{JOB_URL}}", job?.job_apply_link || "")

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { coerceScore } from "./analysis";
+import { coerceScore, stripHiddenItems } from "./analysis";
 
 describe("coerceScore", () => {
   // --- Numbers ---
@@ -101,5 +101,76 @@ describe("coerceScore", () => {
 
   it("handles string '100'", () => {
     expect(coerceScore("100")).toBe(100);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// stripHiddenItems
+// ---------------------------------------------------------------------------
+
+describe("stripHiddenItems", () => {
+  const makeResume = (overrides?: Record<string, unknown>) => ({
+    summary: { content: "Test summary", hidden: false },
+    picture: { url: "https://example.com/photo.jpg", hidden: false },
+    sections: {
+      experience: {
+        hidden: false,
+        items: [
+          { id: "1", hidden: false, company: "Acme" },
+          { id: "2", hidden: true, company: "Hidden Co" },
+          { id: "3", hidden: false, company: "Visible Co" },
+        ],
+      },
+      education: {
+        hidden: true,
+        items: [{ id: "4", hidden: false, school: "MIT" }],
+      },
+      skills: {
+        hidden: false,
+        items: [
+          { id: "5", hidden: true, name: "Hidden Skill" },
+          { id: "6", hidden: false, name: "Visible Skill" },
+        ],
+      },
+    },
+    ...overrides,
+  });
+
+  it("removes hidden items from visible sections", () => {
+    const result = stripHiddenItems(makeResume());
+    const exp = result.sections.experience;
+    expect(exp.items).toHaveLength(2);
+    expect(exp.items!.map((i) => (i as Record<string, string>).company)).toEqual(["Acme", "Visible Co"]);
+  });
+
+  it("removes entire hidden sections", () => {
+    const result = stripHiddenItems(makeResume());
+    expect(result.sections.education).toBeUndefined();
+  });
+
+  it("keeps visible sections and items intact", () => {
+    const result = stripHiddenItems(makeResume());
+    expect(result.sections.experience).toBeDefined();
+    expect(result.sections.skills).toBeDefined();
+    const skillItems = result.sections.skills.items;
+    expect(skillItems).toHaveLength(1);
+    expect(skillItems![0] as unknown as { name: string }).toMatchObject({ name: "Visible Skill" });
+  });
+
+  it("strips hidden top-level summary content", () => {
+    const result = stripHiddenItems(makeResume({ summary: { content: "Hidden", hidden: true } }));
+    expect(result.summary?.content).toBe("");
+  });
+
+  it("keeps visible summary content", () => {
+    const result = stripHiddenItems(makeResume());
+    expect(result.summary?.content).toBe("Test summary");
+  });
+
+  it("does not mutate the original data", () => {
+    const original = makeResume();
+    const copy = JSON.parse(JSON.stringify(original));
+    stripHiddenItems(original);
+    expect(original).toEqual(copy);
   });
 });
