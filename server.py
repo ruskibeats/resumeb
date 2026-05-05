@@ -146,6 +146,19 @@ def _save_json(path: Path, data: list[dict[str, Any]]) -> None:
     path.write_text(json.dumps(data, indent=2, default=str), encoding="utf-8")
 
 
+def _is_expired(job: dict[str, Any]) -> bool:
+    """Return True only for explicit true-ish expiry values.
+
+    Aggregated CSV/JSON rows store booleans as strings ("true"/"false").
+    Python treats non-empty strings as truthy, so `not job.get(...)` would
+    incorrectly exclude jobs where `is_expired` is the string "false".
+    """
+    value = job.get("is_expired", False)
+    if isinstance(value, str):
+        return value.strip().lower() in {"true", "1", "yes"}
+    return bool(value)
+
+
 # ── RSS Feeds ──────────────────────────────────────────────────────────────
 
 @app.get(
@@ -336,7 +349,7 @@ async def get_jobs(
     if min_score:
         jobs = [j for j in jobs if int(j.get("_score", "0") or "0") >= min_score]
     if exclude_expired:
-        jobs = [j for j in jobs if not j.get("is_expired", False)]
+        jobs = [j for j in jobs if not _is_expired(j)]
     return jobs[:limit]
 
 
