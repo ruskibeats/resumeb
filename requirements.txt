@@ -1,0 +1,32 @@
+# Core dependencies
+playwright>=1.40.0
+requests>=2.31.0
+lxml>=5.0.0
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+aiofiles>=23.0.0
+
+# Async HTTP
+aiohttp>=3.9.0
+
+# Retry logic
+tenacity>=9.0.0
+
+# Progress bars
+tqdm>=4.65.0
+
+# HTML parsing
+beautifulsoup4>=4.12.0
+
+# Job scraping with jobspy
+python-jobspy>=1.1.0
+pandas>=2.3.0
+
+# Database
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+py2neo>=2021.2.3
+
+# CLI
+click>=8.0.0
+pyyaml>=6.0

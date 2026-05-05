@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Test Pipeline Auto-Migrate",
+    "company": "Pipeline Test",
+    "location": "London",
+    "linkedin_url": "",
+    "posted_date": "1 day ago",
+    "employment_type": "",
+    "salary": "",
+    "description": "Testing that migrate runs automatically after manual job add.",
+    "scraped_at": "2026-05-04T18:48:47.569549+00:00",
+    "_manual": true
+  },
+  {
+    "title": "Principal Program Manager",
+    "company": "YunoJuno",
+    "location": "London Area, United Kingdom",
+    "linkedin_url": "https://www.linkedin.com/company/yunojuno/jobs/",
+    "posted_date": "1 day ago",
+    "employment_type": "Full-time",
+    "salary": "",
+    "description": "YunoJuno is a freelance management platform connecting companies with top-tier contractors. They are hiring a Principal Program Manager to lead contingent workforce solution delivery. The role involves managing client accounts, driving process improvement, and ensuring seamless delivery of freelance workforce solutions. YunoJuno serves 7,000+ clients including Google, Netflix, Deliveroo, and the BBC. HQ in Fitzrovia, London. Hybrid working.",
+    "scraped_at": "2026-05-04T11:33:01.037151+00:00",
+    "_manual": true
+  },
+  {
+    "title": "Test Data Engineer",
+    "company": "Acme Corp",
+    "location": "London",
+    "linkedin_url": "https://example.com/job/123",
+    "posted_date": "1 day ago",
+    "employment_type": "",
+    "salary": "",
+    "description": "Building data pipelines and warehouses.",
+    "scraped_at": "2026-05-03T08:52:50.016538+00:00",
+    "_manual": true
+  },
+  {
+    "title": "test",
+    "company": "Manual Entry",
+    "location": "",
+    "linkedin_url": "",
+    "posted_date": "1 day ago",
+    "employment_type": "",
+    "salary": "",
+    "description": "",
+    "scraped_at": "2026-05-01T15:33:14.869901+00:00",
+    "_manual": true
+  },
+  {
+    "title": "Infrastructure (Wifi Refresh) Project Manager",
+    "company": "Robert Walters",
+    "location": "London, England, United Kingdom",
+    "linkedin_url": "https://www.linkedin.com/jobs/view/4406551644/",
+    "posted_date": "2 days ago",
+    "employment_type": "Contract",
+    "salary": "\u00a3360 - \u00a3460 per day",
+    "description": "Infrastructure Project Manager - Wi-Fi / Network Deployment. London (4 days onsite + site travel). \u00a3360-\u00a3460/day (Outside IR35). 5-month initial contract. ASAP start. Managing delivery of Wi-Fi migrations across key sites. Leading rollout of authentication and customer portal solutions. Coordinating MSPs, suppliers, and field engineers. Driving timelines, risks, issues, and delivery milestones.",
+    "scraped_at": "2026-05-01T09:55:41.426911+00:00",
+    "_manual": true
+  }
+]

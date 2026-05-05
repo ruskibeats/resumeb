@@ -1,0 +1,239 @@
+[
+  {
+    "id": "nato_wifi",
+    "category": "Wi-Fi / Network Deployment",
+    "title": "200+ NATO Airbase Network Upgrade",
+    "source": "CentricsIT (Park Place Technologies)",
+    "period": "Nov 2020 - Dec 2024",
+    "metric": "300-400 APs per base across 200+ airbases",
+    "scale": "12+ countries, service areas, shopping malls, food courts, logistics",
+    "keywords": [
+      "wifi",
+      "network",
+      "wireless",
+      "access point",
+      "airbase",
+      "multi-site",
+      "europe",
+      "deployment",
+      "rollout",
+      "msp",
+      "field engineer"
+    ]
+  },
+  {
+    "id": "sitehands_wifi",
+    "category": "Wi-Fi / Network Deployment",
+    "title": "25,000 Wi-Fi Endpoints in Occupied Buildings",
+    "source": "Sitehands LLC",
+    "period": "Nov 2018 - Nov 2020",
+    "metric": "c.25,000 Wi-Fi endpoints deployed",
+    "scale": "Tier 1 banks, retail chains, car dealerships, supermarkets, shopping malls across UK/Europe",
+    "keywords": [
+      "wifi",
+      "wireless",
+      "endpoint",
+      "retail",
+      "bank",
+      "commercial",
+      "occupied",
+      "deployment",
+      "mall",
+      "store",
+      "multi-site",
+      "europe"
+    ]
+  },
+  {
+    "id": "gaming_build",
+    "category": "Infrastructure Delivery",
+    "title": "Flagship 8-Level Digital Build",
+    "source": "Major International Gaming Group (Las Vegas Sands)",
+    "period": "Jan 2024 - Feb 2025",
+    "metric": "400+ APs, 20,000+ cables, 8,000+ patching schedules",
+    "scale": "MDF/IDF rooms, structured cabling, DNAC/ISE/Infoblox, \u00a33M budget",
+    "keywords": [
+      "infrastructure",
+      "build",
+      "cabling",
+      "structured",
+      "mdf",
+      "idf",
+      "rack",
+      "server room",
+      "network",
+      "installation",
+      "project",
+      "programme",
+      "delivery"
+    ]
+  },
+  {
+    "id": "centricsit_ops",
+    "category": "Programme Management",
+    "title": "15+ Concurrent Programmes, 130+ Sites",
+    "source": "CentricsIT (Park Place Technologies)",
+    "period": "Nov 2020 - Dec 2024",
+    "metric": "15+ programmes, 130+ sites, 6,100+ circuit migrations",
+    "scale": "Tier 1 finance, NHS, UK Government, NATO \u2014 EMEA-wide",
+    "keywords": [
+      "programme",
+      "program",
+      "project",
+      "portfolio",
+      "multi-site",
+      "concurrent",
+      "vendor",
+      "msp",
+      "stakeholder",
+      "governance",
+      "reporting",
+      "sla"
+    ]
+  },
+  {
+    "id": "lambeth_wan",
+    "category": "Network Transformation",
+    "title": "60% WAN Cost Reduction Across 200+ Sites",
+    "source": "London Borough of Lambeth",
+    "period": "Mar 2009 - Apr 2015",
+    "metric": "60% cost reduction, \u00a312M re-tender",
+    "scale": "200+ sites, 5,000 employees, full procurement lifecycle",
+    "keywords": [
+      "wan",
+      "network",
+      "cost reduction",
+      "procurement",
+      "tender",
+      "vendor selection",
+      "transition",
+      "telephony",
+      "lan"
+    ]
+  },
+  {
+    "id": "atos_nhs",
+    "category": "Live Estate Delivery",
+    "title": "NHS Zero-Disruption Rollout",
+    "source": "Atos / STK Limited",
+    "period": "Sept 2025 - Present",
+    "metric": "~5,000 staff across multiple Trust sites",
+    "scale": "LAN, Wi-Fi, comms-room upgrades in occupied healthcare environments",
+    "keywords": [
+      "live estate",
+      "nhs",
+      "health",
+      "zero-disruption",
+      "occupied",
+      "site readiness",
+      "rollout",
+      "m&e",
+      "contractor",
+      "facilities"
+    ]
+  },
+  {
+    "id": "rainmaker_migrations",
+    "category": "Large-Scale Migration",
+    "title": "42,000-User Microsoft 365 Migration",
+    "source": "Rainmaker Solutions",
+    "period": "Nov 2015 - Nov 2018",
+    "metric": "42,000 users (Home Office) + 5,000 users (MHCLG)",
+    "scale": "7 government departments under GDS assurance",
+    "keywords": [
+      "migration",
+      "microsoft",
+      "office 365",
+      "euc",
+      "user",
+      "deployment",
+      "government",
+      "public sector",
+      "gds",
+      "transformation"
+    ]
+  },
+  {
+    "id": "hiloka_pe",
+    "category": "Advisory & Assurance",
+    "title": "~\u00a320M PE-Backed Portfolio Engagement",
+    "source": "Hiloka Limited",
+    "period": "Feb 2025 - Present",
+    "metric": "~\u00a320M online portfolio",
+    "scale": "Private equity, operational governance, delivery assurance",
+    "keywords": [
+      "advisory",
+      "assurance",
+      "pe",
+      "private equity",
+      "portfolio",
+      "governance",
+      "risk",
+      "assessment",
+      "recovery",
+      "stakeholder"
+    ]
+  },
+  {
+    "id": "gaming_governance",
+    "category": "Contract & Commercial",
+    "title": "Full Contract Governance Framework",
+    "source": "Major International Gaming Group (Las Vegas Sands)",
+    "period": "Jan 2024 - Feb 2025",
+    "metric": "Obligation logs, change notes, commercial event register, Board packs",
+    "scale": "Multi-jurisdiction, 30-person multilingual team",
+    "keywords": [
+      "contract",
+      "commercial",
+      "governance",
+      "board",
+      "reporting",
+      "kpi",
+      "sla",
+      "risk",
+      "vendor",
+      "procurement",
+      "change control"
+    ]
+  },
+  {
+    "id": "lambeth_outdoor_wifi",
+    "category": "Wi-Fi / Network Deployment",
+    "title": "Outdoor Borough-Wide WiFi Network",
+    "source": "London Borough of Lambeth",
+    "period": "Mar 2009 - Apr 2015",
+    "metric": "Borough-wide outdoor WiFi",
+    "scale": "Developed and transitioned to third-party mobile operator",
+    "keywords": [
+      "wifi",
+      "wireless",
+      "outdoor",
+      "public",
+      "borough",
+      "operator",
+      "mobile",
+      "transition",
+      "handover"
+    ]
+  },
+  {
+    "id": "wwt_sdwan",
+    "category": "Network Transformation",
+    "title": "$5M+ US Retail SD-WAN Programme",
+    "source": "CentricsIT (via WWT)",
+    "period": "Nov 2020 - Dec 2024",
+    "metric": "$5M+ programme, 200+ US retail sites",
+    "scale": "20 months, combined commercial and delivery accountability",
+    "keywords": [
+      "sd-wan",
+      "wan",
+      "retail",
+      "us",
+      "americas",
+      "network",
+      "transformation",
+      "programme",
+      "commercial"
+    ]
+  }
+]
