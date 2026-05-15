@@ -1,0 +1,89 @@
+{
+  "suggestions": [
+    {
+      "title": "Add quantifiable achievements to experience section",
+      "impact": "high",
+      "why": "Quantified achievements demonstrate measurable results and provide concrete evidence of your contributions, making you more attractive to employers and ATS systems",
+      "exampleRewrite": "\"Increased sales by 25% within 6 months\" instead of \"Responsible for sales activities\"",
+      "copyPrompt": "Rewrite experience bullets to include specific metrics and measurable outcomes",
+      "priority": {
+        "level": "high",
+        "score": 92,
+        "factors": {
+          "impactScore": 95,
+          "effortRequired": 30,
+          "urgency": 85,
+          "userPreference": 90
+        }
+      }
+    },
+    {
+      "title": "Include more technical keywords",
+      "impact": "high",
+      "why": "ATS systems and recruiters often filter resumes based on specific keywords related to the job. Adding relevant technical terms improves chances of passing automated screening",
+      "exampleRewrite": "Add industry-specific terms like \"Agile methodology,\" \"CI/CD pipelines,\" \"cloud infrastructure\" based on job requirements",
+      "copyPrompt": "Identify key technical terms from job descriptions and incorporate them naturally throughout the resume",
+      "priority": {
+        "level": "high",
+        "score": 88,
+        "factors": {
+          "impactScore": 90,
+          "effortRequired": 25,
+          "urgency": 80,
+          "userPreference": 85
+        }
+      }
+    },
+    {
+      "title": "Remove graphics that may obscure text",
+      "impact": "medium",
+      "why": "Excessive graphics can interfere with ATS parsing and may distract from content. Clean, simple formatting is preferred by most employers",
+      "exampleRewrite": "Replace infographic elements with clean, text-based sections",
+      "copyPrompt": "Simplify visual elements to ensure compatibility with ATS systems and improve readability",
+      "priority": {
+        "level": "high",
+        "score": 82,
+        "factors": {
+          "impactScore": 75,
+          "effortRequired": 20,
+          "urgency": 90,
+          "userPreference": 70
+        }
+      }
+    },
+    {
+      "title": "Add more specific action verbs",
+      "impact": "medium",
+      "why": "Strong, specific action verbs make your experience more dynamic and demonstrate leadership and initiative, helping you stand out from other candidates",
+      "exampleRewrite": "\" Spearheaded cross-functional team to implement new CRM system\" instead of \"Worked on CRM implementation\"",
+      "copyPrompt": "Replace passive language and weak verbs with powerful action words like 'spearheaded,' 'orchestrated,' 'optimized,' etc.",
+      "priority": {
+        "level": "medium",
+        "score": 75,
+        "factors": {
+          "impactScore": 70,
+          "effortRequired": 15,
+          "urgency": 70,
+          "userPreference": 80
+        }
+      }
+    },
+    {
+      "title": "Standardize section headings",
+      "impact": "medium",
+      "why": "Consistent formatting makes your resume look professional and easier to navigate. Standard headings also help ATS systems parse your resume correctly",
+      "exampleRewrite": "Use standard headings like \"Work Experience,\" \"Education,\" \"Skills\" rather than creative alternatives",
+      "copyPrompt": "Ensure all section headings follow a consistent format and use industry-standard terminology",
+      "priority": {
+        "level": "medium",
+        "score": 68,
+        "factors": {
+          "impactScore": 65,
+          "effortRequired": 10,
+          "urgency": 65,
+          "userPreference": 75
+        }
+      }
+    }
+  ]
+}

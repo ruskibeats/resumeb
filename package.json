@@ -1,0 +1,13 @@
+{
+  "name": "linkedin-profile-automation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "linkedin:setup": "node scripts/linkedin-update-profile.mjs --setup",
+    "linkedin:update": "node scripts/run-linkedin-update.mjs",
+    "linkedin:update:example": "node scripts/run-linkedin-update.mjs data/linkedin-profile.config.example.json"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1"
+  }
+}

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "linkedin-rss-feed"
+version = "1.0.0"
+description = "LinkedIn Job RSS Feed for Reactive Resume"
+requires-python = ">=3.11"
+dependencies = [
+    "playwright>=1.40.0",
+    "requests>=2.31.0",
+    "lxml>=5.0.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+]
+
+[tool.setuptools]
+packages = ["linkedin_scraper"]

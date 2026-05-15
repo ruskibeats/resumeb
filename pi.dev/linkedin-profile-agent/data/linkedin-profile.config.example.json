@@ -1,0 +1,72 @@
+{
+  "headline": "cool programme manager",
+  "about": "coolest bloke on earth",
+  "profileUrl": "https://www.linkedin.com/in/russellbatchelor/",
+  "roles": {
+    "COLLECTIVE_IP": {
+      "title": "Operations Manager",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/2799775038/"
+    },
+    "SOLUTIONS_THROUGH_KNOWLEDGE": {
+      "title": "Technical Operations Director",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/2855928488/"
+    },
+    "HILOKA_LTD": {
+      "title": "Managing Director",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/2799814595/"
+    },
+    "PARK_PLACE_TECHNOLOGIES": {
+      "title": "Operations & Programme Director – Connectivity & Endpoints (Contractor)",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/2799863845/"
+    },
+    "CENTRICSIT": {
+      "title": "Operations & Infrastructure Director, EMEA (Contractor)",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/1535819118/"
+    },
+    "SITEHANDS": {
+      "title": "Infrastructure Project Manager, Europe (Contractor)",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/1590025360/"
+    },
+    "RAINMAKER_SOLUTIONS": {
+      "title": "Technical Consultant, Digital Transformation (Contractor)",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/562286094/"
+    },
+    "LONDON_BOROUGH_OF_LAMBETH": {
+      "title": "Lead Enterprise Architect (Contractor)",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/35391862/"
+    },
+    "CHARLES_STANLEY": {
+      "title": "Infrastructure Consultant",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/23295094/"
+    },
+    "COMUNICA": {
+      "title": "Operations Manager",
+      "description": "",
+      "editUrl": "https://www.linkedin.com/in/russellbatchelor/details/experience/edit/forms/22228402/"
+    },
+    "IPITOMI": {
+      "title": "Co-Founder & Managing Director",
+      "description": "",
+      "editUrl": ""
+    },
+    "VIRGIN_MEDIA": {
+      "title": "Non Standard Technical Design Authority",
+      "description": "",
+      "editUrl": ""
+    },
+    "WHITTINGTON_INSURANCE_MARKETS": {
+      "title": "Head of Support and Networks",
+      "description": "",
+      "editUrl": ""
+    }
+  }
+}

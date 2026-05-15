@@ -1,0 +1,595 @@
+{
+  "picture": {
+    "hidden": false,
+    "url": "",
+    "size": 80,
+    "rotation": 0,
+    "aspectRatio": 1,
+    "borderRadius": 0,
+    "borderColor": "rgba(0, 0, 0, 0.5)",
+    "borderWidth": 0,
+    "shadowColor": "rgba(0, 0, 0, 0.5)",
+    "shadowWidth": 0
+  },
+  "basics": {
+    "name": "Russell Batchelor",
+    "headline": "Senior Infrastructure Programme Manager | Multi-Workstream Delivery, RAID & Dependency Control | SC + NPPV3 Cleared",
+    "email": "russell.batchelor@gmail.com",
+    "phone": "07881795908",
+    "location": "Hemel Hempstead, Hertfordshire",
+    "website": {
+      "url": "https://linkedin.com/in/russellbatchelor",
+      "label": "LinkedIn"
+    },
+    "customFields": [
+      {
+        "id": "b2fa344b-f917-4a57-9da3-45ec0696663e",
+        "icon": "shield-check",
+        "text": "SC (Active) | NPPV3 (Active) | Available within 2 weeks",
+        "link": ""
+      }
+    ]
+  },
+  "summary": {
+    "title": "Professional Profile",
+    "columns": 1,
+    "hidden": false,
+    "content": "<p>Senior Infrastructure Programme Manager with 25+ years delivering multi-workstream technology programmes across regulated government, healthcare and financial services environments. Proven track record of managing 15+ concurrent programmes, 42,000+ user migrations, and multi-site live-estate transformations with full accountability for RAID governance, dependency control, and executive reporting. SC and NPPV3 cleared, available within 2 weeks.</p>"
+  },
+  "sections": {
+    "profiles": {
+      "title": "Profiles",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "b2-atos-001",
+          "hidden": false,
+          "company": "Atos",
+          "position": "Infrastructure Programme Manager",
+          "location": "London & South East",
+          "period": "Sept 2025 - Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Programme Manager for NHS live-estate infrastructure modernisation programmes across multiple trusts, accountable for zero-disruption delivery coordination and service transition planning.</p><ul><li>Programme manage Windows 11 modernisation across ~5,000 NHS staff with phased rollout planning and dependency tracking across multiple active Trust sites.</li><li>Coordinate JML processes, access provisioning, and device deployment schedules across multiple NHS sites and departments, ensuring 100% user productivity at each cutover point.</li><li>Establish ServiceNow governance workflows for incident management, change control, and programme reporting across live NHS estates.</li><li>Lead cross-functional delivery teams through live-estate upgrades while maintaining clinical service continuity and zero-disruption deployment standards.</li><li>Manage RAID logs, dependency matrices, and executive reporting for NHS trust leadership and technical steering committees.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "b2-hiloka-002",
+          "hidden": false,
+          "company": "Hiloka Ltd",
+          "position": "Managing Director / Contract Programme Manager",
+          "location": "UK / Remote",
+          "period": "Jan 2010 - Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Own consultancy vehicle through which contract Programme Manager and Senior Infrastructure PM engagements are delivered to PE-backed and technology businesses. Each engagement involves functioning as the senior programme delivery lead for the client organisation.</p>",
+          "roles": [
+            {
+              "id": "b2-collective-ip-002a",
+              "hidden": false,
+              "company": "Collective IP",
+              "position": "Technical Programme Manager",
+              "location": "UK / Remote",
+              "period": "Jun 2025 - Present",
+              "website": {
+                "url": "",
+                "label": ""
+              },
+              "description": "<p>Tier 1 financial services, network separation/integration, data centre transitions. Senior programme delivery lead for critical infrastructure transformation.</p><ul><li>Lead cross-functional delivery of network separation and integration programmes for Tier 1 financial services clients.</li><li>Coordinate dependency tracking across infrastructure, security, and application teams during critical data centre transitions.</li><li>Establish RAID governance frameworks and executive reporting cadence for high-risk transformation programmes.</li><li>Manage stakeholder alignment across technical, commercial, and regulatory workstreams.</li></ul>",
+              "roles": []
+            },
+            {
+              "id": "b2-hiloka-advisory-002b",
+              "hidden": false,
+              "company": "Hiloka Advisory",
+              "position": "Technology, Risk & Programme Assurance",
+              "location": "UK / Remote",
+              "period": "Feb 2025 - Sept 2025",
+              "website": {
+                "url": "",
+                "label": ""
+              },
+              "description": "<p>Discovery-phase assessments, vendor reviews, executive recommendations for organisations undertaking complex transformation and change programmes.</p><ul><li>Conduct programme health assessments and delivery risk analysis for technology transformation initiatives.</li><li>Lead discovery workshops and dependency mapping exercises to establish delivery roadmaps.</li><li>Produce executive recommendation papers with risk/cost/sequencing trade-offs for steering committee decisions.</li><li>Provide interim programme management during mobilisation phases of stalled or high-risk programmes.</li></ul>",
+              "roles": []
+            }
+          ]
+        },
+        {
+          "id": "b2-centricsit-003",
+          "hidden": false,
+          "company": "CentricsIT (now Park Place Technologies)",
+          "position": "Operations & Infrastructure Programme Manager, EMEA",
+          "location": "UK & Europe",
+          "period": "Nov 2020 - Dec 2024",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Programme Manager for EMEA infrastructure portfolio spanning 15+ concurrent programmes serving Tier 1 finance, UK Government, NATO and NHS clients across 4-year engagement.</p><ul><li>Managed programme delivery portfolio encompassing 6,100+ circuit migrations and 7,000+ endpoint deployments across regulated environments.</li><li>Coordinated multi-workstream MPLS-to-SASE transitions with dependency planning, risk mitigation, and service continuity governance.</li><li>Led NATO airbase network upgrade programme across 200+ sites with 30-person deployment team coordination and on-time delivery.</li><li>Established programme governance rhythms: weekly delivery forums, RAID management, milestone tracking, and executive dashboards.</li><li>Managed cross-functional teams through complex infrastructure transitions in healthcare, defence, and financial services environments.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "b2-sitehands-004",
+          "hidden": false,
+          "company": "Sitehands LLC",
+          "position": "Infrastructure Programme Manager, Europe",
+          "location": "London & Europe",
+          "period": "Nov 2018 - Nov 2020",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Programme Manager for M&A-driven estate transformation programmes across Europe, coordinating multi-country infrastructure delivery and data centre transitions.</p><ul><li>Led programme coordination for 25,000 Wi-Fi endpoint deployments across 12+ European countries with local vendor orchestration.</li><li>Managed 7 data centre transition programmes with dependency planning, service migration scheduling, and business continuity governance.</li><li>Coordinated cross-border programme delivery with distributed teams, regulatory compliance, and multi-language stakeholder management.</li><li>Established programme reporting frameworks covering milestone delivery, risk escalation, and commercial change management.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "b2-rainmaker-005",
+          "hidden": false,
+          "company": "Rainmaker Solutions",
+          "position": "Programme Manager",
+          "location": "London",
+          "period": "Nov 2015 - Nov 2018",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Programme Manager for GDS-aligned government digital transformation programmes, specialising in M365/EUC/identity modernisation across multiple departments.</p><ul><li>Programme managed 42,000-user Home Office M365 migration with identity integration, security frameworks, and phased user onboarding.</li><li>Led 5,000-user MHCLG transformation programme with cross-departmental dependency coordination and ministerial reporting.</li><li>Coordinated programme delivery across 7 UK government departments with Cabinet Office governance and GDS methodology alignment.</li><li>Managed multi-vendor programme teams through complex identity, security, and workplace transformation initiatives.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "b2-lambeth-006",
+          "hidden": false,
+          "company": "London Borough of Lambeth",
+          "position": "Programme Manager",
+          "location": "London",
+          "period": "Mar 2009 - Apr 2015",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Programme Manager for authority-wide ICT transformation covering 140+ council sites, 5,000+ employees with full programme governance accountability.</p><ul><li>Led programme delivery for complete LAN/WAN/telephony infrastructure replacement across all council sites and services.</li><li>Coordinated complex procurement programme resulting in 60% WAN cost reduction and \u00a312M telecommunications re-tender across 200+ sites.</li><li>Managed multi-year programme with dependency coordination across housing, social services, education, and corporate functions.</li><li>Established programme governance including risk registers, change control, milestone tracking, and member/executive reporting.</li></ul>",
+          "roles": []
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "projects": {
+      "title": "Key Programme Delivery Achievements",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "b2-projects-001",
+          "hidden": false,
+          "name": "Programme Outcomes",
+          "period": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Zero-disruption Windows 11 modernisation across ~5,000 NHS staff with full JML coordination and ServiceNow governance</li><li>Managed 15+ concurrent EMEA programmes spanning 6,100+ circuit migrations and 7,000+ endpoint deployments</li><li>Led GDS-aligned 42,000-user Home Office M365 migration with identity integration and security frameworks</li><li>Delivered 60% WAN cost reduction and \u00a312M re-tender across 140+ London Borough sites</li><li>NATO airbase network upgrade programme across 200+ sites with 30-person team, on-time delivery</li><li>25,000 Wi-Fi endpoint deployments across 12+ European countries with multi-language stakeholder management</li></ul>"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Core Skills",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "b2-skill-001",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Programme Delivery Management",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "multi-workstream delivery",
+            "milestones, owners, dependencies",
+            "RAID governance",
+            "dependency management",
+            "critical path analysis",
+            "stage gate governance"
+          ]
+        },
+        {
+          "id": "b2-skill-002",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Infrastructure Modernisation",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "LAN/WAN",
+            "Wi-Fi",
+            "EUC",
+            "data centre transition",
+            "M365 migration",
+            "SD-WAN",
+            "SASE",
+            "live-estate delivery"
+          ]
+        },
+        {
+          "id": "b2-skill-003",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Risk & Dependency Management",
+          "proficiency": "Lead",
+          "level": 0,
+          "keywords": [
+            "RAID",
+            "critical path",
+            "dependency tracking",
+            "risk escalation",
+            "issue resolution",
+            "mitigation planning"
+          ]
+        },
+        {
+          "id": "b2-skill-004",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Vendor & Supplier Coordination",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "MSP management",
+            "multi-vendor orchestration",
+            "SIs",
+            "vendor performance management",
+            "contract governance"
+          ]
+        },
+        {
+          "id": "b2-skill-005",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Stakeholder Reporting",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "board packs",
+            "KPI/SLA reporting",
+            "RAID logs",
+            "executive summaries",
+            "steering committee reporting"
+          ]
+        },
+        {
+          "id": "b2-skill-006",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Service Transition & JML",
+          "proficiency": "Lead",
+          "level": 0,
+          "keywords": [
+            "onboarding at scale",
+            "access provisioning",
+            "device rollout",
+            "cutover planning",
+            "user readiness"
+          ]
+        },
+        {
+          "id": "b2-skill-007",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Governance & Assurance",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "stage gates",
+            "change control",
+            "CDM",
+            "compliance",
+            "programme assurance",
+            "quality gates"
+          ]
+        },
+        {
+          "id": "b2-skill-008",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Team Leadership",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "matrix management",
+            "cross-functional teams",
+            "20-100+ multidisciplinary teams",
+            "stakeholder alignment"
+          ]
+        },
+        {
+          "id": "b2-skill-009",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Programme & Operations Tools",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "ServiceNow",
+            "Microsoft Project",
+            "Visio",
+            "RAID logs",
+            "executive dashboards",
+            "MS Office Suite"
+          ]
+        },
+        {
+          "id": "b2-skill-010",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Regulated Environment Delivery",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "NHS / healthcare",
+            "UK Central Government",
+            "GDS methodology",
+            "NATO / defence",
+            "Tier 1 financial services",
+            "SC cleared",
+            "NPPV3 cleared"
+          ]
+        }
+      ]
+    },
+    "languages": {
+      "title": "Languages",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "interests": {
+      "title": "Interests",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "awards": {
+      "title": "Awards",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "certifications": {
+      "title": "Certifications & Clearances",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "b2-cert-sc-001",
+          "hidden": false,
+          "title": "SC Clearance",
+          "issuer": "Active, Government & Military",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "b2-cert-nppv3-002",
+          "hidden": false,
+          "title": "NPPV3 Clearance",
+          "issuer": "Active, National Police Vetting",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "b2-cert-prince2-003",
+          "hidden": false,
+          "title": "PRINCE2 Practitioner",
+          "issuer": "Knowledge current (active certification expired)",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "b2-cert-itil-004",
+          "hidden": false,
+          "title": "ITIL Foundation",
+          "issuer": "ITIL-aligned delivery across NHS, Government, and Finance programmes",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "b2-cert-sase-005",
+          "hidden": false,
+          "title": "SASE Fundamentals",
+          "issuer": "Knowledge current (active certification expired)",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "b2-cert-ccna-006",
+          "hidden": false,
+          "title": "CCNA",
+          "issuer": "Knowledge current (active certification expired)",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "b2-cert-hs-007",
+          "hidden": false,
+          "title": "CDM 2015 & H&S",
+          "issuer": "H&S Awareness",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "CDM2015 Awareness"
+        }
+      ]
+    },
+    "publications": {
+      "title": "Publications",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "volunteer": {
+      "title": "Volunteer",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "references": {
+      "title": "References",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    }
+  },
+  "customSections": [
+    {
+      "title": "Earlier Career",
+      "columns": 1,
+      "hidden": false,
+      "id": "b2-early-career-001",
+      "type": "summary",
+      "items": [
+        {
+          "id": "b2-early-items-001",
+          "hidden": false,
+          "content": "<ul><li><strong>Charles Stanley & Co.</strong>, Infrastructure Consultant (~2007)</li><li><strong>Comunica</strong>, Operations Manager (~2005)</li><li><strong>Ipitomi Ltd</strong>, Co-Founder &amp; MD (subscription managed-services startup) (~2001)</li><li><strong>Virgin Media</strong>, Non-Standard Technical Design Authority (1998-2000)</li><li><strong>Whittington Insurance Markets</strong>, Head of Support &amp; Networks (~1996)</li></ul><p>Notable: Northern Ireland Schools Connectivity Programme (Virgin Media / DoE, 1998-2000), Programme lead and Non-Standard Design Authority for broadband, fibre, and leased-line connectivity across all 2,000 schools in Northern Ireland; 100% completion over 2-year DoE mandate. First time every school in Northern Ireland had internet access.</p>"
+        }
+      ]
+    },
+    {
+      "title": "Engagement Model",
+      "columns": 1,
+      "hidden": false,
+      "id": "b2-engagement-001",
+      "type": "summary",
+      "items": [
+        {
+          "id": "b2-engagement-items-001",
+          "hidden": false,
+          "content": "<p>Vehicle: Hiloka Limited (sole director) | Target rate: £600-£800/day (flexible for right-fit programme engagement) | Availability: Within 2 weeks</p><p>Engagement type: SoW / output-based contracts | Location: UK-based; proven European and US delivery footprint | Predominantly office-based / on-site delivery model, experienced with full-time on-site delivery</p>"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "template": "onyx",
+    "layout": {
+      "sidebarWidth": 31.17,
+      "pages": [
+        {
+          "fullWidth": true,
+          "main": [
+            "summary",
+            "projects",
+            "experience",
+            "skills",
+            "certifications"
+          ],
+          "sidebar": []
+        }
+      ]
+    },
+    "css": {
+      "enabled": false,
+      "value": ""
+    },
+    "page": {
+      "gapX": 4,
+      "gapY": 4,
+      "marginX": 20,
+      "marginY": 10,
+      "format": "free-form",
+      "locale": "en-US",
+      "hideIcons": true
+    },
+    "design": {
+      "level": {
+        "icon": "star",
+        "type": "circle"
+      },
+      "colors": {
+        "primary": "rgba(15, 76, 129, 1)",
+        "text": "rgba(0, 0, 0, 1)",
+        "background": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "400",
+          "500"
+        ],
+        "fontSize": 9,
+        "lineHeight": 1.25
+      },
+      "heading": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "600"
+        ],
+        "fontSize": 11,
+        "lineHeight": 1
+      }
+    },
+    "notes": "Archetype B: Senior Infrastructure Programme Manager. Tailored for organisations needing cross-functional coordination, dependency management, and strict governance (NHS, Government, Global Software). Hiloka Ltd as umbrella with Collective IP and Hiloka Advisory as nested roles with overlapping dates. LVS Bulgaria and Ipitomi hidden. All skills unhidden for ATS. Rate £600-800/day flexible. Target rate NOT included in CV body.",
+    "jobContext": {
+      "job_title": "Senior Infrastructure Programme Manager",
+      "employer_name": "Archetype B - Market Positioning",
+      "job_description": "Target roles: Senior Infrastructure Programme Manager, Programme Delivery Manager, Cross-Functional Delivery Lead, Technical Programme Manager. Target sectors: NHS, Government, Financial Services, PE-backed technology businesses.",
+      "job_highlights": "Multi-workstream delivery, RAID & dependency control, 15+ concurrent programmes, 42K user migrations, live-estate modernisation",
+      "job_required_skills": "Programme delivery planning, dependency management, RAID governance, stakeholder reporting, vendor coordination, JML at scale",
+      "job_url": "",
+      "tailored_at": "2026-05-04T12:15:00.000Z"
+    }
+  }
+}

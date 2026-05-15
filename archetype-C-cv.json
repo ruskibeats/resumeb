@@ -1,0 +1,563 @@
+{
+  "picture": {
+    "hidden": false,
+    "url": "",
+    "size": 80,
+    "rotation": 0,
+    "aspectRatio": 1,
+    "borderRadius": 0,
+    "borderColor": "rgba(0, 0, 0, 0.5)",
+    "borderWidth": 0,
+    "shadowColor": "rgba(0, 0, 0, 0.5)",
+    "shadowWidth": 0
+  },
+  "basics": {
+    "name": "Russell Batchelor",
+    "headline": "Technical Operations Director (Interim) | Managed Services Performance, SLA & Contract Economics | SC + NPPV3 Cleared",
+    "email": "russell.batchelor@gmail.com",
+    "phone": "07881795908",
+    "location": "Hemel Hempstead, Hertfordshire",
+    "website": {
+      "url": "https://linkedin.com/in/russellbatchelor",
+      "label": "LinkedIn"
+    },
+    "customFields": [
+      {
+        "id": "c2-basics-001",
+        "icon": "shield-check",
+        "text": "SC (Active) | NPPV3 (Active) | Available within 2 weeks",
+        "link": ""
+      }
+    ]
+  },
+  "summary": {
+    "title": "Professional Profile",
+    "columns": 1,
+    "hidden": false,
+    "content": "<p>Technical Operations Director and Interim COO with 20+ years delivering end-to-end operational accountability for PE-backed technology businesses, connectivity providers, and managed services platforms. Specialises in implementation-to-service transition, SLA governance, escalation control, and commercial discipline across the full contract-to-cash lifecycle.</p><p>Combines delivery authority with commercial governance: revenue assurance, billing integrity, cost-to-serve optimisation, vendor performance management, and Board-level KPI reporting. Repeatedly engaged by CEOs, Boards, and PE investors as the operational anchor for complex managed services businesses undergoing rapid growth, transformation, or international expansion.</p>"
+  },
+  "sections": {
+    "profiles": {
+      "title": "Profiles",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "c2-hiloka-001",
+          "hidden": false,
+          "company": "Hiloka Ltd",
+          "position": "Managing Director / Contract Operations Director",
+          "location": "UK / Remote",
+          "period": "Jan 2010 - Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Own consultancy vehicle through which contract COO and Operations Director engagements are delivered to PE-backed and technology businesses. Each engagement involves functioning as the senior operational lead for the client organisation.</p><p><strong>Key engagements (reverse chronological):</strong></p>",
+          "roles": [
+            {
+              "id": "c2-lvs-001a",
+              "hidden": false,
+              "company": "Las Vegas Sands (LVS Bulgaria)",
+              "position": "Operations Director, Digital Gaming & Managed Services",
+              "location": "Bulgaria / Remote",
+              "period": "Jan 2024 - Feb 2025",
+              "website": {
+                "url": "",
+                "label": ""
+              },
+              "description": "<p>MD-level operational lead for greenfield digital gaming and HFT platform — first of its kind for Las Vegas Sands in Europe. Held full P&amp;L and commercial accountability for multi-jurisdiction, multi-vendor programme.</p><ul><li>Owned complete contract-to-cash cycle: vendor contracts, SLA frameworks, billing accuracy, commercial event management, revenue assurance from operational launch.</li><li>Managed 24-engineer multilingual team day-to-day: live service performance, vendor SLA compliance, escalation management, customer-facing governance.</li><li>Built operational governance framework: weekly service reviews, Board-level KPI packs covering performance, risk, compliance, commercial position.</li><li>Accountable for managed infrastructure estate: 1,200+ gaming endpoints, primary data centre, 7 IDCs, AWS-integrated connectivity.</li><li>Designed operational handover model, support structures, performance baselines for sustainable live service transition.</li></ul>",
+              "roles": []
+            },
+            {
+              "id": "c2-centricsit-001b",
+              "hidden": false,
+              "company": "CentricsIT (now Park Place Technologies)",
+              "position": "Operations & Infrastructure Director, EMEA",
+              "location": "UK & EMEA",
+              "period": "Nov 2020 - Dec 2024",
+              "website": {
+                "url": "",
+                "label": ""
+              },
+              "description": "<p>Operations &amp; Infrastructure Director across EMEA region, accountable for live portfolio of 15+ concurrent operational programmes serving Tier 1 finance, UK Government, NATO, and NHS clients.</p><ul><li>Owned end-to-end commercial lifecycle: procurement, SLA governance, billing/inventory capture, vendor performance, programme closeout across 130-site rollouts.</li><li>Maintained operational continuity across 6,100+ circuit migrations, 7,000+ endpoint deployments; managed cutover risk, sequencing, service-continuity obligations at scale.</li><li>Governed operational risk/compliance across SD-WAN/SASE migrations in regulated environments including NATO-aligned and NHS infrastructure.</li><li>Tracked cost-to-serve, managed vendor SLA performance, produced executive reporting from engineering teams to C-Suite stakeholders.</li><li>Primary operational contact across diverse, high-pressure, multi-jurisdiction environments; led cross-functional teams through change and conflict resolution.</li></ul>",
+              "roles": []
+            },
+            {
+              "id": "c2-sitehands-001c",
+              "hidden": false,
+              "company": "Sitehands LLC",
+              "position": "Operations Director, Telecoms & Managed Services",
+              "location": "UK",
+              "period": "Jan 2019 - Nov 2020",
+              "website": {
+                "url": "",
+                "label": ""
+              },
+              "description": "<p>Operations Director scaling UK managed services and field operations business spanning telecommunications, enterprise networking for carrier and ISP clients.</p><ul><li>Owned vendor SLA governance, billing accuracy, margin tracking, service performance reporting across UK field workforce.</li><li>Built operational governance framework: escalation pathways, contract compliance registers, cost-to-serve modelling, customer review forums.</li><li>Drove field ops efficiency through workforce scheduling, tooling standards, quality assurance across multi-site telecommunications deployments.</li></ul>",
+              "roles": []
+            },
+            {
+              "id": "c2-rainmaker-001d",
+              "hidden": false,
+              "company": "Rainmaker Solutions",
+              "position": "Contract Operations Director",
+              "location": "London",
+              "period": "Jan 2017 - Dec 2018",
+              "website": {
+                "url": "",
+                "label": ""
+              },
+              "description": "<p>Contract Operations Director building and scaling technical managed services capability across UK market, focused on customer service operations, vendor governance, commercial lifecycle management.</p><ul><li>Designed operational framework underpinning service delivery: SLA governance, billing controls, escalation processes, customer review cadence.</li><li>Owned vendor and subcontractor ecosystem: performance management, contract compliance, cost-to-serve analysis, margin protection.</li><li>Built cross-functional operations team, establishing roles, workflows, performance accountability across service, commercial, technical functions.</li><li>Reported directly to CEO and Board; produced operational performance dashboards covering service KPIs, revenue integrity, risk.</li></ul>",
+              "roles": []
+            }
+          ]
+        },
+        {
+          "id": "c2-lambeth-002",
+          "hidden": false,
+          "company": "London Borough of Lambeth",
+          "position": "Contract Operations & Technology Director",
+          "location": "London",
+          "period": "Jun 2015 - Dec 2016",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Large-scale ICT and digital infrastructure transformation across 140+ council sites; owned programme governance, commercial reporting, supplier management.</p><ul><li>Led authority-wide LAN/WAN and telephony transformation programmes delivering 60% cost reduction across 200+ sites.</li><li>Directed £12M voice and data services re-tender with strategic procurement and commercial governance.</li><li>Established operational governance frameworks, vendor performance management, service continuity controls.</li></ul>",
+          "roles": []
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "projects": {
+      "title": "Career Highlights",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "c2-projects-001",
+          "hidden": false,
+          "name": "Key Operational & Commercial Outcomes",
+          "period": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li><strong>P&amp;L &amp; Commercial Governance:</strong> LVS Bulgaria greenfield digital gaming platform — full contract-to-cash accountability, 24-engineer multilingual team, 1,200+ endpoints, 7 IDCs, Board KPI governance.</li><li><strong>Managed Services Scale:</strong> CentricsIT EMEA Operations Director — 15+ concurrent programmes, 6,100+ circuit migrations, 7,000+ endpoint deployments across Tier 1 finance, NATO, NHS.</li><li><strong>Strategic Commercial Outcomes:</strong> Lambeth 60% WAN cost reduction + £12M voice/data re-tender leadership spanning 200+ sites.</li><li><strong>Revenue &amp; Margin Discipline:</strong> Multi-jurisdiction operational control spanning UK, EMEA, Bulgaria, Las Vegas, Singapore with vendor SLA governance and cost-to-serve tracking.</li></ul>"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Core Skills",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "c2-skill-001",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Service Operations",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "implementation-to-service transition",
+            "SLA governance",
+            "escalation leadership",
+            "customer outcome management",
+            "service performance baselines"
+          ]
+        },
+        {
+          "id": "c2-skill-002",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Commercial Controls",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "contract-to-cash",
+            "revenue assurance",
+            "billing integrity",
+            "margin optimisation",
+            "cost-to-serve analysis",
+            "commercial event management"
+          ]
+        },
+        {
+          "id": "c2-skill-003",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Vendor & Partner Management",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "SLA performance governance",
+            "contract compliance",
+            "commercial event management",
+            "dispute resolution",
+            "vendor ecosystem management"
+          ]
+        },
+        {
+          "id": "c2-skill-004",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Operational Governance",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "Board KPI reporting",
+            "risk & compliance frameworks",
+            "audit readiness",
+            "ESG operational controls",
+            "stage gate governance"
+          ]
+        },
+        {
+          "id": "c2-skill-005",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Group Operations Leadership",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "cross-functional decisioning",
+            "Product/Technology/GTM/Finance alignment",
+            "operational team leadership",
+            "matrix management"
+          ]
+        },
+        {
+          "id": "c2-skill-006",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Technology Platforms",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "managed services infrastructure",
+            "telecommunications and connectivity",
+            "SD-WAN",
+            "SASE",
+            "cloud integration",
+            "data centre operations"
+          ]
+        },
+        {
+          "id": "c2-skill-007",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Regulated Environments",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "government",
+            "healthcare",
+            "defence",
+            "finance (FCA)",
+            "multi-jurisdiction compliance",
+            "SC cleared",
+            "NPPV3 cleared"
+          ]
+        },
+        {
+          "id": "c2-skill-008",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Scale & Growth Operations",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "PE-backed businesses",
+            "international expansion",
+            "rapid scaling operational frameworks",
+            "multi-site operational control"
+          ]
+        },
+        {
+          "id": "c2-skill-009",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Contract Economics & Pricing",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "SLA-based pricing",
+            "margin protection",
+            "cost modelling",
+            "revenue forecasting",
+            "commercial lifecycle management"
+          ]
+        },
+        {
+          "id": "c2-skill-010",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Programme & Operations Tools",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "ServiceNow",
+            "Microsoft Project",
+            "Visio",
+            "RAID logs",
+            "executive dashboards",
+            "JIRA",
+            "MS Office Suite"
+          ]
+        }
+      ]
+    },
+    "languages": {
+      "title": "Languages",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "interests": {
+      "title": "Interests",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "awards": {
+      "title": "Awards",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "certifications": {
+      "title": "Certifications & Clearances",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "c2-cert-sc-001",
+          "hidden": false,
+          "title": "SC Clearance",
+          "issuer": "Active, Government & Military",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "c2-cert-nppv3-002",
+          "hidden": false,
+          "title": "NPPV3 Clearance",
+          "issuer": "Active, National Police Vetting",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "c2-cert-prince2-003",
+          "hidden": false,
+          "title": "PRINCE2 Practitioner",
+          "issuer": "Certification",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "c2-cert-itil-004",
+          "hidden": false,
+          "title": "ITIL Foundation",
+          "issuer": "Certification",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "c2-cert-sase-005",
+          "hidden": false,
+          "title": "SASE Fundamentals",
+          "issuer": "Certification",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "c2-cert-ccna-006",
+          "hidden": false,
+          "title": "CCNA",
+          "issuer": "Certification",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "c2-cert-hs-007",
+          "hidden": false,
+          "title": "CDM 2015 & H&S Awareness",
+          "issuer": "Health & Safety",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "CDM2015 Awareness"
+        }
+      ]
+    },
+    "publications": {
+      "title": "Publications",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "volunteer": {
+      "title": "Volunteer",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "references": {
+      "title": "References",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    }
+  },
+  "customSections": [
+    {
+      "title": "Earlier Career",
+      "columns": 1,
+      "hidden": false,
+      "id": "c2-early-career-001",
+      "type": "summary",
+      "items": [
+        {
+          "id": "c2-early-items-001",
+          "hidden": false,
+          "content": "<ul><li><strong>Charles Stanley Group</strong>, Contract Operations Director, Technology &amp; Infrastructure (Jan 2013 - May 2015) — Operations Director for regulated wealth management firm; owned IT service delivery, infrastructure resilience, vendor contracts, FCA-aligned operational compliance. Delivered 96+ infrastructure projects with operational governance, commercial controls, and regulatory compliance.</li><li><strong>Ipitomi Ltd</strong>, Co-Founder &amp; Managing Director (Jan 2008 - Feb 2011) — Co-founded subscription-based managed services provider; built complete commercial and operational function from startup through acquisition by Virgin Media Business. Designed contract-to-cash processes, SLA governance, revenue assurance for subscription managed services model.</li><li><strong>Comunica</strong>, Operations Manager — Managed services and field operations leadership.</li><li><strong>Virgin Media</strong>, Non-Standard Technical Design Authority — Technical design authority for broadband, fibre, and leased-line connectivity across UK enterprise and public sector deployments.</li><li><strong>Whittington Insurance Markets</strong>, Head of IT &amp; Network Operations (2001 - 2007) — Foundation role in IT and network operations leadership for Lloyd's of London insurance group; led team of 17, built operational governance framework, service delivery management, and infrastructure resilience in regulated financial services.</li></ul><p><strong>Notable:</strong> Northern Ireland Schools Connectivity Programme (Virgin Media / DoE, 1998-2000) — Programme lead and Non-Standard Design Authority for broadband, fibre, and leased-line connectivity across all 2,000 schools in Northern Ireland; 100% completion over 2-year DoE mandate. First time every school in Northern Ireland had internet access.</p>"
+        }
+      ]
+    },
+    {
+      "title": "Engagement Model",
+      "columns": 1,
+      "hidden": false,
+      "id": "c2-engagement-001",
+      "type": "summary",
+      "items": [
+        {
+          "id": "c2-engagement-items-001",
+          "hidden": false,
+          "content": "<p>Vehicle: Hiloka Limited (sole director) | Target rate: £600-£800/day (flexible for right-fit engagement) | Availability: Within 2 weeks</p><p>Engagement type: SoW / output-based contracts | Location: UK-based; proven European and US delivery footprint | Interim / contract operating model; experienced with on-site and remote delivery</p>"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "template": "onyx",
+    "layout": {
+      "sidebarWidth": 31.17,
+      "pages": [
+        {
+          "fullWidth": true,
+          "main": [
+            "summary",
+            "projects",
+            "experience",
+            "skills",
+            "certifications"
+          ],
+          "sidebar": []
+        }
+      ]
+    },
+    "css": {
+      "enabled": false,
+      "value": ""
+    },
+    "page": {
+      "gapX": 4,
+      "gapY": 4,
+      "marginX": 20,
+      "marginY": 10,
+      "format": "free-form",
+      "locale": "en-US",
+      "hideIcons": true
+    },
+    "design": {
+      "level": {
+        "icon": "star",
+        "type": "circle"
+      },
+      "colors": {
+        "primary": "rgba(15, 76, 129, 1)",
+        "text": "rgba(0, 0, 0, 1)",
+        "background": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "400",
+          "500"
+        ],
+        "fontSize": 9,
+        "lineHeight": 1.25
+      },
+      "heading": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "600"
+        ],
+        "fontSize": 11,
+        "lineHeight": 1
+      }
+    },
+    "notes": "Archetype C: Technical Operations Director (Interim). Tailored for PE-backed tech businesses, managed services providers, and connectivity companies needing operational leadership, SLA governance, and contract-to-cash discipline. Hiloka Ltd as umbrella with LVS, CentricsIT, Sitehands, Rainmaker as nested roles. Lambeth as standalone engagement. Earlier career compressed. No IoT claims - use telecommunications and connectivity. All skills unhidden for ATS. Rate £600-800/day flexible. Target rate NOT in CV body.",
+    "jobContext": {
+      "job_title": "Technical Operations Director (Interim)",
+      "employer_name": "Archetype C - Market Positioning",
+      "job_description": "Target roles: Technical Operations Director, Interim COO, Operations Director (Managed Services), Head of Service Operations, Contract Operations Director. Target sectors: PE-backed technology businesses, managed services providers, connectivity/telecoms companies, digital gaming platforms.",
+      "job_highlights": "Contract-to-cash governance, SLA management, implementation-to-service transition, Board-level KPI reporting, PE-backed operational scaling",
+      "job_required_skills": "Service operations, commercial controls, vendor management, operational governance, revenue assurance, cost-to-serve optimisation",
+      "job_url": "",
+      "tailored_at": "2026-05-04T13:00:00.000Z"
+    }
+  }
+}

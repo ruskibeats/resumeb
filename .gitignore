@@ -1,0 +1,66 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / local environment
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Node
+node_modules/
+package-lock.json
+
+# Browser automation state
+.linkedin-profile-session/
+**/.linkedin-profile-session/
+.playwright-mcp/
+playwright-report/
+test-results/
+
+# Browser captures and screenshots
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.yml
+*.yaml
+!*.example.yml
+!*.example.yaml
+
+# Generated/exported documents and media
+*.pdf
+*.docx
+*.doc
+*.rtf
+*.wav
+*.mp3
+*.mp4
+*_Cover_Letter.txt
+
+# Local/private configs and caches
+data/linkedin-profile.config.json
+pi.dev/linkedin-profile-agent/data/linkedin-profile.config.json
+pi.dev/linkedin-feed/jobs_cache.json
+linkedin-profile-automation
+openapi.json
+resume-builder.yml
+linkedin-*.yml
+after-*.yml
+profile-intro.yml
+experience-*.yml
+collective-ip-edit-form.yml
+hiloka-edit-form.yml
+
+# Generated payloads and spreadsheets
+*.csv
+team_outputs/interview-*-payload.json

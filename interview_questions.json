@@ -1,0 +1,79 @@
+{
+  "title": "Deep-Dive Interview v2",
+  "description": "This interview will help us assess the candidate's core skills and personality, focused on building evidence.",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "text",
+      "question": "Describe a situation where you had to make a critical decision with incomplete or uncertain information. What was your decision-making process?",
+      "follow_ups": [
+          "Why was that a difficult decision?",
+          "What alternatives were considered?",
+          "What tools did you use to inform that decision?",
+          "What were the top 3 guiding principles that supported this decision?"
+      ]
+    },
+    {
+      "id": "q2",
+      "type": "text",
+      "question": "Describe a project/task where you had to assess and manage significant risks. How did you identify/prioritize the risks and what were the outcomes?",
+      "follow_ups": [
+          "Why was that a difficult decision?",
+          "What alternatives were considered?",
+          "What tools did you use to inform that decision?",
+          "What were the top 3 guiding principles that supported this decision?"
+      ]
+    },
+
+    {
+      "id": "q3",
+      "type": "text",
+      "question": "Describe a time when members of your team had conflicting priorities. How did you approach this situation?",
+      "follow_ups": [
+         "Have you ever witnessed a difficult team dynamic? What happened?",
+         "Was the approach effective? What specifically worked, and what could have been better?",
+         "How did the context support or hinder success?"
+      ]
+    },
+    {
+      "id": "q4",
+      "type": "text",
+      "question": "Describe a time you were in conflict with someone at work. How did you deal with the conflict? Was it resolved? What did you learn?"
+    },
+        {
+      "id": "q5",
+      "type": "text",
+      "question": "Describe a situation where you had to lead a team under significant pressure. How did you lead?"
+    },
+    {
+      "id": "q6",
+      "type": "text",
+      "question": "Describe a time when you experienced performance pressure. How did you react under pressure? How did you balance your time and focus?"
+    },
+    {
+      "id": "q7",
+      "type": "text",
+      "question": "What are the top three values that are most important to you in your work? Provide an example."
+    },
+    {
+      "id": "q8",
+      "type": "text",
+      "question": "What factors motivate you most in a work setting? What kind of work environment helps you perform at your best?"
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "question": "Describe a project/task where you needed to demonstrate strong execution discipline. What metrics did you use to measure progress?"
+    },
+        {
+      "id": "q10",
+      "type": "text",
+      "question": "What are your most significant differentiators compared to your peers? What unique skills or insights do you bring?"
+    },
+    {
+      "id": "q11",
+      "type": "text",
+      "question": "Describe a specific achievement that you are particularly proud of. How did you measure the impact of your work? (quantify wherever possible.) What were the outcomes and how did they benefit the organization/team/clients?"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "headline": "cool programme manager",
+  "about": "coolest bloke on earth",
+  "profileUrl": "https://www.linkedin.com/in/russellbatchelor/",
+  "roles": {
+    "COLLECTIVE_IP": {
+      "title": "Operations Manager",
+      "description": ""
+    },
+    "SOLUTIONS_THROUGH_KNOWLEDGE": {
+      "title": "Technical Operations Director",
+      "description": ""
+    },
+    "HILOKA_LTD": {
+      "title": "Managing Director",
+      "description": ""
+    },
+    "PARK_PLACE_TECHNOLOGIES": {
+      "title": "Operations & Programme Director – Connectivity & Endpoints (Contractor)",
+      "description": ""
+    },
+    "CENTRICSIT": {
+      "title": "Operations & Infrastructure Director, EMEA (Contractor)",
+      "description": ""
+    },
+    "SITEHANDS": {
+      "title": "Infrastructure Project Manager, Europe (Contractor)",
+      "description": ""
+    },
+    "RAINMAKER_SOLUTIONS": {
+      "title": "Technical Consultant, Digital Transformation (Contractor)",
+      "description": ""
+    },
+    "LONDON_BOROUGH_OF_LAMBETH": {
+      "title": "Lead Enterprise Architect (Contractor)",
+      "description": ""
+    },
+    "CHARLES_STANLEY": {
+      "title": "Infrastructure Consultant",
+      "description": ""
+    },
+    "COMUNICA": {
+      "title": "Operations Manager",
+      "description": ""
+    },
+    "IPITOMI": {
+      "title": "Co-Founder & Managing Director",
+      "description": ""
+    },
+    "VIRGIN_MEDIA": {
+      "title": "Non Standard Technical Design Authority",
+      "description": ""
+    },
+    "WHITTINGTON_INSURANCE_MARKETS": {
+      "title": "Head of Support and Networks",
+      "description": ""
+    }
+  }
+}

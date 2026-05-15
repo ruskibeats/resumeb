@@ -1,0 +1,82 @@
+{
+  "A": {
+    "laneId": "A",
+    "laneName": "Infrastructure Programme Director",
+    "psychologicalArchetype": "Steady Accountable — calm authority, evidence-first, ambiguity-tolerant",
+    "proofStripMetrics": [
+      "6,100+ network circuits migrated",
+      "7,000+ endpoints delivered",
+      "42,000+ users onboarded across government and NHS",
+      "60% WAN cost reduction achieved",
+      "SC & NPPV3 security cleared"
+    ],
+    "doNotClaimGuardrails": {
+      "hardBans": [
+        "Do not invent or state exact NATO programme budget figures.",
+        "Do not name specific Private Equity (PE) client logos or portfolio companies; use generic 'PE-backed client' phrasing instead.",
+        "Do not claim sole ownership of FTTH, carve-out, or separation programme strategy.",
+        "Do not describe the candidate as clinically neurodivergent (e.g. ADHD, autism, dyslexia)."
+      ],
+      "qualifiers": [
+        "When referencing NATO or defence work, focus on scope, outcomes, and responsibilities without stating budgets.",
+        "When referencing PE work, use terms like 'PE-backed client', 'portfolio company', or 'sponsor-backed organisation'.",
+        "When referencing FTTH or carve-out/separation work, frame the candidate as a contributing programme / workstream lead.",
+        "Use occupational-strength language such as 'rapid pattern recognition', 'high-context switching tolerance'."
+      ]
+    },
+    "groupingStrategy": "Group short or overlapping interim engagements under Hiloka Limited as the primary consulting entity, and use competency-based grouping (e.g. Cloud Migration, JML & Access Modernisation, Datacentre & Network Transformation) for older projects.",
+    "protocolVersion": "lane-transfer-pack-v2"
+  },
+  "B": {
+    "laneId": "B",
+    "laneName": "Senior Infrastructure Programme / Project Manager",
+    "psychologicalArchetype": "Delivery Engine — data-first, protocol-respectful, tracker/resolver",
+    "proofStripMetrics": [
+      "6,100+ network circuits migrated",
+      "7,000+ endpoints delivered",
+      "5m+ annual ICT budget managed",
+      "SC & NPPV3 security cleared"
+    ],
+    "doNotClaimGuardrails": {
+      "hardBans": [
+        "Do not invent or state exact NATO programme budget figures.",
+        "Do not name specific Private Equity (PE) client logos.",
+        "Do not describe the candidate as clinically neurodivergent.",
+        "Do not claim PMO-only roles; emphasise hands-on delivery ownership."
+      ],
+      "qualifiers": [
+        "When referencing NATO or defence work, focus on scope, outcomes, and responsibilities without stating budgets.",
+        "When referencing PE work, use generic phrasing ('PE-backed client').",
+        "Use occupational-strength language instead of clinical labels."
+      ]
+    },
+    "groupingStrategy": "Same Hiloka-led grouping as Lane A; emphasise delivery cadence and cross-functional tracking. Surface RAID logs, dependency mapping, and JML/ServiceNow.",
+    "protocolVersion": "lane-transfer-pack-v2"
+  },
+  "C": {
+    "laneId": "C",
+    "laneName": "Technical Operations Director",
+    "psychologicalArchetype": "Operational Authority — direct, diagnostic, commercial instinct, vendor/P&L accountability",
+    "proofStripMetrics": [
+      "5m+ annual ICT budget managed",
+      "4 data centres migrated to cloud-first operations",
+      "Global WAN rationalisation programme delivered",
+      "Multiple SLA-led vendor transformation programmes"
+    ],
+    "doNotClaimGuardrails": {
+      "hardBans": [
+        "Do not invent or state exact NATO programme budget figures.",
+        "Do not name specific Private Equity client logos.",
+        "Do not claim sole ownership of FTTH or carve-out strategy.",
+        "Do not describe the candidate as clinically neurodivergent."
+      ],
+      "qualifiers": [
+        "When referencing NATO or defence work, focus on scope and outcomes; no budgets.",
+        "When referencing PE work, use generic phrasing.",
+        "Use occupational-strength language instead of clinical labels."
+      ]
+    },
+    "groupingStrategy": "Group roles to emphasise run-rate reduction, P&L impact, and vendor/SLA ownership across multiple sites.",
+    "protocolVersion": "lane-transfer-pack-v2"
+  }
+}

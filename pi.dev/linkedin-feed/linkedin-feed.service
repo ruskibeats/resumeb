@@ -1,0 +1,18 @@
+[Unit]
+Description=LinkedIn RSS Feed Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/pi.dev/linkedin-feed
+ExecStart=/usr/bin/python3 /opt/pi.dev/linkedin-feed/server.py --port 9099
+Environment=JOBSERVE_RSS_URL=%h/.jobserve_rss_url
+EnvironmentFile=-/etc/default/linkedin-feed
+Restart=always
+RestartSec=5
+StandardOutput=append:/opt/pi.dev/linkedin-feed/server.log
+StandardError=append:/opt/pi.dev/linkedin-feed/server.log
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,524 @@
+{
+  "picture": {
+    "hidden": false,
+    "url": "",
+    "size": 80,
+    "rotation": 0,
+    "aspectRatio": 1,
+    "borderRadius": 0,
+    "borderColor": "rgba(0, 0, 0, 0.5)",
+    "borderWidth": 0,
+    "shadowColor": "rgba(0, 0, 0, 0.5)",
+    "shadowWidth": 0
+  },
+  "basics": {
+    "name": "Russell Batchelor",
+    "headline": "Operational Transformation Manager \u2014 AI | Workflow Redesign & Process Automation | SC + NPPV3 Cleared",
+    "email": "russell.batchelor@gmail.com",
+    "phone": "07881795908",
+    "location": "Hemel Hempstead, Hertfordshire",
+    "website": {
+      "url": "https://linkedin.com/in/russellbatchelor",
+      "label": "LinkedIn"
+    },
+    "customFields": [
+      {
+        "id": "d0f8fad8-f1a6-4480-9f9f-2ac58ce08c82",
+        "icon": "shield-check",
+        "text": "SC (Active) | NPPV3 (Active) | Available within 2 weeks",
+        "link": ""
+      }
+    ]
+  },
+  "summary": {
+    "title": "Professional Summary",
+    "columns": 1,
+    "hidden": false,
+    "content": "<p>Operations improvement leader who builds automation \u2014 not just recommends it. 20+ years of coding workflows, scripting processes, and reducing operational friction. AI is the newest tool in the toolkit.</p>\n<p>Operational improvement manager and process automation builder with 20+ years of finding operational friction and eliminating it with code, workflows, and now AI.</p>\n<p>I have hands-on delivered laptops, EUC, and infrastructure \u2014 and I fully automated those processes, reducing massive engineering teams down to small informal teams. I know the work because I've done it. The automation is grounded in real knowledge of what's being replaced.</p>\n<p>I have always looked to build automation \u2014 more workflows than AI. AI has added the layer for further improvement. At Atos I built WhatsApp bots that automatically closed service calls, used vision technology to find kit from photoing asset numbers \u2014 simple stuff that delivered a great increase.</p>\n<p>Proven at enterprise scale: 42,000-user government migration, 6,100+ circuit migrations, 60% WAN cost reduction, 15+ concurrent programmes in regulated environments including NATO-aligned operational estates with zero-tolerance for disruption.</p>\n<p>SC + NPPV3 cleared \u2014 able to operate in classified and regulated environments without clearance delay.</p>"
+  },
+  "sections": {
+    "profiles": {
+      "title": "Profiles",
+      "columns": 1,
+      "hidden": true,
+      "items": [
+        {
+          "id": "7dd19c2b-9fb2-4bc6-8cc4-ea935e09ba96",
+          "hidden": false,
+          "network": "LinkedIn",
+          "username": "russellbatchelor",
+          "url": "https://linkedin.com/in/russellbatchelor",
+          "icon": "linkedin",
+          "website": {
+            "url": "https://linkedin.com/in/russellbatchelor",
+            "label": "LinkedIn"
+          }
+        }
+      ]
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "e22ab73b-dc96-4da2-9107-5264171945c1",
+          "hidden": false,
+          "company": "Hiloka Limited",
+          "position": "Founder & Managing Director",
+          "location": "Hemel Hempstead, UK",
+          "period": "Jan 2010 \u2013 Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Own consultancy vehicle through which all operational improvement and automation engagements are delivered. Operating since 2010 as the senior operational lead for PE-backed, technology, and regulated-sector clients. The methodology is consistent: walk into messy operations, find the friction points, build automation to eliminate them, and leave the operation running more efficiently than when I arrived.</p><p>Hands-on delivered laptops, EUC, and infrastructure \u2014 then fully automated those delivery processes, reducing massive engineering teams down to small informal teams passing on the workloads. Brought technical knowledge of how to do the job combined with the automation skill to do it with fewer people.</p>",
+          "roles": []
+        },
+        {
+          "id": "268be0bb-3434-48e7-b0b8-23f2d45a0b0d",
+          "hidden": false,
+          "company": "Atos (via Hiloka Limited)",
+          "position": "Infrastructure Programme Manager",
+          "location": "UK / NHS Estates",
+          "period": "Sept 2025 \u2013 Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Delivered NHS live-estate infrastructure modernisation while building automation tools to reduce operational overhead \u2014 proving that small, cheap automation can close real operational gaps even in a regulated healthcare environment.</p><ul><li>Built WhatsApp bots that automatically closed service desk calls \u2014 reducing manual triage workload without requiring additional engineering headcount. Simple, low-cost automation that eliminated a manual process.</li><li>Used vision technology (camera + OCR/asset ID) to identify network equipment from photographs of asset numbers \u2014 closed a real operational gap in asset tracking with minimal cost.</li><li>Governed phased cutover sequencing across a live NHS estate, managing dependency chains and patient-service continuity obligations in parallel \u2014 zero-disruption delivery in a regulated environment.</li><li>Produced programme governance artefacts \u2014 risk registers, dependency maps, and cutover runbooks \u2014 appropriate for a regulated NHS operating environment.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "f8eb3df6-03a4-4794-9082-0ad5d5bdd6bb",
+          "hidden": false,
+          "company": "Hiloka Limited \u2014 Private Equity & AI Automation",
+          "position": "Founder & Managing Director",
+          "location": "Hemel Hempstead, UK",
+          "period": "Mar 2020 \u2013 Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Applied AI-driven process automation across a ~\u00a320M PE-backed online portfolio. Identified manual operational workflows where humans were doing work that code should handle, automated them to eliminate overhead, and measured the impact on throughput and cost.</p><ul><li>Built AI workflow automation to re-engineer core business processes: mapped the operational friction points, wrote the automation scripts, deployed them into production, and tracked adoption. Reduced manual task volume without headcount increases.</li><li>Applied GenAI use case mapping to identify the highest-ROI automation opportunities across portfolio business units \u2014 connecting AI capability to genuine operational pain points, not deploying technology for its own sake.</li><li>Established an automation evaluation framework assessing tools on ROI, technical feasibility, integration complexity, and bottom-line efficiency \u2014 prevented uncommercial tool adoption and ensured every automation investment mapped to a quantified operational problem.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "90fd87ac-570d-4a96-833a-eff962aa2de0",
+          "hidden": false,
+          "company": "Hiloka Limited \u2014 AI Strategy & Digital Innovation",
+          "position": "Independent Consultant",
+          "location": "UK / Remote",
+          "period": "Jun 2025 \u2013 Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Built AI POCs and prototype automations for operational pain points. Work is grounded in operational reality: connecting AI capability to genuine business friction rather than deploying technology for its own sake.</p><ul><li>Built prototype AI automations for internal operational processes \u2014 including legal document processing, prompt-engineered decision support, and automated document classification \u2014 delivering working prototypes within defined time and budget parameters.</li><li>Developed GenAI use case mapping frameworks used by client leadership teams to self-assess where automation could reduce manual effort, identify governance requirements, and build a prioritised delivery roadmap.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "44f60740-73fa-404f-b89f-e781d513b671",
+          "hidden": false,
+          "company": "Rainmaker Solutions",
+          "position": "Contract Operations Director",
+          "location": "London, UK",
+          "period": "Jan 2017 \u2013 Dec 2018",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Operational delivery lead across 7 UK Central Government departments, driving multi-stream digital transformation programmes. The process improvement and automation mindset developed here now applies to AI-enabled operational transformation.</p><ul><li>Delivered a 42,000-user M365 migration for the Home Office as part of a multi-department digital transformation programme \u2014 built the delivery governance, managed cross-department dependencies, and delivered operational change at scale in complex, regulated government environments.</li><li>Operational lead for MHCLG, MoJ, FSA, Ofsted, and PINS digital transformation programmes \u2014 each requiring structured delivery governance, stakeholder coordination, and operational continuity across live government services.</li><li>GDS-aligned delivery methodology: built user-centred service designs, managed multi-supplier ecosystems, and produced the programme governance artefacts required for Cabinet Office assurance.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "8f7d0daf-2962-46e0-a0b6-60d20020d116",
+          "hidden": false,
+          "company": "CentricsIT",
+          "position": "Operations & Infrastructure Director, EMEA",
+          "location": "London, UK / EMEA",
+          "period": "Nov 2020 \u2013 Dec 2024",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Standardised delivery workflows across a live portfolio of 15+ concurrent programmes serving Tier 1 finance, UK Government, NATO-aligned, and NHS clients.</p><ul><li>Standardised delivery workflows across 15+ concurrent programmes \u2014 eliminated bespoke process overhead where each programme previously had its own way of working. Enabled the team to scale without proportional headcount growth. This is process automation at enterprise scale, applied to programme delivery itself.</li><li>Governed end-to-end delivery across 130-site rollouts and 6,100+ circuit migrations in regulated environments \u2014 phased cutover governance, dependency management, and live-service continuity throughout.</li><li>NATO airbase deployment programme: 200+ airbases across 12+ nations, 300-400 access points per base \u2014 large-scale operational deployment in a militarily-regulated, aviation-adjacent operational context with zero-tolerance for disruption.</li><li>Produced executive reporting from engineering-level data to C-Suite and Board stakeholders; operational governance trusted by clients with zero-tolerance risk profiles.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "1c430f07-0f0c-47dd-a7ab-8b431c72876b",
+          "hidden": false,
+          "company": "Major International Gaming Group (LVS)",
+          "position": "Operations Director, Digital Gaming & Managed Services",
+          "location": "Bulgaria, EU",
+          "period": "Jan 2024 \u2013 Feb 2025",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Built the full contract-to-cash operational system for a greenfield digital gaming platform from scratch \u2014 the first of its kind for the client in Europe.</p><ul><li>Owned end-to-end lifecycle: procurement, vendor management, service delivery, KPI reporting for a 1,200+ endpoint regulated estate.</li><li>Built and chaired the operational governance framework: weekly service reviews, Board-level KPI packs covering performance, risk, compliance, and commercial position.</li><li>Cross-functional delivery across product, operations, and technology \u2014 led a 24-engineer multilingual team through live service launch.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "55765646-861d-4eeb-af9c-a15c247a5921",
+          "hidden": false,
+          "company": "Sitehands LLC",
+          "position": "Operations Director / Project Director",
+          "location": "Europe",
+          "period": "Jan 2019 \u2013 Nov 2020",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Led M&A-driven estate transformation across Europe, managing complex international delivery across approximately 25,000 endpoints and implementing operational control frameworks in live, occupied commercial environments \u2014 comparable operational complexity to regulated multi-site sectors such as aviation, transport, and utilities.</p>",
+          "roles": []
+        },
+        {
+          "id": "c92d2a81-b901-434c-acc3-d3eb79d44a73",
+          "hidden": false,
+          "company": "London Borough of Lambeth",
+          "position": "Lead Enterprise Architect / Operations & Technology Director",
+          "location": "London, UK",
+          "period": "Mar 2009 \u2013 Apr 2015",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Delivered large-scale operational transformation across a 5,000-employee, 200+ site public sector organisation \u2014 finding operational cost and eliminating it through process redesign.</p><ul><li>Achieved 60% reduction in WAN costs through operating model redesign and a \u00a312M competitive re-tender \u2014 commercial outcome delivered without service disruption across a complex live-estate environment.</li><li>Owned programme governance, supplier performance management, and Board-level commercial reporting throughout.</li></ul>",
+          "roles": []
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "projects": {
+      "title": "Career Highlights",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "skills": {
+      "title": "Core Competencies",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "a21f3333-128b-4dd5-99bd-246d8e4de156",
+          "hidden": false,
+          "icon": "wrench",
+          "iconColor": "#e11d48",
+          "name": "Automation & Process Improvement",
+          "proficiency": "5",
+          "level": "0",
+          "keywords": [
+            "Hands-On Automation Building",
+            "Workflow Scripting & Process Code",
+            "Manual Process Elimination",
+            "Workforce Reduction Through Automation",
+            "Automated Service Desk Triage",
+            "End-to-End Process Redesign"
+          ]
+        },
+        {
+          "id": "e65f35b4-0ab3-4ce4-9f41-4e440b10360f",
+          "hidden": false,
+          "icon": "chart-scatter",
+          "iconColor": "#e11d48",
+          "name": "Operational Excellence",
+          "proficiency": "5",
+          "level": "0",
+          "keywords": [
+            "Operational Process Improvement",
+            "KPI/SLA Governance & Delivery",
+            "Cross-Functional Delivery Ownership",
+            "Zero-Disruption Deployment",
+            "Multi-Vendor Ecosystem Management",
+            "Regulated Environment Delivery"
+          ]
+        },
+        {
+          "id": "4d2d3edf-1fa1-45fb-afcf-6e43d0d0ff13",
+          "hidden": false,
+          "icon": "cpu",
+          "iconColor": "#e11d48",
+          "name": "AI & Workflow Tools",
+          "proficiency": "4",
+          "level": "0",
+          "keywords": [
+            "AI Workflow Orchestration & Tool-Calling",
+            "WhatsApp/Telegram Bots & Service Automation",
+            "Vision AI / OCR Asset Tracking",
+            "GenAI Use Case Mapping & POCs",
+            "Structured Outputs & Schema Design",
+            "Human-in-the-Loop Approval Systems"
+          ]
+        },
+        {
+          "id": "97de6f57-39c3-4f64-ac46-19736695a099",
+          "hidden": false,
+          "icon": "users",
+          "iconColor": "#e11d48",
+          "name": "Stakeholder & Leadership",
+          "proficiency": "5",
+          "level": "0",
+          "keywords": [
+            "Executive Stakeholder Engagement",
+            "Board-Level Reporting & Narrative",
+            "Senior Leadership Influence",
+            "Clear Communication of Complex Change",
+            "Ambiguity Reduction & Structure Creation"
+          ]
+        },
+        {
+          "id": "ac427ab2-f8d0-459f-92cf-436c42af4eda",
+          "hidden": false,
+          "icon": "refresh-cw",
+          "iconColor": "#e11d48",
+          "name": "Change & Adoption",
+          "proficiency": "4",
+          "level": "0",
+          "keywords": [
+            "Workflow Redesign & Process Automation",
+            "AI Adoption & Operational Change",
+            "Capability Building & Workforce Transition",
+            "Stakeholder Buy-In & Usage Metrics",
+            "Post-Implementation Governance"
+          ]
+        }
+      ]
+    },
+    "languages": {
+      "title": "Languages",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "interests": {
+      "title": "Interests",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "awards": {
+      "title": "Awards",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "certifications": {
+      "title": "Education & Certifications",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "773d9214-4471-419d-be10-e1fb1cce5106",
+          "hidden": false,
+          "title": "Security Check (SC)",
+          "issuer": "UK Government",
+          "date": "Active",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "Government security clearance for sensitive operational roles"
+        },
+        {
+          "id": "9a4f6169-1ec0-4422-84fb-b7585f0f24c0",
+          "hidden": false,
+          "title": "NPPV3",
+          "issuer": "National Counter Terrorism / UK Police",
+          "date": "Active",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "Non-Police Personnel Vetting Level 3"
+        },
+        {
+          "id": "95495371-3065-401d-b69b-d47f56ba28c5",
+          "hidden": false,
+          "title": "PRINCE2 Practitioner",
+          "issuer": "AXELOS",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "f670fa48-95c7-4d47-8756-a64d1db7800b",
+          "hidden": false,
+          "title": "ITIL Foundation",
+          "issuer": "AXELOS",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "8ea2edc7-7d01-4258-bb2d-260499322e3a",
+          "hidden": false,
+          "title": "CCNA",
+          "issuer": "Cisco",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "b2962a2e-a461-4500-beac-3a255f4b8298",
+          "hidden": false,
+          "title": "SASE Fundamentals",
+          "issuer": "",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        }
+      ]
+    },
+    "publications": {
+      "title": "Publications",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "volunteer": {
+      "title": "Volunteer",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "references": {
+      "title": "References",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    }
+  },
+  "customSections": [
+    {
+      "title": "Earlier Career Highlights",
+      "columns": 1,
+      "hidden": false,
+      "id": "dc3c6d37-b4a7-40c8-9ba3-4e8617536abe",
+      "type": "summary",
+      "items": [
+        {
+          "id": "c7d8e9f0-a1b2-3456-cdef-567890123456",
+          "hidden": false,
+          "content": "<ul><li><strong>Charles Stanley Group \u2014 Technology &amp; Infrastructure Director (Contractor) | January 2013 \u2013 May 2015</strong> \u2014 Infrastructure resilience, vendor governance and FCA-aligned IT service delivery for a regulated wealth management firm</li><li><strong>Comunica \u2014 Operations Director (Contractor) | March 2011 \u2013 December 2012</strong> \u2014 Pan-European telecoms and VoIP managed services; built and managed service operations across UK and European geographies</li><li><strong>Ipitomi (Virgin Media Business) \u2014 Senior Operations Manager | January 2008 \u2013 February 2011</strong> \u2014 Field service delivery and SLA governance across multi-site telecoms rollouts within a Virgin Media Business division</li><li><strong>Whittington Insurance Markets (Lloyd's of London) \u2014 Head of IT &amp; Network Operations | 2001 \u2013 2007</strong> \u2014 Full corporate IT infrastructure design and project management for a Lloyd's of London insurance group; led a team of 17 contract and permanent staff</li></ul>"
+        }
+      ]
+    },
+    {
+      "title": "Engagement Model",
+      "columns": 1,
+      "hidden": false,
+      "id": "c73221d5-7bca-41bd-a259-22669d6b19fb",
+      "type": "summary",
+      "items": [
+        {
+          "id": "d8e9f0a1-b2c3-4567-defa-678901234567",
+          "hidden": false,
+          "content": "<p>Vehicle: Hiloka Limited (sole director) | Target rate: \u00a3800\u2013\u00a31,200/day (London), \u00a3600\u2013\u00a3900/day (regions) \u2014 flexible for right-fit programme engagement | Availability: Within 2 weeks</p><p>Engagement type: SoW / output-based contracts | Location: UK-based; proven European delivery footprint | SC and NPPV3 cleared for regulated environments</p>"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "template": "onyx",
+    "layout": {
+      "sidebarWidth": 31.17,
+      "pages": [
+        {
+          "fullWidth": true,
+          "main": [
+            "summary",
+            "projects",
+            "experience",
+            "skills",
+            "certifications"
+          ],
+          "sidebar": []
+        }
+      ]
+    },
+    "css": {
+      "enabled": false,
+      "value": ""
+    },
+    "page": {
+      "gapX": 4,
+      "gapY": 4,
+      "marginX": 20,
+      "marginY": 10,
+      "format": "free-form",
+      "locale": "en-US",
+      "hideIcons": true
+    },
+    "design": {
+      "level": {
+        "icon": "star",
+        "type": "circle"
+      },
+      "colors": {
+        "primary": "rgba(15, 76, 129, 1)",
+        "text": "rgba(0, 0, 0, 1)",
+        "background": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "400",
+          "500"
+        ],
+        "fontSize": 9,
+        "lineHeight": 1.25
+      },
+      "heading": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "600"
+        ],
+        "fontSize": 11,
+        "lineHeight": 1
+      }
+    },
+    "notes": "Archetype A CV \u2014 Infrastructure Programme Director. Built from archetype-A-cv-text.md (2026-05-07). All skills unhidden for ATS. Rate: \u00a3800-1,200/day. Recent roles (2024-2026) quantified with programme-scale metrics. Tags: archetype-a, infra-programme-director. Template: onyx. Layout: single column, full width.",
+    "jobContext": {
+      "job_title": "Infrastructure Programme Director",
+      "employer_name": "Archetype A \u2014 Multi-Site Transformation & Separation-Ready Delivery",
+      "job_description": "Infrastructure Programme Director with 20+ years delivering multi-workstream transformation programmes across regulated UK and EMEA estates. SC and NPPV3 cleared. Target market: Enterprise IT Consultancies, MSPs, Government, Defence, Finance, NHS.",
+      "job_highlights": [
+        "archetype-a",
+        "infra-programme-director"
+      ],
+      "job_required_skills": [
+        "programme delivery",
+        "MPLS",
+        "SD-WAN",
+        "SASE",
+        "network separation",
+        "M&A integration",
+        "vendor governance",
+        "RAID management"
+      ],
+      "job_url": "",
+      "tailored_at": "2026-05-07T09:00:00.000Z"
+    }
+  }
+}

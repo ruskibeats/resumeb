@@ -1,0 +1,807 @@
+{
+  "picture": {
+    "hidden": false,
+    "url": "",
+    "size": 80,
+    "rotation": 0,
+    "aspectRatio": 1,
+    "borderRadius": 0,
+    "borderColor": "rgba(0, 0, 0, 0.5)",
+    "borderWidth": 0,
+    "shadowColor": "rgba(0, 0, 0, 0.5)",
+    "shadowWidth": 0
+  },
+  "basics": {
+    "name": "Russell Batchelor",
+    "headline": "Infrastructure Project Manager | Wi-Fi & Network Deployment | Multi-Site Rollouts | MSP Coordination | SC + NPPV3",
+    "email": "russell.batchelor@gmail.com",
+    "phone": "07881795908",
+    "location": "Hemel Hempstead, Hertfordshire",
+    "website": {
+      "url": "https://linkedin.com/in/russellbatchelor",
+      "label": ""
+    },
+    "customFields": [
+      {
+        "id": "97ea344b-f917-4a57-9da3-45ec0696663e",
+        "icon": "shield-check",
+        "text": "SC (Active) | NPPV3 (Active) | Available within 2 weeks",
+        "link": ""
+      }
+    ]
+  },
+  "summary": {
+    "title": "Professional Profile",
+    "columns": 1,
+    "hidden": false,
+    "content": "<p>Infrastructure Project Manager with 25+ years delivering large-scale Wi-Fi, network, and workplace technology deployments across multi-site estates in regulated and commercial environments. Proven track record managing MSPs, field engineers, and third-party suppliers to deliver Wi-Fi rollouts in occupied buildings \u2014 from 25,000 endpoints across European retail, finance, and shopping estates to 200+ NATO airbase network upgrades covering service areas, logistics, and customer-facing environments. Hands-on, visible, and experienced in fast-moving delivery where site coordination, stakeholder communication, and service continuity are critical. SC and NPPV3 cleared. Available within 2 weeks.</p>"
+  },
+  "sections": {
+    "profiles": {
+      "title": "Profiles",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "e9d0badf-feea-4ad7-8fef-ff8f3f1d3df2",
+          "hidden": false,
+          "options": {
+            "showLinkInTitle": false
+          },
+          "company": "STK Limited",
+          "position": "Ops Team Lead, Live Estate Modernisation",
+          "location": "London & South East",
+          "period": "Sept 2025 - Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>On-site IT operations and onboarding lead across live NHS Trust estates, visible point of contact between users, service teams, vendors, and programme governance in always-on, zero-disruption healthcare environments.</p><ul><li>Managed site readiness and user access sequencing across Windows 11 rollout waves covering ~5,000 NHS staff across multiple active Trust sites, coordinating device provisioning, network readiness, JML access rights, and user onboarding to ensure 100% productivity at each cutover point.</li><li>Served as the on-site IT interface for NHS stakeholders, troubleshooting access, device, and connectivity issues directly with end users while coordinating resolution through service desk teams using ITSM tooling (ServiceNow), tracking open tickets and SLA performance in real time.</li><li>Coordinated bulk onboarding activity across hiring waves, managing Joiners, Movers, Leavers processes including system access provisioning, device allocation, and user readiness for clinical and administrative staff.</li><li>Maintained onboarding documentation, change governance, and operational reporting throughout live deployments, tracking progress, open issues, and stakeholder communications across concurrent site programmes.</li><li>Ran escalation management and risk reporting for programme leadership, resolving issues at source before they reached programme level, fixing problems, not just escalating them.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "3b0fdff3-7ae8-44f7-bfa2-35063f5edc99",
+          "hidden": true,
+          "company": "Collective IP",
+          "position": "Technical Programme Manager (Part-time, concurrent with Atos)",
+          "location": "UK / Remote",
+          "period": "Jun 2025 - Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Senior delivery lead for concurrent infrastructure and technology transformation programmes across regulated environments, responsible for operational coordination, service desk liaison, and service continuity across multiple simultaneous client engagements.</p><ul><li>Coordinated delivery across Digital and Technology teams, third-party suppliers, and client programme stakeholders, acting as the operational bridge between IT functions and programme teams across 4+ concurrent client engagements.</li><li>Established clear accountability and escalation paths across fast-moving, high-volume workstreams, tracking service requests, open tickets, and delivery milestones through structured reporting and ITSM-aligned governance.</li><li>Managed JML processes and access provisioning for programme teams, ensuring staff were onboarded with appropriate system access, devices, and support from day one.</li><li>Maintained RAID logs and operational governance across concurrent programmes, ensuring issues were resolved quickly and dependencies managed proactively.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "af70ddfe-0803-4e83-9f91-ae87135bc8c2",
+          "hidden": false,
+          "options": {
+            "showLinkInTitle": false
+          },
+          "company": "Hiloka Limited",
+          "position": "Technology, Risk & Programme Assurance (Ops Lead)",
+          "location": "UK / Remote",
+          "period": "Feb 2025 - Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Independent advisory and senior operations lead providing technology, risk, and programme assurance to organisations undertaking complex transformation and change programmes, including private equity-backed portfolio engagements.</p><ul><li>Senior Ops lead for concurrent infrastructure and technology transformation programmes across regulated environments, responsible for operational coordination, service desk liaison, and service continuity across multiple simultaneous client engagements.</li><li>Provided independent advisory and operational delivery for a ~\u00a320M PE-backed online portfolio engagement, managing stakeholder alignment, delivery assurance, and operational governance across the investment lifecycle.</li><li>Conducted operational and delivery assessments, identifying root causes of service failures, access issues, and process breakdowns; produced clear remediation plans for client leadership.</li><li>Coordinated delivery across Digital and Technology teams, third-party suppliers, and client programme stakeholders, acting as the operational bridge between IT functions and programme teams across 4+ concurrent client engagements.</li><li>Established clear accountability and escalation paths across fast-moving, high-volume workstreams, tracking service requests, open tickets, and delivery milestones through structured reporting and ITSM-aligned governance.</li><li>Managed JML processes and access provisioning for programme teams, ensuring staff were onboarded with appropriate system access, devices, and support from day one.</li><li>Reviewed vendor performance and capability against contractual commitments, challenging scope and sequencing assumptions on behalf of client teams.</li><li>Maintained RAID logs and operational governance across concurrent programmes, ensuring issues were resolved quickly and dependencies managed proactively.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "58c27709-9863-433a-ad57-dc7f8bcc5ad8",
+          "hidden": false,
+          "options": {
+            "showLinkInTitle": false
+          },
+          "company": "Major International Gaming Group",
+          "position": "Project Manager",
+          "location": "Bulgaria, EU",
+          "period": "Jan 2024 - Feb 2025",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Brought in as Project Manager to lead a flagship, multi-operator digital build spanning London, Las Vegas, Singapore, and Sofia. Full lifecycle responsibility for digital/IT scope across an 8-level complex in Europe, operating as the main contractor's primary technology interface for delivery and contract governance.</p><ul><li>Directed deployment of 400+ WiFi access points and 20,000+ cables across AV, WiFi, CCTV, and fibre/copper backbones; designed and executed 8,000+ patching schedules enabling phased activation across the estate.</li><li>Delivered PCR/MDF core rooms, racks/PDUs, in-row cooling, structured cabling, and network readiness (DNAC/ISE/Infoblox integration) with milestone gating (FNLT/Go-Live) and clean-down protocols.</li><li>Established contract governance including obligation and decision logs, formal change notes, commercial event register, and evidence packs supporting contractual compliance and dispute defence.</li><li>Chaired weekly programme and contract boards; produced Board/PMO packs (KPI/SLA, risk, schedule variance) and maintained a central repository for audits and assurance.</li><li>Managed 30-person multilingual workforce across multiple jurisdictions, coordinating rotation, visas, and cross-border logistics (bonded freight, asset security, JIT staging).</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "558ea031-40f5-496a-a6e3-b410de6299c6",
+          "hidden": false,
+          "options": {
+            "showLinkInTitle": false
+          },
+          "company": "CentricsIT (now Park Place Technologies)",
+          "position": "EMEA Operations & Infrastructure Director (de facto)",
+          "location": "UK & Europe",
+          "period": "Nov 2019 - Dec 2023",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>EMEA programme delivery lead accountable for multi-site technology deployment across a live portfolio of 15+ concurrent programmes for Tier 1 finance, UK Government, NATO, and NHS clients.</p><ul><li>Led large-scale WiFi and network deployment programme across 200+ NATO airbases in Europe \u2014 delivering 300-400 WiFi access points per base across service areas, shopping malls, food courts, warehousing, and logistics facilities; coordinated field engineering teams, MSPs, and multi-country site access across 12+ nations.</li><li>Managed 7,000+ endpoint deployments and 6,100+ circuit migrations across EMEA, directing access provisioning, device rollouts, and user readiness alongside infrastructure delivery.</li><li>Oversaw end-to-end IT operations and field engineering coordination across 130+ active sites, maintaining SLA performance through structured governance and supplier management.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "61715fed-b9ce-402e-98a0-9380398c37f5",
+          "hidden": false,
+          "options": {
+            "showLinkInTitle": false
+          },
+          "company": "Sitehands LLC",
+          "position": "Infrastructure Project Director, Europe",
+          "location": "London & Europe",
+          "period": "Nov 2018 - Nov 2019",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>Operations delivery lead for large-scale technology deployment programmes across multi-country European environments, responsible for end-to-end WiFi and network rollout coordination in occupied commercial buildings.</p><ul><li>Oversaw Wi-Fi deployments across approximately 25,000 endpoints in occupied commercial buildings \u2014 including Tier 1 banks, high street retail chains, car dealerships, supermarkets, and shopping malls across the UK and Europe; managed user impact, access sequencing, and service continuity throughout live environments.</li><li>Coordinated multi-site rollout across European estates, directing MSPs and field engineer teams to deliver within tight change windows in customer-facing environments.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "8fbc2275-0896-42f5-aa79-c6a219afe705",
+          "hidden": false,
+          "options": {
+            "showLinkInTitle": false
+          },
+          "company": "Rainmaker Solutions",
+          "position": "Associate Technology Consultant",
+          "location": "London",
+          "period": "Nov 2015 - Nov 2018",
+          "website": {
+            "url": "",
+            "label": "pop"
+          },
+          "description": "<p>Programme delivery and technical consultancy for network infrastructure and EUC deployments across multiple UK Central Government departments under GDS assurance standards.</p><ul><li>Served as technical consultant for network and infrastructure deployments across 7 central government departments, coordinating procurement strategy, vendor selection, and delivery assurance.</li><li>Led Microsoft 365 and Windows onboarding for Home Office (~42,000 users) and MHCLG (~4,000 users), coordinating bulk provisioning and service desk integration.</li><li>Managed procurement strategy and delivery coordination across networking, cloud, and EUC platforms for multiple departments.</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "fcf8fd2d-c7df-4ef5-a44b-100682e4fd37",
+          "hidden": false,
+          "company": "London Borough of Lambeth",
+          "position": "Lead Enterprise Architect",
+          "location": "London",
+          "period": "Feb 2010 - Apr 2015",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<p>De facto technology operations lead for a 5,000-employee local authority across 140+ sites, retained over 7 years to deliver major network, telephony, and procurement programmes alongside day-to-day service governance and JML operations.</p><ul><li>Delivered JML onboarding and migration of ~2,000 users to Microsoft 365, coordinating access provisioning, device deployment, user readiness, and service desk integration across the authority.</li><li>Achieved 60% WAN cost reduction across 200+ sites through strategic network redesign and supplier renegotiation.</li><li>Led \u00a312M voice and data services re-tender, full commercial lifecycle from strategy through vendor selection, award, and transition to managed service, including SLA framework design.</li><li>Deployed and governed telephony infrastructure for 5,000 staff across a distributed public sector estate, maintaining service continuity throughout cutover phases.</li><li>Developed outdoor borough-wide WiFi network across the estate; led commercial transition to third-party mobile operator for ongoing service delivery.</li>\n</ul>",
+          "roles": []
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "projects": {
+      "title": "Key Infrastructure Delivery Achievements",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "42e5fc85-b3dd-43b1-93e4-615a4784674c",
+          "hidden": false,
+          "name": "Career Outcomes",
+          "period": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Wi-Fi deployment across 200+ NATO airbases in Europe \u2014 300-400 APs per base across service areas, shopping malls, food courts, and logistics facilities</li><li>25,000 Wi-Fi endpoints deployed across occupied commercial buildings \u2014 Tier 1 finance, retail chains, and shopping centres across UK and Europe</li><li>Flagship digital build across 8-level complex \u2014 400+ WiFi APs, 20,000+ cables, MDF/IDF rooms, structured cabling, DNAC/ISE/Infoblox integration</li><li>Microsoft 365 onboarding and migration for ~42,000 Home Office users under GDS assurance</li><li>60% WAN cost reduction across 200+ London Borough of Lambeth sites; led \u00a312M voice and data services re-tender</li><li>Outdoor borough-wide WiFi network developed and transitioned to third-party mobile operator</li></ul>"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Core Skills & Technical Proficiencies",
+      "columns": 2,
+      "hidden": false,
+      "items": [
+        {
+          "id": "abef1561-f49c-4875-a0d9-9604d5fb0f77",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Infrastructure Transformation Delivery",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "0059c69b-a7ef-411a-be93-0098d48caac7",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Technical Operations Leadership",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "ec85f23f-d37d-44c6-814a-e34d20d7c4a2",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Network Modernisation (LAN/WAN/Wi-Fi, SD-WAN, SASE)",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "71635d9a-e084-49f2-a065-6c0c1c9521b1",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Programme Governance, RAID & Assurance",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "7ba5fd12-a691-4d5c-b4ec-2e8adfb1709b",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "SLA & Vendor Performance Governance",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "8ec3cf32-3261-4671-823b-1a20eb643b93",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Regulated / Mission-Critical Environment Delivery",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "a256f63e-ac3f-46bc-a051-0b2502cdbe82",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Executive Stakeholder & Board-Level Reporting",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "d85aa867-676e-42cb-b012-6d6b631c5043",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Networking & Infrastructure",
+          "proficiency": "",
+          "level": 0,
+          "keywords": [
+            "LAN",
+            "WAN",
+            "Wi-Fi",
+            "SD-WAN",
+            "SASE",
+            "data centre design and transition",
+            "low-latency network infrastructure",
+            "structured cabling"
+          ]
+        },
+        {
+          "id": "bda61107-e28d-4404-a415-64c897e250ec",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Vendors (commercial/strategic level)",
+          "proficiency": "",
+          "level": 0,
+          "keywords": [
+            "Cisco",
+            "Juniper",
+            "Microsoft",
+            "AWS",
+            "BT",
+            "Vodafone",
+            "Arista",
+            "Palo Alto",
+            "VMware"
+          ]
+        },
+        {
+          "id": "d895d90b-9cd7-4020-951e-da8043bcc794",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Programme & Operations Tools",
+          "proficiency": "",
+          "level": 0,
+          "keywords": [
+            "Microsoft Project",
+            "Visio",
+            "Trello",
+            "Slack",
+            "Oracle ERP",
+            "Pipedrive",
+            "Xero",
+            "Zapier",
+            "Google Suite"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-b9589be4a816",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "IT Operations & Service Delivery",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "IT operations management",
+            "service desk coordination",
+            "ITSM processes",
+            "ServiceNow",
+            "SLA governance",
+            "incident and ticket management",
+            "operational performance reporting"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-c41ca1d5e5a7",
+          "hidden": false,
+          "icon": "users",
+          "iconColor": "",
+          "name": "Stakeholder & Supplier Management",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "HR and programme team coordination",
+            "third-party supplier management",
+            "outsourced IT coordination",
+            "escalation management",
+            "cross-team coordination",
+            "executive reporting"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-cbd34830611c",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Programme Governance & Documentation",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "RAID management",
+            "risk and issue tracking",
+            "onboarding process documentation",
+            "change governance",
+            "operational reporting",
+            "ITIL-aligned processes"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-ce4ded884369",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Network & Infrastructure",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "LAN/WAN/Wi-Fi",
+            "SD-WAN",
+            "SASE",
+            "data centre transition",
+            "low-latency networking",
+            "structured cabling"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-dbb087cca966",
+          "hidden": false,
+          "icon": "shield-check",
+          "iconColor": "",
+          "name": "Regulated Environment Delivery",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "NHS / healthcare",
+            "UK Central Government (GDS)",
+            "NATO / defence (SC cleared)",
+            "Tier 1 financial services",
+            "NPPV3 policing environments",
+            "public sector programme governance"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-df0c479f0c2e",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Commercial & Vendor Governance",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "P&L accountability",
+            "contract-to-cash",
+            "SLA performance governance",
+            "vendor management",
+            "procurement and re-tendering"
+          ]
+        },
+        {
+          "id": "1d0e2920-65ac-4994-aab6-a006c38ee51b",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Data Centre Transition & Service Readiness",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "e992aa45-9cc6-48c3-b619-3693b22758c2",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "EUC / Workplace Technology Programmes",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "909ea573-1b59-4189-a04a-f8f509fe8b6f",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "P&L Accountability & Cost-to-Serve Management",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "26903621-a0c6-4b60-817e-ea63925338dd",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Contract-to-Cash & Revenue Assurance",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "5737aba3-1a82-4e72-a97f-fcdd476bc7fa",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "UK & EMEA Multi-Site Delivery",
+          "proficiency": "",
+          "level": 0,
+          "keywords": []
+        },
+        {
+          "id": "07c08e55-6b79-4aa1-90ac-297338941a46",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Platforms & Cloud",
+          "proficiency": "",
+          "level": 0,
+          "keywords": [
+            "Microsoft Azure",
+            "AWS",
+            "Microsoft 365/O365",
+            "virtualisation platforms"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-be6d35ba74a7",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Onboarding & JML at Scale",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "large-scale user onboarding",
+            "Joiners Movers Leavers (JML)",
+            "bulk onboarding coordination",
+            "access provisioning",
+            "device deployment",
+            "user readiness management",
+            "Windows 10/11 rollout",
+            "Microsoft 365 migration"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-c00abdd7ca99",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Microsoft & End User Computing",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "Microsoft 365 / O365",
+            "Windows 10/11",
+            "Intune (device management)",
+            "EUC deployment",
+            "virtualisation platforms"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-d0300557549b",
+          "hidden": false,
+          "icon": "cloud",
+          "iconColor": "",
+          "name": "Cloud & Platforms",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "Microsoft Azure",
+            "AWS",
+            "Microsoft 365",
+            "virtualisation"
+          ]
+        },
+        {
+          "id": "019dde3b-075f-750c-8746-d76f07120b97",
+          "hidden": false,
+          "icon": "",
+          "iconColor": "",
+          "name": "Tools & Systems",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "ServiceNow (ITSM)",
+            "Microsoft Project",
+            "Visio",
+            "Trello",
+            "Slack",
+            "Google Suite"
+          ]
+        }
+      ]
+    },
+    "languages": {
+      "title": "Languages",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "interests": {
+      "title": "Interests",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "awards": {
+      "title": "Awards",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "certifications": {
+      "title": "Certifications & Clearances",
+      "columns": 3,
+      "hidden": false,
+      "items": [
+        {
+          "id": "6ac15c7e-5bf8-4a32-a4a6-d2bfdafefcb2",
+          "hidden": false,
+          "title": "SC Clearance",
+          "issuer": "Active, Government & Military",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "82980608-d813-4633-98ab-09b81ff48080",
+          "hidden": false,
+          "title": "NPPV3 Clearance",
+          "issuer": "Active, National Police Vetting",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "46ebf7e7-9743-4f52-9c18-4beb32ac6282",
+          "hidden": false,
+          "title": "PRINCE2",
+          "issuer": "Knowledge current (active certification expired)",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "7080814f-83d4-4ce9-b459-e60568142ef0",
+          "hidden": false,
+          "title": "ITIL",
+          "issuer": "ITIL-aligned delivery across NHS, Government, and Finance programmes",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "ff104a1d-36ed-48eb-b692-6206aa2af2ba",
+          "hidden": false,
+          "title": "CCNA",
+          "issuer": "Knowledge current (active certification expired)",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "3b1762c1-ea84-4b86-84e3-99340762cdca",
+          "hidden": false,
+          "title": "SASE Fundamentals",
+          "issuer": "Knowledge current (active certification expired)",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "d49856d4-2e06-4523-be06-9844b997d776",
+          "hidden": false,
+          "title": "H&S / CDM2015",
+          "issuer": "H&S Awareness",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "CDM2015 Awareness"
+        }
+      ]
+    },
+    "publications": {
+      "title": "Publications",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "volunteer": {
+      "title": "Volunteer",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "references": {
+      "title": "References",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    }
+  },
+  "customSections": [
+    {
+      "title": "Earlier Career",
+      "columns": 1,
+      "hidden": false,
+      "id": "dc3c6d37-b4a7-40c8-9ba3-4e8617536abe",
+      "type": "summary",
+      "items": [
+        {
+          "id": "d9abf32f-ea85-4f90-ad82-2b9c6444f5a9",
+          "hidden": false,
+          "content": "<ul><li><strong>Charles Stanley & Co.</strong>, Infrastructure Consultant (~2007)</li><li><strong>Comunica</strong>, Operations Manager (~2005)</li><li><strong>Ipitomi Ltd</strong>, Co-Founder & MD (subscription managed-services startup) (~2001)</li><li><strong>Virgin Media</strong>, Non-Standard Technical Design Authority (1998-2000)</li><li><strong>Whittington Insurance Markets</strong>, Head of Support & Networks (~1996)</li></ul><p>Notable: Northern Ireland Schools Connectivity Programme (Virgin Media / DoE, 1998-2000), Programme lead and Non-Standard Design Authority for broadband, fibre, and leased-line connectivity across all 2,000 schools in Northern Ireland; 100% completion over 2-year DoE mandate. First time every school in Northern Ireland had internet access.</p>"
+        }
+      ]
+    },
+    {
+      "title": "Engagement Model",
+      "columns": 1,
+      "hidden": false,
+      "id": "c73221d5-7bca-41bd-a259-22669d6b19fb",
+      "type": "summary",
+      "items": [
+        {
+          "id": "101c50c4-2b3b-4bff-8f86-c7e8f490b938",
+          "hidden": false,
+          "content": "<p>Vehicle: Hiloka Limited (sole director) | Target rate: \u00a3450/day | Availability: Within 2 weeks</p><p>Engagement type: Contract / inside IR35 considered | Location: UK-based with flexibility for on-site delivery</p>"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "template": "onyx",
+    "layout": {
+      "sidebarWidth": 10,
+      "pages": [
+        {
+          "fullWidth": true,
+          "main": [
+            "summary",
+            "projects",
+            "experience",
+            "skills",
+            "certifications"
+          ],
+          "sidebar": []
+        }
+      ]
+    },
+    "css": {
+      "enabled": false,
+      "value": ""
+    },
+    "page": {
+      "gapX": 4,
+      "gapY": 4,
+      "marginX": 26,
+      "marginY": 10,
+      "format": "free-form",
+      "locale": "en-US",
+      "hideIcons": true
+    },
+    "design": {
+      "level": {
+        "icon": "star",
+        "type": "hidden"
+      },
+      "colors": {
+        "primary": "rgba(3, 71, 227, 1)",
+        "text": "rgba(0, 0, 0, 1)",
+        "background": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "Arial",
+        "fontWeights": [
+          "400",
+          "600"
+        ],
+        "fontSize": 9,
+        "lineHeight": 1.25
+      },
+      "heading": {
+        "fontFamily": "Arial",
+        "fontWeights": [
+          "600"
+        ],
+        "fontSize": 12,
+        "lineHeight": 1.25
+      }
+    },
+    "notes": "V2, All scorecard feedback applied: headline reframed for hands-on IT Ops/Onboarding, quantified JML metrics added across Atos (5K NHS), Sitehands (3.5K payments + 25K Anon), Rainmaker (Home Office 42K, MHCLG 4K, Ofsted 1K, FSA 2K, PINS 1K, Direct Line 5K), Lambeth (2K O365), Career Outcomes reordered with onboarding first, rate adjusted to \u00a3550-650/day flexible, ITIL reframed as knowledge/applied, ServiceNow added to skills and experience bullets, concurrent role clarification added, all skills unhidden for ATS, public sector programme context added to summary.",
+    "jobContext": {
+      "job_title": "(IT) IT Operations Manager",
+      "employer_name": "JobServe",
+      "job_description": "IT Onboarding and Operations Manager Rate \u00a3500 to \u00a3600 per day Inside IR35 Contract Initial 9 months with strong likelihood of extension or transition into IT Manager Location Stratford, London Predominantly office based, initially 5 days per week Overview The British Council is delivering a major national programme as part of Erasmus+ and requires an experienced IT Operations and Onboarding specialist to support the mobilisation of over 150 staff across the UK.",
+      "job_highlights": null,
+      "job_required_skills": null,
+      "job_url": "http://www.jobserve.com/gb/en/RCFCCAFB236BBF8B850.jsap",
+      "tailored_at": "2026-04-30T14:30:00.000Z"
+    }
+  }
+}

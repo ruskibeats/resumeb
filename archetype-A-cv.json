@@ -1,0 +1,615 @@
+{
+  "picture": {
+    "hidden": false,
+    "url": "",
+    "size": 80,
+    "rotation": 0,
+    "aspectRatio": 1,
+    "borderRadius": 0,
+    "borderColor": "rgba(0, 0, 0, 0.5)",
+    "borderWidth": 0,
+    "shadowColor": "rgba(0, 0, 0, 0.5)",
+    "shadowWidth": 0
+  },
+  "basics": {
+    "name": "Russell Batchelor",
+    "headline": "Infrastructure Programme Director | Multi-Site Transformation & Separation-Ready Delivery | Regulated UK/EMEA Estates | SC + NPPV3 Cleared",
+    "email": "russell.batchelor@gmail.com",
+    "phone": "07881795908",
+    "location": "Hemel Hempstead, Hertfordshire",
+    "website": {
+      "url": "https://linkedin.com/in/russellbatchelor",
+      "label": "LinkedIn"
+    },
+    "customFields": [
+      {
+        "id": "a1a344b1-fed7-4b57-9da3-45ec0696663e",
+        "icon": "shield-check",
+        "text": "SC (Active) | NPPV3 (Active) | Available within 2 weeks",
+        "link": ""
+      }
+    ]
+  },
+  "summary": {
+    "title": "Executive Summary",
+    "columns": 1,
+    "hidden": false,
+    "content": "<p>Infrastructure Programme Director with 20+ years delivering complex, multi-workstream transformation programmes across regulated UK and EMEA estates. Consistently engaged as the senior delivery lead where operational continuity is non-negotiable: live NHS sites, Tier 1 financial services, NATO-aligned infrastructure, central government and large-scale commercial environments. Brings deep technical literacy across LAN/Wi-Fi, SD-WAN/SASE, MPLS, data centre and EUC, combined with the governance discipline — RAID logs, change authority, dependency mapping, executive reporting — that keeps large programmes on track and compliant.</p><p>Equally comfortable directing a separation programme post-M&A, managing a 6,100-circuit MPLS migration across 130 sites, or standing up a greenfield £3M network from scratch in a live gaming estate. Operates effectively at Board and C-Suite level; known for producing clear, risk-aware governance packs that give senior stakeholders the right picture at the right time.</p><p>Available for contract engagements. SC Cleared and NPPV3 provide direct-access eligibility for regulated central government, defence, policing and NHS programmes without processing delay.</p>"
+  },
+  "sections": {
+    "profiles": {
+      "title": "Profiles",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "experience": {
+      "title": "Professional Experience",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567001",
+          "hidden": false,
+          "company": "Independent Consultant (via Hiloka Limited)",
+          "position": "AI Strategy & Digital Innovation Consultant",
+          "location": "UK / Remote",
+          "period": "June 2025 – Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Facilitated AI discovery workshops for clients in legal and professional services, mapping current-state workflows to candidate AI automation use cases</li><li>Advised on Legal AI tooling integration, prompt engineering frameworks and governance guardrails appropriate for regulated environments</li><li>Designed and ran operational automation proof-of-concept exercises, identifying high-ROI workflow optimisation opportunities within programme management and reporting functions</li><li>Produced use case prioritisation matrices and implementation roadmaps for AI adoption at operational team level</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+          "hidden": false,
+          "company": "Atos",
+          "position": "Infrastructure Programme Manager, Live Estate Modernisation",
+          "location": "London & South East",
+          "period": "September 2025 – Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Directing multi-workstream LAN/Wi-Fi/comms-room upgrade programme across live NHS estate, coordinating delivery around clinical schedules to achieve zero service disruption to patient-facing operations</li><li>Managing dependency sequencing across building phases, ensuring infrastructure readiness aligns with Windows 11 endpoint readiness milestones and EUC rollout timelines across approximately 5,000 staff</li><li>Orchestrating vendor delivery chain across network, cabling and facilities subcontractors; maintaining RAID log, change authority register and escalation governance</li><li>Producing executive programme reporting for NHS Trust and Atos stakeholders covering schedule, risk, change and service continuity assurance</li><li>Applying SC Cleared and NPPV3 credentials to enable direct access across secure NHS estate zones without vetting delay</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+          "hidden": false,
+          "company": "Collective IP",
+          "position": "Technical Programme Director",
+          "location": "UK / Remote",
+          "period": "June 2025 – Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Leading network separation programme involving disentanglement of shared infrastructure following a structural change; coordinating logical and physical separation workstreams across LAN, WAN and security perimeters</li><li>Managing data centre transition workstreams including server, storage and connectivity rationalisation, with service continuity obligations governing cutover sequencing</li><li>Directing EUC upgrade programme across financial services estate, coordinating hardware refresh, image deployment and user communications to minimise business disruption</li><li>Maintaining full dependency management framework across concurrent workstreams; governing interdependencies between network separation, DC transition and EUC delivery milestones</li><li>Providing executive stakeholder reporting to client leadership covering programme status, risk register, change log and delivery confidence</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "d4e5f6a7-b8c9-0123-defa-234567890123",
+          "hidden": false,
+          "company": "Hiloka Limited",
+          "position": "Managing Director / Contract Infrastructure Programme Director",
+          "location": "UK / Remote",
+          "period": "January 2010 – Present",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Own consultancy vehicle through which all contract programme and operations director engagements are delivered; each engagement places Russell as the senior delivery or operational lead inside the client organisation, accountable for programme outcomes, governance structures and stakeholder relationships</li><li>Provide independent programme assurance and advisory for client leadership teams, identifying root causes of delivery slippage, governance gaps, and operational risk; produce clear remediation plans with actionable recommendations</li><li>Lead discovery-phase assessments for new engagements, defining programme scope, delivery sequencing, governance structures, and resource requirements across complex multi-vendor environments</li><li>Review vendor performance and delivery capability against contractual commitments, challenging scope and sequencing assumptions on behalf of client programme boards</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "d5e6f7a8-b9c0-1234-efab-345678901234",
+          "hidden": false,
+          "company": "Las Vegas Sands (Major International Gaming Group)",
+          "position": "Programme Director / Operations Director",
+          "location": "Bulgaria, EU",
+          "period": "January 2024 – February 2025",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Directed full programme lifecycle for greenfield network infrastructure: design authority, vendor selection, procurement, delivery management and commissioning of a <strong>£3M low-latency network</strong> serving <strong>1,200+ gaming endpoints</strong></li><li>Governed a multi-data-centre architecture spanning one primary data centre and <strong>seven IDCs</strong>, managing dependency sequencing, cutover planning and service continuity across all phases</li><li>Built and chaired Board-level KPI governance framework from programme inception: weekly service reviews and executive packs covering performance, risk, commercial position and compliance</li><li>Led a <strong>24-engineer multilingual delivery and operations team</strong> across the full programme and transition to live service; managed cross-border logistics, vendor SLA compliance and escalation management</li><li>Designed the infrastructure roadmap, support structures and performance baselines that transitioned the programme into a sustainable, self-governing operational model at handover</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "e5f6a7b8-c9d0-1234-efab-345678901234",
+          "hidden": false,
+          "company": "CentricsIT (now Park Place Technologies)",
+          "position": "Operations & Infrastructure Director, EMEA",
+          "location": "UK & Europe",
+          "period": "November 2020 – December 2024",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Directed <strong>6,100+ circuit migrations</strong> across an MPLS-to-SASE transition programme serving regulated enterprise environments; managed cutover sequencing, dependency mapping and service-continuity obligations for live production networks across <strong>130+ sites</strong></li><li>Led infrastructure deployment programmes covering <strong>7,000+ endpoints</strong> across LAN, Wi-Fi and SD-WAN environments; maintained full vendor orchestration across multi-supplier delivery chains in high-compliance settings</li><li>Governed <strong>NATO airbase Wi-Fi deployment across 200+ sites in 12+ nations</strong>: full dependency management, in-country logistics coordination, regulatory compliance alignment and executive programme reporting</li><li>Applied separation programme methodology to network and infrastructure workstreams in post-M&A and estate rationalisation contexts, coordinating logical network separation alongside physical estate changes</li><li>Produced C-Suite and Board-level governance packs covering RAID status, SLA performance, commercial position and programme assurance across all concurrent workstreams</li><li>Maintained SC Cleared and NPPV3 eligibility throughout, enabling direct engagement on secure government, defence and policing programme workstreams without vetting overhead</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "f6a7b8c9-d0e1-2345-fabc-456789012345",
+          "hidden": false,
+          "company": "Sitehands LLC",
+          "position": "Infrastructure Project Director, Europe",
+          "location": "London & Europe",
+          "period": "November 2018 – November 2020",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Directed network separation and M&A integration workstreams across post-acquisition estate environments, coordinating logical and physical infrastructure disentanglement while maintaining service continuity across live production sites</li><li>Delivered <strong>25,000 Wi-Fi endpoint deployment programme</strong> across a distributed enterprise estate, managing vendor orchestration, dependency sequencing and site-by-site cutover governance</li><li>Led <strong>seven data centre transition programmes</strong>, managing rack-and-stack, connectivity cutover, service migration sequencing and business sign-off at each phase</li><li>Applied infrastructure roadmap methodology to rationalise overlapping estate architectures inherited from M&A activity; produced executive programme reporting for client and internal leadership</li><li>Managed multi-supplier delivery chains across European geographies, coordinating installation, commissioning and handover against programme milestone governance</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "a7b8c9d0-e1f2-3456-abcd-567890123456",
+          "hidden": false,
+          "company": "Rainmaker Solutions",
+          "position": "Associate Technology Consultant",
+          "location": "London",
+          "period": "November 2015 – November 2018",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Delivered GDS-aligned M365 transformation programmes including a <strong>42,000-user Home Office migration</strong>, managing multi-workstream dependency mapping, cutover sequencing and stakeholder communications across a highly regulated central government environment</li><li>Provided infrastructure advisory and programme governance support across public sector clients, aligning delivery frameworks with GDS service standards, security requirements and change authority protocols</li><li>Managed vendor orchestration and subcontractor performance across complex multi-site delivery engagements in central government settings</li><li>Produced programme reporting and risk assurance documentation for senior government stakeholders and delivery boards</li></ul>",
+          "roles": []
+        },
+        {
+          "id": "b8c9d0e1-f2a3-4567-bcde-678901234567",
+          "hidden": false,
+          "company": "London Borough of Lambeth",
+          "position": "Infrastructure & Technology Programme Director (Contractor)",
+          "location": "London",
+          "period": "March 2009 – April 2015",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li>Directed a full WAN infrastructure retender and network transformation programme, achieving a <strong>60% reduction in WAN costs</strong> across the borough estate and securing a re-tendered contract worth <strong>£12M</strong></li><li>Led infrastructure consolidation and digital transformation across <strong>140+ council sites</strong>, managing multi-workstream delivery, vendor orchestration and dependency sequencing across a live public-sector estate</li><li>Governed the full programme lifecycle: infrastructure roadmap design, supplier selection, contract management, change authority and executive reporting to council leadership and elected members</li><li>Maintained service continuity across critical council functions — housing, benefits, planning — throughout infrastructure transition phases, applying zero-disruption delivery methodology in a politically sensitive public environment</li><li>Managed complex multi-supplier delivery chains across WAN, LAN, telephony and data centre workstreams, coordinating dependency management across simultaneous workstreams to programme milestone governance</li></ul>",
+          "roles": []
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "projects": {
+      "title": "Career Highlights",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "c9d0e1f2-a3b4-5678-cdef-789012345678",
+          "hidden": false,
+          "name": "Key Career Outcomes",
+          "period": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": "<ul><li><strong>6,100+ circuit migrations | 7,000+ endpoints</strong> — Directed EMEA-wide MPLS-to-SASE transition portfolio across 130+ sites serving Tier 1 finance, NHS, UK Government and NATO-aligned clients, maintaining live service continuity throughout</li><li><strong>NATO airbase Wi-Fi deployment | 200+ sites across 12+ nations</strong> — Programme Director for infrastructure standardisation across a NATO-aligned airbase estate; full dependency management, vendor orchestration and in-country logistics coordination</li><li><strong>£3M greenfield network build | 1,200+ gaming endpoints | 7 IDCs</strong> — End-to-end programme and operations leadership for a first-of-kind low-latency network infrastructure in a live international gaming environment; Board KPI governance from Day 1</li><li><strong>60% WAN cost reduction | £12M re-tender</strong> — Led full ICT infrastructure retender and network transformation for a 5,000-employee public sector organisation across 140+ sites</li><li><strong>25,000 Wi-Fi endpoints | 7 data centre transitions</strong> — Infrastructure Project Director for M&A-driven estate transformations and network separation programmes across European multi-site enterprise environments</li></ul>"
+        }
+      ]
+    },
+    "skills": {
+      "title": "Key Skills",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "d0e1f2a3-b4c5-6789-defa-890123456789",
+          "hidden": false,
+          "icon": "chart-bar",
+          "iconColor": "",
+          "name": "Infrastructure Programme Management",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "multi-workstream delivery",
+            "dependency management",
+            "RAID",
+            "programme governance",
+            "multi-million pound programmes"
+          ]
+        },
+        {
+          "id": "e1f2a3b4-c5d6-7890-efab-901234567890",
+          "hidden": false,
+          "icon": "cloud",
+          "iconColor": "",
+          "name": "Network & Infrastructure Modernisation",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "SD-WAN",
+            "SASE",
+            "LAN/WAN",
+            "Wi-Fi",
+            "data centre transition",
+            "EUC transformation",
+            "cloud"
+          ]
+        },
+        {
+          "id": "f2a3b4c5-d6e7-8901-fabc-012345678901",
+          "hidden": false,
+          "icon": "wrench",
+          "iconColor": "",
+          "name": "Separation / M&A Integration Planning",
+          "proficiency": "Lead",
+          "level": 0,
+          "keywords": [
+            "estate transformation",
+            "network separation",
+            "network integration",
+            "carve-out",
+            "infrastructure roadmap"
+          ]
+        },
+        {
+          "id": "a3b4c5d6-e7f8-9012-abcd-123456789012",
+          "hidden": false,
+          "icon": "users",
+          "iconColor": "",
+          "name": "Vendor & Supply Chain Management",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "systems integrator management",
+            "multi-vendor orchestration",
+            "procurement",
+            "SLA governance",
+            "supplier performance"
+          ]
+        },
+        {
+          "id": "b4c5d6e7-f8a9-0123-bcde-234567890123",
+          "hidden": false,
+          "icon": "globe",
+          "iconColor": "",
+          "name": "Executive Stakeholder Management",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "Board reporting",
+            "SteerCo",
+            "commercial governance",
+            "KPI/SLA",
+            "executive-level communication"
+          ]
+        },
+        {
+          "id": "c5d6e7f8-a9b0-1234-cdef-345678901234",
+          "hidden": false,
+          "icon": "shield-check",
+          "iconColor": "",
+          "name": "Commercial & Contract Governance",
+          "proficiency": "Lead",
+          "level": 0,
+          "keywords": [
+            "£12M re-tender",
+            "contract-to-cash",
+            "P&L accountability",
+            "NEC contracts",
+            "procurement frameworks"
+          ]
+        },
+        {
+          "id": "d6e7f8a9-b0c1-2345-defa-456789012345",
+          "hidden": false,
+          "icon": "shield-check",
+          "iconColor": "",
+          "name": "Risk & Assurance Management",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "RAID",
+            "compliance",
+            "CDM",
+            "regulatory",
+            "service continuity",
+            "assurance"
+          ]
+        },
+        {
+          "id": "e7f8a9b0-c1d2-3456-efab-567890123456",
+          "hidden": false,
+          "icon": "users",
+          "iconColor": "",
+          "name": "Team Leadership & Matrix Management",
+          "proficiency": "Expert",
+          "level": 0,
+          "keywords": [
+            "20-200+ multidisciplinary teams",
+            "multilingual remote teams",
+            "cross-border logistics",
+            "matrix management"
+          ]
+        },
+        {
+          "id": "f8a9b0c1-d2e3-4567-fabc-678901234567",
+          "hidden": false,
+          "icon": "wrench",
+          "iconColor": "",
+          "name": "Service Transition & Continuity",
+          "proficiency": "Lead",
+          "level": 0,
+          "keywords": [
+            "zero-disruption delivery",
+            "live-estate",
+            "service continuity",
+            "SLA management",
+            "operational handover"
+          ]
+        },
+        {
+          "id": "a9b0c1d2-e3f4-5678-abcd-789012345678",
+          "hidden": false,
+          "icon": "shield-check",
+          "iconColor": "",
+          "name": "Security Clearance & Regulated Delivery",
+          "proficiency": "Advanced",
+          "level": 0,
+          "keywords": [
+            "SC (Active)",
+            "NPPV3 (Active)",
+            "NHS",
+            "Government",
+            "Defence",
+            "Tier 1 financial services"
+          ]
+        }
+      ]
+    },
+    "languages": {
+      "title": "Languages",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "interests": {
+      "title": "Interests",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "awards": {
+      "title": "Awards",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "certifications": {
+      "title": "Certifications & Clearances",
+      "columns": 1,
+      "hidden": false,
+      "items": [
+        {
+          "id": "b0c1d2e3-f4a5-6789-bcde-890123456789",
+          "hidden": false,
+          "title": "SC Clearance",
+          "issuer": "Active — UK Government Security Check",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "c1d2e3f4-a5b6-7890-cdef-901234567890",
+          "hidden": false,
+          "title": "NPPV3 Clearance",
+          "issuer": "Active — Non-Police Personnel Vetting Level 3",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "d2e3f4a5-b6c7-8901-defa-012345678901",
+          "hidden": false,
+          "title": "PRINCE2 Practitioner",
+          "issuer": "Knowledge current",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "e3f4a5b6-c7d8-9012-efab-123456789012",
+          "hidden": false,
+          "title": "ITIL Foundation",
+          "issuer": "ITIL-aligned programme delivery across NHS, Government, and Finance",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "f4a5b6c7-d8e9-0123-fabc-234567890123",
+          "hidden": false,
+          "title": "CCNA (Cisco Certified Network Associate)",
+          "issuer": "Knowledge current",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "a5b6c7d8-e9f0-1234-abcd-345678901234",
+          "hidden": false,
+          "title": "SASE Fundamentals",
+          "issuer": "Knowledge current",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        },
+        {
+          "id": "b6c7d8e9-f0a1-2345-bcde-456789012345",
+          "hidden": false,
+          "title": "CDM 2015 & Health & Safety Awareness",
+          "issuer": "CDM 2015 Awareness, Health & Safety",
+          "date": "",
+          "website": {
+            "url": "",
+            "label": ""
+          },
+          "description": ""
+        }
+      ]
+    },
+    "publications": {
+      "title": "Publications",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "volunteer": {
+      "title": "Volunteer",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    },
+    "references": {
+      "title": "References",
+      "columns": 1,
+      "hidden": true,
+      "items": []
+    }
+  },
+  "customSections": [
+    {
+      "title": "Earlier Career Highlights",
+      "columns": 1,
+      "hidden": false,
+      "id": "dc3c6d37-b4a7-40c8-9ba3-4e8617536abe",
+      "type": "summary",
+      "items": [
+        {
+          "id": "c7d8e9f0-a1b2-3456-cdef-567890123456",
+          "hidden": false,
+          "content": "<ul><li><strong>Charles Stanley Group — Technology &amp; Infrastructure Director (Contractor) | January 2013 – May 2015</strong> — Infrastructure resilience, vendor governance and FCA-aligned IT service delivery for a regulated wealth management firm</li><li><strong>Comunica — Operations Director (Contractor) | March 2011 – December 2012</strong> — Pan-European telecoms and VoIP managed services; built and managed service operations across UK and European geographies</li><li><strong>Ipitomi (Virgin Media Business) — Senior Operations Manager | January 2008 – February 2011</strong> — Field service delivery and SLA governance across multi-site telecoms rollouts within a Virgin Media Business division</li><li><strong>Whittington Insurance Markets (Lloyd's of London) — Head of IT &amp; Network Operations | 2001 – 2007</strong> — Full corporate IT infrastructure design and project management for a Lloyd's of London insurance group; led a team of 17 contract and permanent staff</li></ul>"
+        }
+      ]
+    },
+    {
+      "title": "Engagement Model",
+      "columns": 1,
+      "hidden": false,
+      "id": "c73221d5-7bca-41bd-a259-22669d6b19fb",
+      "type": "summary",
+      "items": [
+        {
+          "id": "d8e9f0a1-b2c3-4567-defa-678901234567",
+          "hidden": false,
+          "content": "<p>Vehicle: Hiloka Limited (sole director) | Target rate: £800–£1,200/day (London), £600–£900/day (regions) — flexible for right-fit programme engagement | Availability: Within 2 weeks</p><p>Engagement type: SoW / output-based contracts | Location: UK-based; proven European delivery footprint | SC and NPPV3 cleared for regulated environments</p>"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "template": "onyx",
+    "layout": {
+      "sidebarWidth": 31.17,
+      "pages": [
+        {
+          "fullWidth": true,
+          "main": [
+            "summary",
+            "projects",
+            "experience",
+            "skills",
+            "certifications"
+          ],
+          "sidebar": []
+        }
+      ]
+    },
+    "css": {
+      "enabled": false,
+      "value": ""
+    },
+    "page": {
+      "gapX": 4,
+      "gapY": 4,
+      "marginX": 20,
+      "marginY": 10,
+      "format": "free-form",
+      "locale": "en-US",
+      "hideIcons": true
+    },
+    "design": {
+      "level": {
+        "icon": "star",
+        "type": "circle"
+      },
+      "colors": {
+        "primary": "rgba(15, 76, 129, 1)",
+        "text": "rgba(0, 0, 0, 1)",
+        "background": "rgba(255, 255, 255, 1)"
+      }
+    },
+    "typography": {
+      "body": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "400",
+          "500"
+        ],
+        "fontSize": 9,
+        "lineHeight": 1.25
+      },
+      "heading": {
+        "fontFamily": "IBM Plex Serif",
+        "fontWeights": [
+          "600"
+        ],
+        "fontSize": 11,
+        "lineHeight": 1
+      }
+    },
+    "notes": "Archetype A CV — Infrastructure Programme Director. Built from archetype-A-cv-text.md (2026-05-07). All skills unhidden for ATS. Rate: £800-1,200/day. Recent roles (2024-2026) quantified with programme-scale metrics. Tags: archetype-a, infra-programme-director. Template: onyx. Layout: single column, full width.",
+    "jobContext": {
+      "job_title": "Infrastructure Programme Director",
+      "employer_name": "Archetype A — Multi-Site Transformation & Separation-Ready Delivery",
+      "job_description": "Infrastructure Programme Director with 20+ years delivering multi-workstream transformation programmes across regulated UK and EMEA estates. SC and NPPV3 cleared. Target market: Enterprise IT Consultancies, MSPs, Government, Defence, Finance, NHS.",
+      "job_highlights": [
+        "archetype-a",
+        "infra-programme-director"
+      ],
+      "job_required_skills": [
+        "programme delivery",
+        "MPLS",
+        "SD-WAN",
+        "SASE",
+        "network separation",
+        "M&A integration",
+        "vendor governance",
+        "RAID management"
+      ],
+      "job_url": "",
+      "tailored_at": "2026-05-07T09:00:00.000Z"
+    }
+  }
+}

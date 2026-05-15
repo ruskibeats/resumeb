@@ -1,0 +1,113 @@
+Russell Batchelor
+Hemel Hempstead, Herts, UK · https://www.linkedin.com/in/russellbatchelor · NPPV3, SC
+Technical Programme Manager – Secure Government & Mission-Critical Infrastructure
+Senior Infrastructure & Technology Advisory Programme Manager with over 20 years’ experience leading discovery-phase and early-stage transformation engagements across data centre modernisation, enterprise networking (SD-WAN / SASE), cloud integration, and complex infrastructure estates. Experienced in delivering complex programmes operating under SC, NPPV3, military, and highly regulated environments, including secure government and gaming commission constraints.
+
+Proven at translating complex technical environments into executive-ready recommendations, delivery options, and commercial models that support investment decisions, capability expansion, and future-ready platforms.
+
+Trusted operator in multi-vendor, regulated, and PE-backed environments, combining deep infrastructure credibility with strong stakeholder management, governance control, and outcome-focused delivery leadership. Available for Outside IR35, long-term programme engagements within secure and regulated environments.
+
+Selected Outcomes
+Acted as senior accountable delivery interface between client stakeholders, delivery partners, vendors and programme governance.
+Directed delivery of multiple concurrent infrastructure programmes for Tier 1 financial services, public sector, and regulated environments.
+Produced executive-ready recommendations, delivery models, and risk profiles to support reset and investment decisions.
+Led early-stage discovery and readiness assessments across Trust estates, shaping deployment sequencing, risk positions, and executive recommendations for Windows 11 and network modernisation.
+Improved delivery throughput and operational stability across mission-critical, always-on estates.
+Established sustainable operational handover models, support structures, and performance baselines.
+Core Capabilities
+Programme Leadership	Governance & Assurance	Multi-Vendor Delivery
+End-to-end programme mobilisation	Programme Governance, RAID & Assurance	Multi-Vendor Discovery, Option Analysis & Delivery Models
+Live estate delivery under zero-disruption constraints	Executive, Board & PE-Level Reporting	Enterprise Networking & SASE Portfolio Modernisation
+Complex dependency and risk management	Commercial, Cost & Risk Trade-off Analysis	Cloud & AI Readiness (Infrastructure & Platform Layer)
+Professional Experience
+Infrastructure Programme Manager (Live Estate Modernisation)
+Atos | London & South East | 09/2025 – Present
+
+Programme lead for multi-site technology modernisation programmes across large, live operational estates, delivering EUC and network upgrades within high-occupancy, customer-facing environments within secure / regulated operational environments.
+
+Led engineering teams across multiple live sites, coordinating site readiness, access sequencing, night works and change windows within occupied buildings.
+Managed network uplifts including LAN, Wi-Fi and comms-room upgrades, working alongside facilities, M&E and principal contractors during in-occupation works.
+Acted as senior accountable delivery interface between client stakeholders, delivery partners, vendors and programme governance.
+Led early-stage discovery and readiness assessments across Trust estates, shaping deployment sequencing, risk positions, and executive recommendations for Windows 11 and network modernisation.
+Improved delivery throughput and operational stability across mission-critical, always-on estates.
+Delivered upgrades within strict zero-disruption constraints, maintaining continuous operations throughout live environments.
+Technology, Risk & Programme Assurance
+Hiloka Limited | UK / Remote | 02/2025 – 09/2025
+
+Provided independent technology and infrastructure advisory, delivery assurance, and risk management services to organisations undertaking complex transformation and change programmes.
+
+Led discovery-phase assessments for high-risk or stalled programmes, identifying root causes, delivery constraints, and remediation options.
+Produced executive-ready recommendations, delivery models, and risk profiles to support reset and investment decisions.
+Conducted vendor capability and performance reviews, challenging scope, sequencing, and commercial assumptions.
+Advised clients on governance structures, delivery models, and commercial risk mitigation strategies.
+Programme Director – Digital Gaming & Infrastructure Transformation
+Las Vegas Sands | Bulgaria, EU | 01/2024 – 02/2025
+
+Appointed to design, structure, and deliver a greenfield digital gaming and high-performance infrastructure programme supporting entry into online gaming.
+
+Led early-stage discovery, operating model definition, vendor strategy, and executive assurance across a multi-jurisdiction transformation.
+Led end-to-end discovery and programme mobilisation, defining scope, sequencing, governance, and delivery approach.
+Advised senior stakeholders on architecture options, delivery risk, regulatory constraints, and commercial trade-offs.
+Orchestrated multi-vendor delivery across data centres, low-latency networks, security, cloud integration, and operational readiness.
+Acted as executive assurance point between engineering teams, vendors, and global stakeholders across Europe, Asia, and the US.
+Established sustainable operational handover models, support structures, and performance baselines.
+Technical Programme Manager
+Collective IP | UK / Remote | 06/2025 – Present (retained consultant)
+
+Senior client-facing delivery lead for concurrent infrastructure and technology transformation programmes across EMEA aligned to government security and compliance requirements.
+
+Directed delivery of multiple concurrent infrastructure programmes for Tier 1 financial services, public sector, and regulated environments.
+Led early-stage programme discovery, mobilisation, and delivery planning.
+Acted as senior interface between clients, vendors, and internal delivery teams.
+Oversaw network separation/integration, EUC upgrades, data centre transitions, and workplace technology deployments.
+Implemented structured governance, reporting, and risk management.
+Provided executive-level assurance on delivery progress, risk exposure, and remediation actions.
+Infrastructure Programme Manager, EMEA
+Park Place Technologies | UK & Europe | 11/2020 – Present
+
+Managed delivery of multi-site infrastructure projects across Europe.
+
+Planned and delivered infrastructure projects to scope, timeline, budget, and quality.
+Led stakeholder engagement and delivery planning across multiple countries and vendors.
+Managed risks, dependencies, and delivery constraints.
+Established governance, reporting, and communication rhythms.
+Infrastructure Project Director, Europe
+Sitehands LLC | London & Europe | 11/2018 – 11/2020
+
+Delivery Director for large-scale built-environment technology change programmes driven by corporate M&A and estate transformation.
+
+Led LAN, WAN, Wi-Fi and data centre delivery across multi-site environments.
+Oversaw Wi-Fi deployments of approximately 25,000 endpoints.
+Managed transitions of seven data centres to off-premises facilities.
+Directed decommissioning and upgrade of legacy networks to SD-WAN and SASE.
+Associate Technology Consultant
+Rainmaker Solutions | London | 11/2015 – 11/2018
+
+Delivered complex digital and infrastructure transformation programmes across UK Central Government and enterprise clients.
+
+Led programme delivery across Home Office, MHCLG, MoJ, FSA, Ofsted, PINS and NHS.
+Delivered national-scale Microsoft 365, identity and EUC transformations.
+Managed procurement strategy, design assurance and delivery coordination.
+Authored bid responses, RFP submissions and commercial proposals.
+Supported bid presentations and client-facing workshops.
+Delivered GDS-aligned discovery and alpha workshops.
+Acted as trusted interface between technical teams, commercial leads and client sponsors.
+Lead Enterprise Architect
+London Borough of Lambeth | London | 02/2010 – 04/2015
+
+Led authority-wide LAN/WAN and telephony transformation programmes.
+
+Delivered 60% cost reduction across 200+ sites.
+Led £12m voice and data services re-tender.
+Contract Network Project Manager
+London Borough of Lambeth | London | 03/2009 – 02/2010
+
+Initially contracted on GCSx project, leading upgrades of council systems to maintain compliance with DWP Benefits Processing Standards.
+
+Earlier Career
+Earlier roles include Infrastructure Projects Consultant at Charles Stanley & Co., Operations Manager at Comunica, Co-Founder at Ipitomi Ltd, Non-Standard Technical Design Authority at Virgin Media, and Head of Support & Networks at Whittington Insurance Markets.
+
+Technical Proficiencies
+Operating Systems: Windows, Linux, Mac
+Tools: Microsoft Office Suite / Microsoft 365, Microsoft Azure, Cisco, Microsoft Project, Exchange, Teams, Visio, Trello, Slack, Pipedrive, Xero, Zapier, Oracle ERP, Google Workspace
+Certifications: SASE Fundamentals, CCNA, PRINCE2, ITIL Fundamentals, Health & Safety Awareness, CDM 2015 Awareness
